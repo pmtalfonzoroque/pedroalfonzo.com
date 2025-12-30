@@ -82,7 +82,7 @@ nav a:hover {
 .banner {
   width: 100%;
   height: 160px; /* adjust to taste */
-  background-image: url("assets/bannerlake.jpeg");
+  background-image: url("bannerlake.jpeg");
   background-size: cover;
   background-position: center;
   border-bottom: 1px solid var(--border);
