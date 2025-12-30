@@ -1,26 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Pedro Alfonzo</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <style>
-      body { font-family: Arial, sans-serif; margin: 40px; }
-      nav a { margin-right: 20px; text-decoration: none; color: #0077cc; }
-      nav a:hover { text-decoration: underline; }
-    </style>
-  </head>
-  <body>
-    <h1>Welcome to pedroalfonzo.com</h1>
-    <p>Explore the sections below.</p>
+<head>
+  <meta charset="UTF-8">
+  <title>Pedro Alfonzo</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
 
-    <nav>
-      <a href="geoscience/">Geoscience</a>
-      <a href="portfolio/">Portfolio</a>
-      <a href="automation/">Automation</a>
-      <a href="farm/">Farm</a>
-      <a href="projects/">Projects</a>
-    </nav>
-  </body>
+<body class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">Pedro Alfonzo</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="geoscience/">Geoscience</a>
+        <a href="portfolio/">Portfolio</a>
+        <a href="automation/">Automation</a>
+        <a href="farm/">Farm</a>
+        <a href="projects/">Projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1 class="hero-title">Welcome to pedroalfonzo.com</h1>
+        <p class="hero-subtitle">Explore my work across geoscience, analytics, automation, and more.</p>
+
+        <div class="hero-tags">
+          <span class="tag">Geoscience</span>
+          <span class="tag">Analytics</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Software</span>
+        </div>
+
+        <a href="portfolio/" class="btn btn-primary">View Portfolio</a>
+      </div>
+    </section>
+
+    <!-- GRID CARDS -->
+    <section class="grid">
+      <div class="card">
+        <h2>Geoscience</h2>
+        <p>Subsurface interpretation, geophysical analysis, and geological modeling.</p>
+        <a href="geoscience/">View section »</a>
+      </div>
+
+      <div class="card">
+        <h2>Portfolio</h2>
+        <p>Projects across geoscience, analytics, automation, and software.</p>
+        <a href="portfolio/">Explore work »</a>
+      </div>
+
+      <div class="card">
+        <h2>Automation</h2>
+        <p>Python tools, dashboards, and workflow optimization.</p>
+        <a href="automation/">See tools »</a>
+      </div>
+
+      <div class="card">
+        <h2>Farm</h2>
+        <p>Business planning, investment modeling, and future expansion.</p>
+        <a href="farm/">Learn more »</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span>© 2025 Pedro Alfonzo</span>
+      <span>pedroalfonzo.com</span>
+    </div>
+  </footer>
+
+</body>
 </html>
-
