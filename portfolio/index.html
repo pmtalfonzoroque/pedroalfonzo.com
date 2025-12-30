@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Portfolio – Pedro Alfonzo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/style.css">
+  </head>
+
+  <body>
+    <div class="page">
+
+      <!-- Header -->
+      <header>
+        <div class="nav-container">
+          <div class="brand">PEDRO ALFONZO</div>
+          <nav>
+            <a href="/">Home</a>
+            <a href="/geoscience/">Geoscience</a>
+            <a href="/portfolio/">Portfolio</a>
+            <a href="/automation/">Automation</a>
+            <a href="/farm/">Farm</a>
+            <a href="/projects/">Projects</a>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <section class="hero">
+          <div class="hero-card">
+            <h1 class="hero-title">Portfolio</h1>
+            <p class="hero-subtitle">
+              A curated selection of work across geoscience, analytics, automation, and engineering. 
+              Each project includes context, methods, and practical outcomes that reflect how I approach 
+              real‑world problems.
+            </p>
+
+            <div class="hero-tags">
+              <span class="tag">Geoscience</span>
+              <span class="tag">Analytics</span>
+              <span class="tag">Automation</span>
+              <span class="tag">Machine Learning</span>
+            </div>
+
+            <div class="hero-links">
+              <a href="/projects/" class="btn btn-primary">Browse all projects</a>
+              <a href="/geoscience/" class="btn">Geoscience focus</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Portfolio Categories -->
+        <section class="grid">
+
+          <!-- Geoscience -->
+          <article class="card">
+            <h2>Geoscience Projects</h2>
+            <p>
+              Subsurface interpretation, geophysical analysis, and geological insights supported by 
+              structured workflows and analytical tools.
+            </p>
+            <a href="/projects/core-log-interpretation.html">Core & Log Interpretation &raquo;</a><br>
+            <a href="/projects/geophysics-analysis.html">Geophysics Analysis &raquo;</a>
+          </article>
+
+          <!-- Analytics & ML -->
+          <article class="card">
+            <h2>Analytics & Machine Learning</h2>
+            <p>
+              Predictive modeling, defect analysis, and data‑driven insights using Python, ML, and 
+              structured analytics pipelines.
+            </p>
+            <a href="/projects/defect-prediction-ml.html">Defect Prediction Using ML &raquo;</a><br>
+            <a href="/projects/powerbi-qa-dashboard.html">QA Analytics Dashboard &raquo;</a>
+          </article>
+
+          <!-- Automation -->
+          <article class="card">
+            <h2>Automation & Tools</h2>
+            <p>
+              Practical automation solutions that reduce manual work, improve quality, and support 
+              engineering and QA workflows.
+            </p>
+            <a href="/projects/automation-tool.html">Automation Tool &raquo;</a><br>
+            <a href="/projects/computer-vision-inspection.html">Computer Vision Inspection &raquo;</a>
+          </article>
+
+          <!-- General Projects -->
+          <article class="card">
+            <h2>All Projects</h2>
+            <p>
+              A complete list of documented work, including geoscience, analytics, automation, and 
+              cross‑disciplinary projects.
+            </p>
+            <a href="/projects/">Browse all projects &raquo;</a>
+          </article>
+
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-inner">
+          <div>&copy; <span id="year"></span> Pedro Alfonzo</div>
+          <div>pedroalfonzo.com</div>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

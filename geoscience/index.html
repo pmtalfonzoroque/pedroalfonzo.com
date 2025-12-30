@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Geoscience – Pedro Alfonzo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/style.css">
+  </head>
+
+  <body>
+    <div class="page">
+
+      <!-- Header -->
+      <header>
+        <div class="nav-container">
+          <div class="brand">PEDRO ALFONZO</div>
+          <nav>
+            <a href="/">Home</a>
+            <a href="/geoscience/">Geoscience</a>
+            <a href="/portfolio/">Portfolio</a>
+            <a href="/automation/">Automation</a>
+            <a href="/farm/">Farm</a>
+            <a href="/projects/">Projects</a>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <section class="hero">
+          <div class="hero-card">
+            <h1 class="hero-title">Geoscience</h1>
+            <p class="hero-subtitle">
+              I combine geological understanding with analytical tools to interpret subsurface data, 
+              integrate geophysical signals, and support decision‑making in exploration and engineering contexts.
+            </p>
+
+            <div class="hero-tags">
+              <span class="tag">Core & Log Interpretation</span>
+              <span class="tag">Geophysical Analysis</span>
+              <span class="tag">Subsurface Modeling</span>
+              <span class="tag">Data‑Driven Interpretation</span>
+            </div>
+
+            <div class="hero-links">
+              <a href="/projects/" class="btn btn-primary">View geoscience projects</a>
+              <a href="/portfolio/" class="btn">Full portfolio</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Focus Areas -->
+        <section class="grid">
+          <article class="card">
+            <h2>Core & Log Interpretation</h2>
+            <p>
+              Integrating core observations, lithology, and well logs to understand subsurface structure, 
+              stratigraphy, and reservoir characteristics.
+            </p>
+            <a href="/projects/core-log-interpretation.html">View project &raquo;</a>
+          </article>
+
+          <article class="card">
+            <h2>Geophysical Analysis</h2>
+            <p>
+              Working with gravity, EM, and MT datasets to extract meaningful subsurface patterns 
+              and support geological models.
+            </p>
+            <a href="/projects/geophysics-analysis.html">View project &raquo;</a>
+          </article>
+
+          <article class="card">
+            <h2>Data‑Driven Interpretation</h2>
+            <p>
+              Applying analytics and computational tools to enhance geological interpretation 
+              and reduce uncertainty in subsurface evaluations.
+            </p>
+            <a href="/projects/">Explore related work &raquo;</a>
+          </article>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-inner">
+          <div>&copy; <span id="year"></span> Pedro Alfonzo</div>
+          <div>pedroalfonzo.com</div>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
+
