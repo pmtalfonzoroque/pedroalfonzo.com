@@ -223,6 +223,13 @@ footer {
   flex-wrap: wrap;
 }
 
+/* === General Content Wrapper ======= */
+.content { 
+  max-width: var(--max-width); 
+  margin: 32px auto; 
+  padding: 0 20px 40px; 
+}
+
 /* ===========================
    Responsive Tweaks
    =========================== */
@@ -238,3 +245,5 @@ footer {
     margin-left: 10px;
   }
 }
+
+
