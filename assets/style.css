@@ -243,6 +243,20 @@ footer {
   padding: 28px 24px 32px;
 }
 
+/* === floating button=== */
+.floating-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: var(--accent);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  font-weight: 600;
+}
+
 /* ===========================
    Responsive Tweaks
    =========================== */
