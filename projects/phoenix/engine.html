@@ -59,7 +59,19 @@ results, extracted features, and classification logic — the elements that matt
 geophysicists, and project managers.
 </p>
 
+
 <h2>Try It Yourself – Interactive Core Interpreter</h2>
+
+<h3>Or choose a sample core image:</h3>
+<select id="sampleSelect" class="input-select">
+  <option value="">-- Select a sample image --</option>
+  <option value="/assets/phoenix/1aOverlyingSandstone.JPG">Unit 1a – Clean Sandstone</option>
+  <option value="/assets/phoenix/1bSulphideCementedSandstone.JPG">Unit 1b – Sulphide–Cemented Sandstone </option>
+  <option value="/assets/phoenix/2aUpperClayZone.JPG">Unit 2a – Upper Clay Zone</option>
+  <option value="/assets/phoenix/2bHighGradeFriableZone.JPG">Unit 2b – Friable High‑Grade Zone</option>
+  <option value="/assets/phoenix/3aPaleoweatheredBasement.JPG">Unit 3a – Paleoweathered Basement </option>
+  <option value="/assets/phoenix/3bUnderlyingBasement.JPG">3b – Underlying Basement </option>
+</select>
 
 <div class="interactive-block">
   <p>Select a core image to analyze:</p>
@@ -118,6 +130,17 @@ models and supports consistent logging across teams.
 </div>
 
 <script>
+// Preload images
+document.getElementById("sampleSelect").addEventListener("change", function () {
+  const selected = this.value;
+  if (!selected) return;
+
+  const img = document.getElementById("previewImage");
+  img.src = selected;
+
+  document.getElementById("previewContainer").style.display = "block";
+});
+
 // Preview uploaded image
 document.getElementById("coreUpload").addEventListener("change", function (event) {
   const file = event.target.files[0];

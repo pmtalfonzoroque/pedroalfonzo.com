@@ -283,6 +283,16 @@ footer {
   border-top: 1px solid var(--border);
 }
 
+/* === input for the images=== */
+.input-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+
 /* ===========================
    Responsive Tweaks
    =========================== */
