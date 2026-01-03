@@ -30,6 +30,28 @@
 
       <h1>Automated Core Interpretation – Results</h1>
 
+        <div class="info-box">
+            <button class="info-toggle" onclick="toggleInfoBox()">About These Hydrogeological Units ▼</button>
+            <div id="infoContent" class="info-content">
+                <p>
+                The images used in this interactive tool correspond to the <strong>hydrogeological units</strong> 
+                defined in the Phoenix deposit (Wheeler River). These units represent distinct sandstone, clay-altered, 
+                redox, and basement domains that influence fluid flow, alteration patterns, and uranium mineralization.
+                </p>
+                <p>
+                Each unit exhibits characteristic visual and textural features that can be quantified through 
+                image-based analysis, forming the basis for automated interpretation workflows.
+                </p>
+            </div>
+        </div>
+
+<script>
+function toggleInfoBox() {
+  const box = document.getElementById("infoContent");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+</script>
+
 <p>
 This page presents the output of the automated interpretation engine applied to core photographs 
 from the Phoenix uranium deposit. Instead of showing code, this page focuses on the geological 
