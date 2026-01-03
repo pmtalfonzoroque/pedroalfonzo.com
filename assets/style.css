@@ -227,7 +227,7 @@ footer {
 .content { 
   max-width: var(--max-width); 
   margin: 32px auto; 
-  padding: 0 20px 40px; 
+  padding: 28px 24px 32px; 
   background: var(--bg-alt); 
   border-radius: var(--radius); 
   box-shadow: var(--shadow); 
