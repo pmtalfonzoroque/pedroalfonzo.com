@@ -176,6 +176,65 @@ alteration, and redox contrasts provides a strong geological framework for inter
 from any unconformity-related uranium system.
 </p>
 
+<h2>Core‑Image Interpretation Workflow</h2>
+
+<p>
+This project is not a static description of the Phoenix deposit. It is a demonstration of how raw core 
+photographs can be transformed into structured geological interpretation using a reproducible workflow. 
+The goal is to show how engineering thinking, geoscience knowledge, and coding-based automation can work 
+together to support consistent core logging.
+</p>
+
+<h3>1. Image Acquisition & Pre‑Processing</h3>
+<ul>
+  <li>Import raw core photos (JPG, PNG, or field images).</li>
+  <li>Standardize orientation and cropping to isolate the core box.</li>
+  <li>Normalize brightness and color to reduce lighting bias.</li>
+  <li>Apply optional filters to enhance textures (clay, friability, sulfides).</li>
+</ul>
+
+<h3>2. Feature Identification</h3>
+<ul>
+  <li>Detect color domains (brown/red oxidation, grey/green reduction).</li>
+  <li>Identify texture changes (friable zones, honeycomb patterns, clay-rich intervals).</li>
+  <li>Highlight structural features (faults, fractures, broken core).</li>
+  <li>Locate high-contrast mineral patches (sulfides, hematite, pitchblende).</li>
+</ul>
+
+<h3>3. Unit Classification Logic</h3>
+<p>
+Each hydrogeological unit at Phoenix has diagnostic visual cues. A rule-based or ML-based classifier can 
+suggest the most likely unit based on:
+</p>
+<ul>
+  <li><strong>Color:</strong> red/brown for oxidation (2c), dark patches for sulfides (2d).</li>
+  <li><strong>Texture:</strong> friable/honeycomb for high-grade zones (2b).</li>
+  <li><strong>Competency:</strong> soft clay vs. competent basement.</li>
+  <li><strong>Structural context:</strong> faulted sandstone vs. intact basement.</li>
+</ul>
+
+<h3>4. Interpretation Output</h3>
+<p>
+The workflow produces a structured interpretation that includes:
+</p>
+<ul>
+  <li>Suggested unit (1a, 2b, 3a, etc.).</li>
+  <li>Key visual indicators supporting the classification.</li>
+  <li>Confidence level (low/medium/high).</li>
+  <li>Optional: extracted features for ML training.</li>
+</ul>
+
+<h3>5. Reproducibility & Automation</h3>
+<p>
+The workflow is designed so that the same steps can be applied to any core photo. This supports:
+</p>
+<ul>
+  <li>Consistent logging across drillholes.</li>
+  <li>Automated pre-screening of mineralized intervals.</li>
+  <li>Training datasets for machine learning models.</li>
+  <li>Rapid interpretation for exploration or QA workflows.</li>
+</ul>
+
   </main>
 
   <footer style="text-align: center; padding: 20px 0; color: #666;"> 
