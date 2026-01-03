@@ -234,6 +234,15 @@ footer {
   border: 1px solid var(--border);
 }
 
+/* === Content Card === */
+.content-card {
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  padding: 28px 24px 32px;
+}
+
 /* ===========================
    Responsive Tweaks
    =========================== */
