@@ -59,33 +59,34 @@ results, extracted features, and classification logic — the elements that matt
 geophysicists, and project managers.
 </p>
 
-<h2>Example Classification Output</h2>
+<h2>Try It Yourself – Interactive Core Interpreter</h2>
 
-<div class="result-block">
-  <img src="/assets/phoenix/CorePhotosAllUnits.JPG" alt="Core Image" style="max-width: 100%; border: 1px solid #ccc; border-radius: 6px;">
-  
-  <h3>Extracted Features</h3>
-  <ul>
-    <li><strong>Average Hue:</strong> 18.4</li>
-    <li><strong>Average Saturation:</strong> 72.1</li>
-    <li><strong>Average Value:</strong> 142.3</li>
-    <li><strong>Texture Contrast:</strong> High</li>
-    <li><strong>Edge Density:</strong> Elevated</li>
-  </ul>
+<div class="interactive-block">
+  <p>Select a core image to analyze:</p>
+  <input type="file" id="coreUpload" accept="image/*">
 
-  <h3>Predicted Geological Unit</h3>
-  <p><strong>Unit 2b – Friable High‑Grade Zone</strong></p>
+  <div id="previewContainer" style="margin-top: 20px; display:none;">
+    <h3>Uploaded Image</h3>
+    <img id="previewImage" style="max-width: 100%; border:1px solid #ccc; border-radius:6px;">
+  </div>
 
-  <h3>Confidence</h3>
-  <p><strong>High</strong></p>
+  <button id="analyzeBtn" class="btn btn-primary" style="margin-top:20px;">Analyze Image</button>
 
-  <h3>Interpretation Summary</h3>
-  <p>
-    The engine identified high texture contrast and elevated edge density, consistent with brecciation 
-    and friability typical of Unit 2b. The color profile also aligns with hematite‑altered intervals 
-    observed in the Phoenix high‑grade zone.
-  </p>
+  <div id="resultsContainer" style="margin-top:30px; display:none;">
+    <h3>Extracted Features</h3>
+    <ul id="featureList"></ul>
+
+    <h3>Predicted Geological Unit</h3>
+    <p id="predictedUnit"></p>
+
+    <h3>Confidence</h3>
+    <p id="confidence"></p>
+
+    <h3>Interpretation Summary</h3>
+    <p id="summary"></p>
+  </div>
 </div>
+
 
 <h2>Why This Matters</h2>
 <p>
@@ -115,5 +116,91 @@ models and supports consistent logging across teams.
   </footer>
 
 </div>
+
+<script>
+// Preview uploaded image
+document.getElementById("coreUpload").addEventListener("change", function (event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const img = document.getElementById("previewImage");
+  img.src = URL.createObjectURL(file);
+
+  document.getElementById("previewContainer").style.display = "block";
+});
+
+// Simple feature extraction (average color + edge estimate)
+function extractFeatures(imageElement) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = imageElement.width;
+  canvas.height = imageElement.height;
+  ctx.drawImage(imageElement, 0, 0);
+
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+  let r = 0, g = 0, b = 0;
+  let count = data.length / 4;
+
+  for (let i = 0; i < data.length; i += 4) {
+    r += data[i];
+    g += data[i + 1];
+    b += data[i + 2];
+  }
+
+  return {
+    avgR: Math.round(r / count),
+    avgG: Math.round(g / count),
+    avgB: Math.round(b / count),
+    texture: (Math.random() > 0.5 ? "High" : "Low"), // placeholder
+    edges: (Math.random() > 0.5 ? "Elevated" : "Moderate") // placeholder
+  };
+}
+
+// Mock classifier (rule-based)
+function classify(features) {
+  if (features.avgR > 150 && features.texture === "High") {
+    return {
+      unit: "Unit 2b – Friable High‑Grade Zone",
+      confidence: "High",
+      summary: "High texture contrast and warm tones suggest brecciation typical of Unit 2b."
+    };
+  }
+
+  return {
+    unit: "Unit 1a – Clean Sandstone",
+    confidence: "Moderate",
+    summary: "Lower contrast and lighter tones align with clean sandstone intervals."
+  };
+}
+
+// Run analysis
+document.getElementById("analyzeBtn").addEventListener("click", function () {
+  const img = document.getElementById("previewImage");
+  if (!img.src) return;
+
+  const features = extractFeatures(img);
+  const result = classify(features);
+
+  // Display features
+  const list = document.getElementById("featureList");
+  list.innerHTML = `
+    <li><strong>Avg R:</strong> ${features.avgR}</li>
+    <li><strong>Avg G:</strong> ${features.avgG}</li>
+    <li><strong>Avg B:</strong> ${features.avgB}</li>
+    <li><strong>Texture Contrast:</strong> ${features.texture}</li>
+    <li><strong>Edge Density:</strong> ${features.edges}</li>
+  `;
+
+  // Display classification
+  document.getElementById("predictedUnit").textContent = result.unit;
+  document.getElementById("confidence").textContent = result.confidence;
+  document.getElementById("summary").textContent = result.summary;
+
+  document.getElementById("resultsContainer").style.display = "block";
+});
+</script>
+
 </body>
 </html>
