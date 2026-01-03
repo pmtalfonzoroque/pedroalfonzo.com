@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phoenix – Python Interpretation Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">PEDRO ALFONZO — Engineering • Geoscience • Analytics</div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/geoscience/">Geoscience</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/automation/">Automation</a>
+        <a href="/farm/">Farm</a>
+        <a href="/projects/">Projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="content">
+
+      <h1>Python Interpretation Engine</h1>
+      <p>
+        This page demonstrates the rule‑based Python engine developed to classify core images from the 
+        Phoenix uranium deposit. It converts raw core photographs into structured geological interpretations 
+        using reproducible logic.
+      </p>
+
+      <p>
+        <a href="/projects/phoenix/" class="btn btn-primary">← Back to Phoenix Interpretation</a>
+      </p>
+
+      <h2>How the Engine Works</h2>
+      <ul>
+        <li>Loads a core image.</li>
+        <li>Extracts basic features (color averages, texture contrast).</li>
+        <li>Applies rule-based logic derived from Phoenix hydrogeological units.</li>
+        <li>Outputs a suggested unit and confidence level.</li>
+      </ul>
+
+      <h2>Example Python Code</h2>
+
+      <pre><code class="language-python">
+import cv2
+import numpy as np
+
+def classify_core_image(image_path):
+    img = cv2.imread(image_path)
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # Extract simple features
+    avg_hue = np.mean(img_hsv[:,:,0])
+    avg_sat = np.mean(img_hsv[:,:,1])
+    avg_val = np.mean(img_hsv[:,:,2])
+    contrast = img.std()
+
+    # Rule-based classification
+    if avg_hue > 15 and avg_sat > 60:
+        return "Unit 2c (Brown Redox Zone)", "Medium"
+    elif contrast > 40:
+        return "Unit 2b (Friable High-Grade Zone)", "High"
+    elif avg_val < 80:
+        return "Unit 2d (Sulfide-Cemented Zone)", "Medium"
+    else:
+        return "Unit 1a/1b (Sandstone)", "Low"
+
+unit, confidence = classify_core_image("core_photo.jpg")
+print("Suggested Unit:", unit)
+print("Confidence:", confidence)
+      </code></pre>
+
+      <h2>Why This Matters</h2>
+      <p>
+        This engine demonstrates how geological criteria can be encoded into reproducible logic. 
+        It forms the foundation for more advanced workflows, including texture analysis, feature extraction, 
+        and machine learning classification.
+      </p>
+
+      <p>
+        <a href="/projects/phoenix/" class="btn btn-primary">← Back to Phoenix Interpretation</a>
+      </p>
+
+    </div>
+  </main>
+
+  <footer style="text-align: center; padding: 20px 0; color: #666;">
+    <div class="footer-container">
+      <p>© 2026 Pedro Alfonzo — Engineering • Geoscience • Analytics</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/geoscience/">Geoscience</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/projects/">Projects</a>
+      </nav>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
