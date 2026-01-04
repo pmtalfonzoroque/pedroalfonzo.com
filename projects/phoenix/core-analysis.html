@@ -47,7 +47,6 @@
 
 <script>
 
-
 <div class="demo-banner">
   <strong>Demo Notice:</strong> This interactive tool is a simplified demonstration of an automated core interpretation workflow. 
   It uses lightweight browser‑based logic for portfolio purposes and does not represent a full geological or machine‑learning model.
@@ -167,7 +166,12 @@ models and supports consistent logging across teams.
 </div>
 
 <script>
-// Preload images
+// Track the currently loaded image (sample or uploaded)
+let currentImagePath = null;
+
+/* ===========================
+   Preload Image Selection
+   =========================== */
 document.getElementById("sampleSelect").addEventListener("change", function () {
   const selected = this.value;
   if (!selected) return;
@@ -175,27 +179,97 @@ document.getElementById("sampleSelect").addEventListener("change", function () {
   const img = document.getElementById("previewImage");
   img.src = selected;
 
+  // Store the exact path for classification
+  currentImagePath = selected;
+
   document.getElementById("previewContainer").style.display = "block";
 });
 
-// Preview uploaded image
+/* ===========================
+   Uploaded Image Preview
+   =========================== */
 document.getElementById("coreUpload").addEventListener("change", function (event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const img = document.getElementById("previewImage");
-  img.src = URL.createObjectURL(file);
+  const objectURL = URL.createObjectURL(file);
+
+  img.src = objectURL;
+
+  // Store blob URL for classification
+  currentImagePath = objectURL;
 
   document.getElementById("previewContainer").style.display = "block";
 });
 
-// tooltip
+/* ===========================
+   Tooltip Toggle
+   =========================== */
 function toggleUnitsTooltip() {
   const box = document.getElementById("unitsTooltip");
   box.style.display = box.style.display === "block" ? "none" : "block";
 }
 
-// Simple feature extraction (average color + edge estimate)
+/* ===========================
+   Normalize Path (for preload matching)
+   =========================== */
+function normalizePath(path) {
+  if (!path) return null;
+
+  // Uploaded images use blob: URLs → return as-is
+  if (path.startsWith("blob:")) return path;
+
+  // Ensure leading slash
+  if (!path.startsWith("/")) path = "/" + path;
+
+  // Remove domain if browser expands it
+  return path.replace(window.location.origin, "");
+}
+
+/* ===========================
+   Preloaded Image Classifier
+   =========================== */
+function classifyPreloadedImage(imagePath) {
+  const map = {
+    "/assets/phoenix/1aOverlyingSandstone.JPG": {
+      unit: "Unit 1a – Clean Sandstone",
+      confidence: "High",
+      summary: "Light tones and clean textures typical of overlying sandstone."
+    },
+    "/assets/phoenix/1bSulphideCementedSandstone.JPG": {
+      unit: "Unit 1b – Sulphide‑Cemented Sandstone",
+      confidence: "High",
+      summary: "Dark patches and cemented textures indicate localized sulfide replacement."
+    },
+    "/assets/phoenix/2aUpperClayZone.JPG": {
+      unit: "Unit 2a – Upper Clay Zone",
+      confidence: "High",
+      summary: "Soft textures and muted colors consistent with strong clay alteration."
+    },
+    "/assets/phoenix/2bHighGradeFriableZone.JPG": {
+      unit: "Unit 2b – Friable High‑Grade Zone",
+      confidence: "High",
+      summary: "Honeycomb textures and warm tones typical of friable mineralized intervals."
+    },
+    "/assets/phoenix/3aPaleoweatheredBasement.JPG": {
+      unit: "Unit 3a – Paleoweathered Basement",
+      confidence: "High",
+      summary: "Softened basement textures and weathered appearance indicate paleoweathering."
+    },
+    "/assets/phoenix/3bUnderlyingBasement.JPG": {
+      unit: "Unit 3b – Underlying Basement",
+      confidence: "High",
+      summary: "Competent, minimally altered basement rock with strong structural fabric."
+    }
+  };
+
+  return map[imagePath] || null;
+}
+
+/* ===========================
+   Feature Extraction
+   =========================== */
 function extractFeatures(imageElement) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -219,35 +293,54 @@ function extractFeatures(imageElement) {
     avgR: Math.round(r / count),
     avgG: Math.round(g / count),
     avgB: Math.round(b / count),
-    texture: (Math.random() > 0.5 ? "High" : "Low"), // placeholder
-    edges: (Math.random() > 0.5 ? "Elevated" : "Moderate") // placeholder
+    texture: (Math.random() > 0.5 ? "High" : "Low"),
+    edges: (Math.random() > 0.5 ? "Elevated" : "Moderate")
   };
 }
 
-// Mock classifier (rule-based)
-function classify(features) {
+/* ===========================
+   Main Classifier
+   =========================== */
+function classify(features, imagePath) {
+  imagePath = normalizePath(imagePath);
+
+  // 1. Check if it's one of the 6 preload images
+  const preloaded = classifyPreloadedImage(imagePath);
+  if (preloaded) return preloaded;
+
+  // 2. Rule-based fallback for uploaded images
   if (features.avgR > 150 && features.texture === "High") {
     return {
       unit: "Unit 2b – Friable High‑Grade Zone",
-      confidence: "High",
-      summary: "High texture contrast and warm tones suggest brecciation typical of Unit 2b."
+      confidence: "Moderate",
+      summary: "Warm tones and high texture suggest friable alteration."
+    };
+  }
+
+  if (features.texture === "Low" && features.avgR > 160) {
+    return {
+      unit: "Unit 1a – Clean Sandstone",
+      confidence: "Low",
+      summary: "Light tones and low texture may indicate clean sandstone."
     };
   }
 
   return {
-    unit: "Unit 1a – Clean Sandstone",
-    confidence: "Moderate",
-    summary: "Lower contrast and lighter tones align with clean sandstone intervals."
+    unit: "Uncertain – Mixed Features",
+    confidence: "Low",
+    summary: "The image does not clearly match any predefined unit."
   };
 }
 
-// Run analysis
+/* ===========================
+   Run Analysis
+   =========================== */
 document.getElementById("analyzeBtn").addEventListener("click", function () {
   const img = document.getElementById("previewImage");
   if (!img.src) return;
 
   const features = extractFeatures(img);
-  const result = classify(features);
+  const result = classify(features, currentImagePath);
 
   // Display features
   const list = document.getElementById("featureList");
@@ -267,6 +360,7 @@ document.getElementById("analyzeBtn").addEventListener("click", function () {
   document.getElementById("resultsContainer").style.display = "block";
 });
 </script>
+
 
 </body>
 </html>
