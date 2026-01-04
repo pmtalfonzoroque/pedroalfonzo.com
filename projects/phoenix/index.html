@@ -1,274 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Project Demos – Pedro Alfonzo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/assets/style.css">
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Phoenix Core Interpretation – Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
 
-  <body>
-    <div class="page">
+<body>
+<div class="page">
 
-      <!-- Header -->
-      <header>
-        <div class="nav-container">
-          <div class="brand">PEDRO ALFONZO — Engineering • Geoscience • Analytics</div>
-          <nav>
-            <a href="/">Home</a>
-            <a href="/geoscience/">Geoscience</a>
-            <a href="/portfolio/">Portfolio</a>
-            <a href="/automation/">Automation</a>
-            <a href="/farm/">Farm</a>
-            <a href="/projects/">Project Demos</a>
-          </nav>
-        </div>
-      </header>
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">PEDRO ALFONZO — Engineering • Geoscience • Analytics</div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/geoscience/">Geoscience</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/automation/">Automation</a>
+        <a href="/farm/">Farm</a>
+        <a href="/projects/">Project Demos</a>
+      </nav>
+    </div>
+  </header>
 
+  <!-- Hero -->
   <main>
-    <div class="content">
-       <div class="content">
-    <h2>Phoenix Deposit – Core Logging Interpretation</h2>
+    <section class="hero">
+      <div class="hero-card">
+        <h1 class="hero-title">Phoenix Core Interpretation</h1>
+        <p class="hero-subtitle">
+          A browser‑based demo showing how core images can be transformed into structured geological interpretation.
+        </p>
 
-<p>
-The Phoenix uranium deposit, located within the Wheeler River Project in Saskatchewan’s Athabasca Basin, 
-displays a well-defined sequence of sandstone, clay-altered zones, friable mineralized intervals, and 
-weathered basement. The core photos below represent the key hydrogeological units encountered in the 
-deposit and form the basis for this interpretation.
-</p>
+        <div class="demo-banner">
+          <strong>Demo Notice:</strong> This is a simplified prototype built for portfolio purposes. 
+          It uses lightweight browser‑based logic and is not a full geological or ML model.
+        </div>
 
-<h1>Core & Log Interpretation</h1>
+        <a href="/projects/phoenix/core-analysis.html" class="btn btn-primary">
+          Launch Core Interpretation Demo →
+        </a>
+      </div>
+    </section>
 
-<p>
-  <a href="/projects/phoenix/core-analysis.html" class="btn btn-primary"> 
-    Launch Core Interpretation Demo → 
-  </a>
+    <!-- Unit Overview -->
+    <section class="content">
+      <h2>Hydrogeological Units (Phoenix Deposit)</h2>
+      <p class="subtitle">
+        These units form the basis for the interpretation workflow demonstrated in the interactive tool.
+      </p>
 
-</p>
+      <div class="unit-grid">
+        <div class="unit-card">
+          <img src="/assets/phoenix/1aOverlyingSandstone.JPG" alt="Unit 1a">
+          <h4>Unit 1a</h4>
+          <p>Overlying clean sandstone</p>
+        </div>
 
+        <div class="unit-card">
+          <img src="/assets/phoenix/1bSulphideCementedSandstone.JPG" alt="Unit 1b">
+          <h4>Unit 1b</h4>
+          <p>Sulphide‑cemented sandstone</p>
+        </div>
 
-<!-- IMAGE + TABLE SIDE BY SIDE -->
-<div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+        <div class="unit-card">
+          <img src="/assets/phoenix/2aUpperClayZone.JPG" alt="Unit 2a">
+          <h4>Unit 2a</h4>
+          <p>Upper clay‑altered zone</p>
+        </div>
 
-  <!-- Image -->
-  <div style="flex: 1; min-width: 300px;">
-    <img src="/assets/phoenix/CorePhotosAllUnits.JPG" 
-         alt="Phoenix Hydrogeological Units"
-         style="max-width: 100%; height: auto; border: 1px solid #ccc;">
-  </div>
+        <div class="unit-card">
+          <img src="/assets/phoenix/2bHighGradeFriableZone.JPG" alt="Unit 2b">
+          <h4>Unit 2b</h4>
+          <p>Friable high‑grade zone</p>
+        </div>
 
-  <!-- Table -->
-  <div style="flex: 1; min-width: 300px; overflow-x: auto;">
-    <table style="width: 100%; border-collapse: collapse;">
-      <tr>
-        <th>Unit</th>
-        <th>Depth (m)</th>
-        <th>Lithology</th>
-        <th>Alteration</th>
-        <th>Notes</th>
-      </tr>
+        <div class="unit-card">
+          <img src="/assets/phoenix/3aPaleoweatheredBasement.JPG" alt="Unit 3a">
+          <h4>Unit 3a</h4>
+          <p>Paleoweathered basement</p>
+        </div>
 
-      <tr>
-        <td>1a</td>
-        <td>388.9–390.4</td>
-        <td>Overlying sandstone</td>
-        <td>Partial desilicification</td>
-        <td>Faulted, friable</td>
-      </tr>
+        <div class="unit-card">
+          <img src="/assets/phoenix/3bUnderlyingBasement.JPG" alt="Unit 3b">
+          <h4>Unit 3b</h4>
+          <p>Underlying competent basement</p>
+        </div>
+      </div>
+    </section>
 
-      <tr>
-        <td>1b</td>
-        <td>—</td>
-        <td>Sulphide‑cemented sandstone</td>
-        <td>Sulfide patches</td>
-        <td>Fault‑zone cementation</td>
-      </tr>
+    <!-- Collapsible Sections -->
+    <section class="content">
 
-      <tr>
-        <td>2a</td>
-        <td>405.0</td>
-        <td>Upper clay zone</td>
-        <td>Strong clay alteration</td>
-        <td>Soft, plastic texture</td>
-      </tr>
+      <div class="info-box-collapsible">
+        <button onclick="toggleSection('geoContext')">Geological Context ▼</button>
+        <div id="geoContext" class="info-content">
+          <p>Phoenix is a classic unconformity‑related uranium system... (your full text here)</p>
+        </div>
+      </div>
 
-      <tr>
-        <td>2b</td>
-        <td>405.4</td>
-        <td>High‑grade friable zone</td>
-        <td>Intense clay + mineralization</td>
-        <td>Honeycomb texture, friable</td>
-      </tr>
+      <div class="info-box-collapsible">
+        <button onclick="toggleSection('unitDetails')">Hydrogeological Unit Details ▼</button>
+        <div id="unitDetails" class="info-content">
+          <p>Full descriptions of Units 1a–3b... (your full text here)</p>
+        </div>
+      </div>
 
-      <tr>
-        <td>2c</td>
-        <td>—</td>
-        <td>Brown redox zone</td>
-        <td>Oxidation</td>
-        <td>Red/brown coloration</td>
-      </tr>
+      <div class="info-box-collapsible">
+        <button onclick="toggleSection('workflow')">Interpretation Workflow ▼</button>
+        <div id="workflow" class="info-content">
+          <p>Your full workflow text (image acquisition, feature extraction, classification)...</p>
+        </div>
+      </div>
 
-      <tr>
-        <td>2d</td>
-        <td>—</td>
-        <td>Sulfide‑cemented zone</td>
-        <td>Sulfide replacement</td>
-        <td>Harder, darker patches</td>
-      </tr>
+    </section>
 
-      <tr>
-        <td>2e</td>
-        <td>407.52</td>
-        <td>Lower clay zone</td>
-        <td>Clay alteration</td>
-        <td>Transitional to basement</td>
-      </tr>
+    <div style="text-align:center; margin-top: 30px;">
+      <a href="/projects/phoenix/core-analysis.html" class="btn btn-primary">
+        Launch Core Interpretation Demo →
+      </a>
+    </div>
 
-      <tr>
-        <td>3a</td>
-        <td>409.45</td>
-        <td>Paleoweathered basement</td>
-        <td>Weathering</td>
-        <td>Soft, altered basement</td>
-      </tr>
+  </main>
 
-      <tr>
-        <td>3b</td>
-        <td>—</td>
-        <td>Underlying basement</td>
-        <td>Minimal alteration</td>
-        <td>Competent basement rock</td>
-      </tr>
-    </table>
-  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <p>© 2026 Pedro Alfonzo — Engineering • Geoscience • Analytics</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/geoscience/">Geoscience</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/projects/">Project Demos</a>
+      </nav>
+    </div>
+  </footer>
 
 </div>
 
-<h3>Geological Context</h3>
-<p>
-Phoenix is a classic unconformity-related uranium system. The sequence transitions from Athabasca 
-sandstone into progressively stronger clay alteration near the unconformity, followed by friable 
-high-grade zones and finally into paleoweathered and competent basement rocks. These units reflect 
-fluid flow pathways, redox reactions, and structural preparation that controlled uranium deposition.
-</p>
+<script>
+function toggleSection(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+</script>
 
-<h3>Interpretation of Hydrogeological Units</h3>
-
-<h4>1. Sandstone Sequence (Units 1a–1b)</h4>
-<p>
-The upper sandstone units show partial desilicification, faulting, and localized sulfide cementation. 
-These features indicate fluid movement through brittle structures and early chemical alteration prior 
-to major mineralizing events.
-</p>
-
-<h4>2. Clay and Mineralized Zones (Units 2a–2e)</h4>
-<p>
-This interval marks the transition into the most hydrogeologically active part of the system. 
-The upper clay zone (2a) shows strong alteration and reduced competency. The high-grade friable zone (2b) 
-is characterized by honeycomb textures, intense clay alteration, and high porosity—features commonly 
-associated with uranium-rich fluid pathways. The brown redox zone (2c) represents an oxidation boundary, 
-while the sulfide-cemented interval (2d) reflects reducing conditions. The lower clay zone (2e) forms the 
-transition into basement rocks.
-</p>
-
-<h4>3. Basement Sequence (Units 3a–3b)</h4>
-<p>
-The paleoweathered basement (3a) shows softened textures and increased porosity, indicating deep 
-weathering prior to burial. Beneath it, the competent basement (3b) marks the return to unaltered 
-crystalline rock. These units are critical for understanding structural preparation and the geometry 
-of mineralizing fluids at the unconformity.
-</p>
-
-<h3>Summary</h3>
-<p>
-Together, these units illustrate the vertical evolution of alteration, permeability, and redox 
-conditions that control uranium deposition at Phoenix. The combination of friable textures, clay 
-alteration, and redox contrasts provides a strong geological framework for interpreting core images 
-from any unconformity-related uranium system.
-</p>
-
-<h2>Core‑Image Interpretation Workflow</h2>
-
-<p>
-This project is not a static description of the Phoenix deposit. It is a demonstration of how raw core 
-photographs can be transformed into structured geological interpretation using a reproducible workflow. 
-The goal is to show how engineering thinking, geoscience knowledge, and coding-based automation can work 
-together to support consistent core logging.
-</p>
-
-<h3>1. Image Acquisition & Pre‑Processing</h3>
-<ul>
-  <li>Import raw core photos (JPG, PNG, or field images).</li>
-  <li>Standardize orientation and cropping to isolate the core box.</li>
-  <li>Normalize brightness and color to reduce lighting bias.</li>
-  <li>Apply optional filters to enhance textures (clay, friability, sulfides).</li>
-</ul>
-
-<h3>2. Feature Identification</h3>
-<ul>
-  <li>Detect color domains (brown/red oxidation, grey/green reduction).</li>
-  <li>Identify texture changes (friable zones, honeycomb patterns, clay-rich intervals).</li>
-  <li>Highlight structural features (faults, fractures, broken core).</li>
-  <li>Locate high-contrast mineral patches (sulfides, hematite, pitchblende).</li>
-</ul>
-
-<h3>3. Unit Classification Logic</h3>
-<p>
-Each hydrogeological unit at Phoenix has diagnostic visual cues. A rule-based or ML-based classifier can 
-suggest the most likely unit based on:
-</p>
-<ul>
-  <li><strong>Color:</strong> red/brown for oxidation (2c), dark patches for sulfides (2d).</li>
-  <li><strong>Texture:</strong> friable/honeycomb for high-grade zones (2b).</li>
-  <li><strong>Competency:</strong> soft clay vs. competent basement.</li>
-  <li><strong>Structural context:</strong> faulted sandstone vs. intact basement.</li>
-</ul>
-
-<h3>4. Interpretation Output</h3>
-<p>
-The workflow produces a structured interpretation that includes:
-</p>
-<ul>
-  <li>Suggested unit (1a, 2b, 3a, etc.).</li>
-  <li>Key visual indicators supporting the classification.</li>
-  <li>Confidence level (low/medium/high).</li>
-  <li>Optional: extracted features for ML training.</li>
-</ul>
-
-<h3>5. Reproducibility & Automation</h3>
-<p>
-The workflow is designed so that the same steps can be applied to any core photo. This supports:
-</p>
-<ul>
-  <li>Consistent logging across drillholes.</li>
-  <li>Automated pre-screening of mineralized intervals.</li>
-  <li>Training datasets for machine learning models.</li>
-  <li>Rapid interpretation for exploration or QA workflows.</li>
-</ul>
-
-      <p>
-        <a href="/projects/phoenix/core-analysis.html" class="btn btn-primary"> 
-          Launch Core Interpretation Demo → 
-        </a>
-      </p>
-
-      </div> 
-    </div>
-  </main>
-
-  <footer style="text-align: center; padding: 20px 0; color: #666;"> 
-    <div class="footer-container"> 
-        <p>© 2026 Pedro Alfonzo — Engineering • Geoscience • Analytics</p> 
-        <nav> 
-            <a href="../">Home</a> 
-            <a href="../geoscience/">Geoscience</a> 
-            <a href="../portfolio/">Portfolio</a> 
-            <a href="../projects/">Projects</a> 
-        </nav> 
-    </div>
- </footer>
-
-    </div> <!-- closes .page -->
-  </body>
+</body>
 </html>
-
