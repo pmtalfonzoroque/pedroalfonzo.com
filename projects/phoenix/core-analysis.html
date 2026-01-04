@@ -20,7 +20,7 @@
         <a href="/portfolio/">Portfolio</a>
         <a href="/automation/">Automation</a>
         <a href="/farm/">Farm</a>
-        <a href="/projects/">Projects</a>
+        <a href="/projects/">Project Demos</a>
       </nav>
     </div>
   </header>
@@ -46,6 +46,13 @@
         </div>
 
 <script>
+
+
+<div class="demo-banner">
+  <strong>Demo Notice:</strong> This interactive tool is a simplified demonstration of an automated core interpretation workflow. 
+  It uses lightweight browser‑based logic for portfolio purposes and does not represent a full geological or machine‑learning model.
+</div>
+
 function toggleInfoBox() {
   const box = document.getElementById("infoContent");
   box.style.display = box.style.display === "block" ? "none" : "block";
@@ -62,16 +69,46 @@ geophysicists, and project managers.
 
 <h2>Try It Yourself – Interactive Core Interpreter</h2>
 
-<h3>Or choose a sample core image:</h3>
+<h3> Or choose a sample core image: <span class="tooltip-icon" onclick="toggleUnitsTooltip()">ℹ️</span> </h3>
+
+<div id="unitsTooltip" class="tooltip-box"> 
+    <strong>About the Phoenix Units</strong> 
+    <p><strong>Unit 1a:</strong> Clean overlying sandstone with minor desilicification.</p> 
+    <p><strong>Unit 1b:</strong> Sulphide‑cemented sandstone in faulted zones.</p> 
+    <p><strong>Unit 2a:</strong> Upper clay‑altered zone.</p> 
+    <p><strong>Unit 2b:</strong> Friable high‑grade mineralized zone.</p> 
+    <p><strong>Unit 3a:</strong> Paleoweathered basement.</p> 
+    <p><strong>Unit 3b:</strong> Competent underlying basement.</p> 
+</div>
+
 <select id="sampleSelect" class="input-select">
   <option value="">-- Select a sample image --</option>
-  <option value="/assets/phoenix/1aOverlyingSandstone.JPG">Unit 1a – Clean Sandstone</option>
-  <option value="/assets/phoenix/1bSulphideCementedSandstone.JPG">Unit 1b – Sulphide–Cemented Sandstone </option>
-  <option value="/assets/phoenix/2aUpperClayZone.JPG">Unit 2a – Upper Clay Zone</option>
-  <option value="/assets/phoenix/2bHighGradeFriableZone.JPG">Unit 2b – Friable High‑Grade Zone</option>
-  <option value="/assets/phoenix/3aPaleoweatheredBasement.JPG">Unit 3a – Paleoweathered Basement </option>
-  <option value="/assets/phoenix/3bUnderlyingBasement.JPG">3b – Underlying Basement </option>
+
+  <option value="/assets/phoenix/1aOverlyingSandstone.JPG">
+    Unit 1a – Overlying Clean Sandstone
+  </option>
+
+  <option value="/assets/phoenix/1bSulphideCementedSandstone.JPG">
+    Unit 1b – Sulphide‑Cemented Sandstone
+  </option>
+
+  <option value="/assets/phoenix/2aUpperClayZone.JPG">
+    Unit 2a – Upper Clay‑Altered Zone
+  </option>
+
+  <option value="/assets/phoenix/2bHighGradeFriableZone.JPG">
+    Unit 2b – Friable High‑Grade Zone
+  </option>
+
+  <option value="/assets/phoenix/3aPaleoweatheredBasement.JPG">
+    Unit 3a – Paleoweathered Basement
+  </option>
+
+  <option value="/assets/phoenix/3bUnderlyingBasement.JPG">
+    Unit 3b – Underlying Fresh Basement
+  </option>
 </select>
+
 
 <div class="interactive-block">
   <p>Select a core image to analyze:</p>
@@ -151,6 +188,12 @@ document.getElementById("coreUpload").addEventListener("change", function (event
 
   document.getElementById("previewContainer").style.display = "block";
 });
+
+// tooltip
+function toggleUnitsTooltip() {
+  const box = document.getElementById("unitsTooltip");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
 
 // Simple feature extraction (average color + edge estimate)
 function extractFeatures(imageElement) {

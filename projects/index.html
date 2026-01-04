@@ -1,74 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Projects – Pedro Alfonzo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../assets/style.css">
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Project Demos – Pedro Alfonzo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
 
-  <body>
-    <div class="page">
+<body>
+<div class="page">
 
-      <!-- Header -->
-      <header>
-        <div class="nav-container">
-          <div class="brand">PEDRO ALFONZO — Engineering • Geoscience • Analytics</div>
-          <nav>
-            <a href="../">Home</a>
-            <a href="../geoscience/">Geoscience</a>
-            <a href="../portfolio/">Portfolio</a>
-            <a href="../automation/">Automation</a>
-            <a href="../farm/">Farm</a>
-            <a href="../projects/">Projects</a>
-          </nav>
-        </div>
-      </header>
-
-      <!-- Main Content -->
-      <main>
-
-        <!-- Hero Section -->
-        <section class="hero">
-          <div class="hero-card">
-            <h1 class="hero-title">Projects</h1>
-            <p class="hero-subtitle">
-              A collection of selected work across geoscience, analytics, automation, and coding.
-            </p>
-          </div>
-        </section>
-
-        <!-- Project List -->
-        <section class="hero" style="padding-top: 0;">
-          <div class="hero-card">
-            <h2 class="hero-title" style="font-size: 1.4rem;">Project Index</h2>
-
-            <ul>
-              <li><a href="/projects/phoenix/">Core & Log Interpretation</a></li>
-              <li><a href="../projects/geophysics-analysis.html">Geophysics Analysis</a></li>
-              <li><a href="../projects/automation-tool.html">Automation Tool</a></li>
-            </ul>
-
-            <p style="margin-top: 16px; color: var(--muted);">
-              More projects will be added as documentation is completed.
-            </p>
-          </div>
-        </section>
-
-      </main>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-inner">
-          <div>&copy; <span id="year"></span> Pedro Alfonzo</div>
-          <div>pedroalfonzo.com</div>
-        </div>
-      </footer>
-
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">PEDRO ALFONZO — Engineering • Geoscience • Analytics</div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/geoscience/">Geoscience</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/automation/">Automation</a>
+        <a href="/farm/">Farm</a>
+        <a href="/projects/">Project Demos</a>
+      </nav>
     </div>
+  </header>
 
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-  </body>
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1 class="hero-title">Project Demos</h1>
+        <p class="hero-subtitle">
+          Interactive prototypes showcasing geoscience, analytics, automation, and software development.
+        </p>
+      </div>
+    </section>
+
+    <!-- Project Cards -->
+    <section class="project-grid">
+
+      <!-- Phoenix Demo -->
+      <div class="project-card">
+        <h3>Phoenix Core Interpretation</h3>
+        <p class="project-desc">
+          Browser‑based demo that extracts features from core photos and suggests geological units.
+        </p>
+        <a href="/projects/phoenix/" class="btn btn-primary">Open Demo →</a>
+      </div>
+
+      <!-- Geophysics Analysis -->
+      <div class="project-card">
+        <h3>Geophysics Analysis</h3>
+        <p class="project-desc">
+          Early prototype exploring signal processing and visualization workflows for geophysical data.
+        </p>
+        <a href="/projects/geophysics-analysis.html" class="btn btn-primary">View Demo →</a>
+      </div>
+
+      <!-- Automation Tool -->
+      <div class="project-card">
+        <h3>Automation Tool</h3>
+        <p class="project-desc">
+          A demonstration of workflow automation and data extraction using browser‑based logic.
+        </p>
+        <a href="/projects/automation-tool.html" class="btn btn-primary">Try Demo →</a>
+      </div>
+
+      <!-- Placeholder for future projects -->
+      <div class="project-card">
+        <h3>More Coming Soon</h3>
+        <p class="project-desc">
+          MT processing, geosteering decision engine, analytics dashboards, and more.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>&copy; <span id="year"></span> Pedro Alfonzo</div>
+      <div>pedroalfonzo.com</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
 </html>
