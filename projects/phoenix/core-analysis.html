@@ -30,9 +30,13 @@
 
       <h1>Automated Core Interpretation – Results</h1>
 
-        <div class="info-box">
-            <button class="info-toggle" onclick="toggleInfoBox()">About These Hydrogeological Units ▼</button>
-            <div id="infoContent" class="info-content">
+        <div class="info-box-collapsible"> 
+          <button class="collapsible-btn" onclick="toggleSection('infoContent')"> 
+            <span class="icon">📘</span> About These Hydrogeological Units 
+            <span class="arrow">▼</span> 
+          </button> 
+          
+          <div id="infoContent" class="info-content">
                 <p>
                 The images used in this interactive tool correspond to the <strong>hydrogeological units</strong> 
                 defined in the Phoenix deposit (Wheeler River). These units represent distinct sandstone, clay-altered, 
@@ -42,7 +46,18 @@
                 Each unit exhibits characteristic visual and textural features that can be quantified through 
                 image-based analysis, forming the basis for automated interpretation workflows.
                 </p>
-            </div>
+          </div>
+        </div>
+
+        <div class="info-box-collapsible">
+          <button class="collapsible-btn" onclick="toggleSection('whyUnit')">
+            <span class="icon">🔍</span> Why this unit?
+            <span class="arrow">▼</span>
+          </button>
+
+          <div id="whyUnit" class="info-content">
+            <p id="whyUnitText">Explanation will appear here.</p>
+          </div>
         </div>
 
 <script>
@@ -129,6 +144,10 @@ geophysicists, and project managers.
 
     <h3>Confidence</h3>
     <p id="confidence"></p>
+
+    <div id="confidenceBarContainer"> 
+      <div id="confidenceBar"></div>
+    </div>
 
     <h3>Interpretation Summary</h3>
     <p id="summary"></p>
@@ -355,7 +374,21 @@ document.getElementById("analyzeBtn").addEventListener("click", function () {
   // Display classification
   document.getElementById("predictedUnit").textContent = result.unit;
   document.getElementById("confidence").textContent = result.confidence;
+    //add a confidence meter
+    const bar = document.getElementById("confidenceBar"); 
+    if (result.confidence === "High") bar.style.width = "90%"; 
+    else if (result.confidence === "Moderate") bar.style.width = "60%"; 
+    else bar.style.width = "30%";
+   
   document.getElementById("summary").textContent = result.summary;
+  
+  document.getElementById("whyUnitText").textContent =
+  `This classification was based on: 
+   • Average color values (R/G/B)
+   • Texture contrast estimation
+   • Edge density
+   • Comparison to known Phoenix reference units`;
+
 
   document.getElementById("resultsContainer").style.display = "block";
 });
