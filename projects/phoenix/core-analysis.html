@@ -387,17 +387,12 @@ document.getElementById("analyzeBtn").addEventListener("click", function () {
 </script>
 
 <script>
-function toggleSection(id) {
-  const section = document.getElementById(id);
-  const isOpen = section.style.display === "block";
-
-  // Toggle visibility
-  section.style.display = isOpen ? "none" : "block";
-
-  // Rotate arrow icon
-  const parent = section.previousElementSibling;
-  const arrow = parent.querySelector(".arrow");
-  arrow.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+function toggleSection(id) { 
+  const box = document.getElementById(id); 
+  const btn = event.target.closest("button"); 
+  
+  box.classList.toggle("open"); 
+  btn.classList.toggle("active"); 
 }
 </script>
 
