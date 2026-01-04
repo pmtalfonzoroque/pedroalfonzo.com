@@ -40,10 +40,8 @@ main {
   flex: 1;
 }
 
-/* ===========================
-   Header + Navigation
-   =========================== */
-
+/* #region Header + navigation  */
+/* =====   Header + Navigation========= */
 header {
   background: var(--bg-alt);
   border-bottom: 1px solid var(--border);
@@ -75,10 +73,9 @@ nav a {
 nav a:hover {
   color: var(--accent);
 }
+/* #endregion Header + navigation  */
 
-/* ===========================
-   Banne Section
-   =========================== */
+/* =====   Banne Section ==== */
 .banner {
   width: 100%;
   height: 160px; /* adjust to taste */
@@ -88,11 +85,8 @@ nav a:hover {
   border-bottom: 1px solid var(--border);
 }
 
-
-/* ===========================
-   Hero Section
-   =========================== */
-
+/* #region Hero section  */
+/* ====Hero Section============ */
 .hero {
   max-width: var(--max-width);
   margin: 32px auto 0;
@@ -117,8 +111,10 @@ nav a:hover {
   color: var(--muted);
   font-size: 0.98rem;
 }
+/* #endregion Hero section  */
 
-/* Tags */
+/* #region Tags  */
+/* ===== Tags =======*/
 .hero-tags {
   display: flex;
   flex-wrap: wrap;
@@ -134,8 +130,10 @@ nav a:hover {
   background: #f3f4ff;
   color: #1d4ed8;
 }
+/* #endregion Tags  */
 
-/* Buttons */
+/* #region Buttons  */
+/* ====== Buttons ======*/
 .btn {
   display: inline-block;
   padding: 7px 14px;
@@ -160,11 +158,10 @@ nav a:hover {
 .btn-primary:hover {
   background: #1d4ed8;
 }
+/* #endregion Buttons  */
 
-/* ===========================
-   Grid Cards
-   =========================== */
-
+/* #region Grid Cards  */
+/* ===== Grid Cards============= */
 .grid {
   max-width: var(--max-width);
   margin: 0 auto 40px;
@@ -201,11 +198,10 @@ nav a:hover {
 .card a:hover {
   text-decoration: underline;
 }
+/* #endregion Grid Cards  */
 
-/* ===========================
-   Footer
-   =========================== */
-
+/* #region footer  */
+/* ====  Footer================ */
 footer {
   border-top: 1px solid var(--border);
   background: var(--bg-alt);
@@ -222,7 +218,9 @@ footer {
   align-items: center;
   flex-wrap: wrap;
 }
+/* #endregion tooltip  */
 
+/* #region Content Card */
 /* === General Content Wrapper ======= */
 .content { 
   max-width: var(--max-width); 
@@ -234,7 +232,6 @@ footer {
   border: 1px solid var(--border);
 }
 
-/* === Content Card === */
 .content-card {
   background: var(--bg-alt);
   border-radius: var(--radius);
@@ -242,6 +239,7 @@ footer {
   border: 1px solid var(--border);
   padding: 28px 24px 32px;
 }
+/* #endregion Content Card */
 
 /* === floating button=== */
 .floating-btn {
@@ -255,32 +253,6 @@ footer {
   box-shadow: var(--shadow);
   text-decoration: none;
   font-weight: 600;
-}
-
-/* === info box/toggle for Engine=== */
-.info-box {
-  margin-bottom: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg-alt);
-  box-shadow: var(--shadow);
-}
-
-.info-toggle {
-  width: 100%;
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--bg);
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-.info-content {
-  display: none;
-  padding: 16px;
-  border-top: 1px solid var(--border);
 }
 
 /* === input for the images=== */
@@ -303,7 +275,8 @@ footer {
   font-size: 0.95rem;
 }
 
-/* === tolltip in the engine === */
+/* #region tooltip  */
+/* === tooltip in the core-logging === */
 .tooltip-icon {
   cursor: pointer;
   font-size: 1.1rem;
@@ -319,55 +292,16 @@ footer {
   border-radius: 4px;
   font-size: 0.9rem;
 }
+/* #endregion tooltip  */
 
-/* === project cards === */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
 
+/* #region unit grid project/phoenix/index */
 /* === unit grid project/phoenix/index === */
 .unit-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   margin: 20px 0;
-}
-
-.unit-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 12px;
-  text-align: center;
-}
-
-.unit-card img {
-  max-width: 100%;
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-
-.info-box-collapsible button {
-  width: 100%;
-  text-align: left;
-  padding: 12px;
-  background: #f1f1f1;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.info-content {
-  display: none;
-  padding: 12px;
-  background: #fafafa;
-  border-left: 4px solid #007bff;
-  margin-bottom: 20px;
-  border-radius: 4px;
 }
 
 .project-card {
@@ -388,6 +322,17 @@ footer {
   margin-bottom: 16px;
 }
 
+/* === project cards === */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* #endregion unit grid project/phoenix/index */
+
+/* #region icon + arrow */
 /* === icons + arrow alignment === */
 .collapsible-btn {
   width: 100%;
@@ -414,34 +359,85 @@ footer {
 .collapsible-btn.active .arrow {
   transform: rotate(180deg);
 }
+/* #endregion icon + arrow */
 
-/* ====== Smooth Slide‑Down Animation ==== */
+/* #region info Boxes & collapsible section */
+/* ====== Collapsible Content (Final Version) + Smooth Slide‑Down Animation ===== */
 .info-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
+  transition: max-height 0.35s ease, padding 0.35s ease;
   background: #fafafa;
   border-left: 4px solid #007bff;
-  padding: 0 12px;
   border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 0 12px; /* collapsed padding */
 }
 
 .info-content.open {
-  padding: 12px;
   max-height: 800px; /* enough for long text */
+  padding: 12px;     /* expanded padding */
 }
 
-/*=== Small Animation to Unit Cards (Optional but nice) ===== */
+/*  === Old Engine Info Box === */
+.info-box {
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  box-shadow: var(--shadow);
+}
+
+.info-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* === New Collapsible Section Button === */
+.info-box-collapsible button {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  background: #f1f1f1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+/* #endregion info-content */
+
+/* #region Unit Cards */
+/*=== Animation to Unit Cards (Optional but nice) ===== */
 .unit-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+
+  /* Animation */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.unit-card img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin-bottom: 8px;
 }
 
 .unit-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+/* #endregion */
 
-
+/* #region Responsive Tweaks */
 /* ===== Responsive Tweaks ======== */
 
 @media (max-width: 600px) {
@@ -454,6 +450,8 @@ footer {
   nav a {
     margin-left: 10px;
   }
+  .unit-card { padding: 8px; } 
+  .unit-card img { max-width: 90%; }
 }
-
+/* #endregion Responsive Tweaks */
 
