@@ -56,7 +56,17 @@
           </button>
 
           <div id="whyUnit" class="info-content">
-            <p id="whyUnitText">Explanation will appear here.</p>
+            <p id="whyUnitText">
+              The predicted unit is based on a combination of visual indicators extracted from the image:
+              <ul>
+                <li><strong>Color signatures</strong> such as oxidation (reds/browns), reduction (greens/greys), or bleaching.</li>
+                <li><strong>Texture contrast</strong> indicating friability, clay alteration, or competency.</li>
+                <li><strong>Edge density</strong> reflecting structural features like fractures or brecciation.</li>
+                <li><strong>Comparison to reference units</strong> from the Phoenix deposit.</li>
+              </ul>
+              These features collectively align most closely with the characteristics of the predicted unit.
+            </p>
+
           </div>
         </div>
 
@@ -384,6 +394,7 @@ document.getElementById("analyzeBtn").addEventListener("click", function () {
 
   document.getElementById("resultsContainer").style.display = "block";
 });
+
 </script>
 
 <script>
