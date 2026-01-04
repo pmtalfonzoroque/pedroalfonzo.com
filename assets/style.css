@@ -375,7 +375,7 @@ footer {
 }
 
 .info-content.open {
-  max-height: 800px; /* enough for long text */
+  max-height: none; /* It works no matter how long the content is*/
   padding: 12px;     /* expanded padding */
 }
 
