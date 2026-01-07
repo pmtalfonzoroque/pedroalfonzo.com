@@ -1,6 +1,4 @@
-/* ===========================
-   Global Theme
-   =========================== */
+/* ===== Global Theme======== */
 
 :root {
   --bg: #f7f7f9;
@@ -26,9 +24,8 @@ body {
   line-height: 1.6;
 }
 
-/* ===========================
-   Layout Containers
-   =========================== */
+/* #region Layout Containers */
+/* === Layout Containers======== */
 
 .page {
   min-height: 100vh;
@@ -39,9 +36,11 @@ body {
 main {
   flex: 1;
 }
+/* #endregion */ 
+
 
 /* #region Header + navigation  */
-/* =====   Header + Navigation========= */
+/* ===== HEADER + NAVIGATION ===== */
 header {
   background: var(--bg-alt);
   border-bottom: 1px solid var(--border);
@@ -56,15 +55,42 @@ header {
   justify-content: space-between;
 }
 
-.brand {
+/* ===== BRAND SECTION ===== */
+.brand-section {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid var(--accent);
+}
+
+.brand-text .name {
   font-weight: 600;
   letter-spacing: 0.03em;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-transform: uppercase;
+  color: var(--muted);
+}
+
+.brand-text .tagline {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 nav a {
-  margin-left: 18px;
   text-decoration: none;
   color: var(--muted);
   font-size: 0.9rem;
@@ -73,6 +99,49 @@ nav a {
 nav a:hover {
   color: var(--accent);
 }
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.dropbtn:hover {
+  color: var(--accent);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  min-width: 180px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background: var(--border);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* #endregion Header + navigation  */
 
 /* =====   Banne Section ==== */
