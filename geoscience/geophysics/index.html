@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Geoscience – Pedro Alfonzo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/style.css">
+  </head>
+
+  <body>
+    <div class="page">
+
+      <!-- Header -->
+      <header>
+        <div class="nav-container">
+
+          <!-- Profile + Brand -->
+          <div class="brand-section">
+            <img src="assets/images/profile.png" alt="Profile photo" class="profile-pic">
+            <div class="brand-text">
+              <div class="name">PEDRO ALFONZO</div>
+              <div class="tagline">Geoscience • Geophysics • Analytics</div>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <nav>
+            <a href="index.html">Home</a>
+            
+            <!-- Geoscience Dropdown --> 
+            <div class="dropdown"> 
+              <button class="dropbtn">Geoscience ▼</button> 
+              <div class="dropdown-content"> 
+                <a href="geoscience/geology/">Geology</a> 
+                <a href="geoscience/geophysics/">Geophysics</a> 
+                <a href="geoscience/field/">Field Operations</a> 
+              </div> 
+            </div>
+
+            <!-- Portfolio Dropdown -->
+            <div class="dropdown">
+              <button class="dropbtn">Portfolio ▼</button>
+              <div class="dropdown-content">
+                <a href="portfolio/prototypes/">Prototypes</a>
+                <a href="portfolio/analytics/">Data Analytics</a>
+                <a href="portfolio/automation/">Automation</a>
+              </div>
+            </div>
+
+            <!-- Other Interests Dropdown -->
+            <div class="dropdown">
+              <button class="dropbtn">Other Interests ▼</button>
+              <div class="dropdown-content">
+                <a href="farm/">Farm Plans</a>
+                <a href="hobbies/">Hobbies</a>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <section class="hero">
+          <div class="hero-card">
+            <h1 class="hero-title">Geoscience</h1>
+            <p class="hero-subtitle">
+              I combine geological understanding with analytical tools to interpret subsurface data, 
+              integrate geophysical signals, and support decision‑making in exploration and engineering contexts.
+            </p>
+
+            <div class="hero-tags">
+              <span class="tag">Core & Log Interpretation</span>
+              <span class="tag">Geophysical Analysis</span>
+              <span class="tag">Subsurface Modeling</span>
+              <span class="tag">Data‑Driven Interpretation</span>
+            </div>
+
+            <div class="hero-links">
+              <a href="../projects/" class="btn btn-primary">View geoscience projects</a>
+              <a href="../portfolio/" class="btn">Full portfolio</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Focus Areas -->
+        <section class="grid">
+          <article class="card">
+            <h2>Core & Log Interpretation</h2>
+            <p>
+              Integrating core observations, lithology, and well logs to understand subsurface structure, 
+              stratigraphy, and reservoir characteristics.
+            </p>
+            <a href="../projects/core-log-interpretation.html">View project &raquo;</a>
+          </article>
+
+          <article class="card">
+            <h2>Geophysical Analysis</h2>
+            <p>
+              Working with gravity, EM, and MT datasets to extract meaningful subsurface patterns 
+              and support geological models.
+            </p>
+            <a href="../projects/geophysics-analysis.html">View project &raquo;</a>
+          </article>
+
+          <article class="card">
+            <h2>Data‑Driven Interpretation</h2>
+            <p>
+              Applying analytics and computational tools to enhance geological interpretation 
+              and reduce uncertainty in subsurface evaluations.
+            </p>
+            <a href="../projects/">Explore related work &raquo;</a>
+          </article>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-inner">
+          <div>&copy; <span id="year"></span> Pedro Alfonzo</div>
+          <div>pedroalfonzo.com</div>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
+
