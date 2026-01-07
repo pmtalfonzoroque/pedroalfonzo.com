@@ -1,3 +1,4 @@
+/* #region Global Theme */
 /* ===== Global Theme======== */
 
 :root {
@@ -23,10 +24,10 @@ body {
   color: var(--text);
   line-height: 1.6;
 }
+/* #endregion */
 
 /* #region Layout Containers */
 /* === Layout Containers======== */
-
 .page {
   min-height: 100vh;
   display: flex;
@@ -141,8 +142,27 @@ nav a:hover {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
 /* #endregion Header + navigation  */
+
+/* #region   Larger profile photo on homepage only */
+/* ===== Larger profile photo on homepage only ===== */
+body.home .profile-pic {
+  width: 85px;
+  height: 85px;
+}
+
+body.home .brand-text .name {
+  font-size: 1.25rem;
+}
+
+body.home .brand-text .tagline {
+  font-size: 0.95rem;
+}
+
+body.home header { 
+  padding: 20px 0; 
+}
+/* #endregion */
 
 /* =====   Banne Section ==== */
 .banner {
