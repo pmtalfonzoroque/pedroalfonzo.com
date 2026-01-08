@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me – Pedro Alfonzo</title>
+
+  <!-- FONT AWESOME ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- YOUR MAIN CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+
+        <!-- Profile + Brand -->
+        <div class="brand-section">
+        <img src="assets/images/profile1.jpg" alt="Profile photo" class="profile-pic">
+        <div class="brand-text">
+            <div class="name">PEDRO ALFONZO</div>
+            <div class="tagline">Geoscience • Geophysics • Analytics</div>
+        </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+        <a href="index.html">Home</a>
+        
+        <!-- Geoscience Dropdown --> 
+        <div class="dropdown"> 
+            <button class="dropbtn" title="Explore my geoscience background and field experience">Geoscience ▼</button> 
+            <div class="dropdown-content"> 
+            <a href="geoscience/geophysics/">Geophysics</a> 
+            <a href="geoscience/geology/">Geology</a> 
+            <a href="geoscience/field/">Field Operations</a> 
+            </div> 
+        </div>
+
+        <!-- Portfolio Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn" title="Visit my project prototypes that illustrate my experience" >
+            Projects ▼ <span class="badge new">NEW</span>
+            </button>
+            <div class="dropdown-content">
+            <a href="portfolio/geophysics/">
+                Geophysics <span class="badge soon">Soon</span>
+            </a>
+            <a href="projects/geology/">
+                Geology<span class="badge updated">Updated</span>
+            </a>
+            <a href="portfolio/data-analytics/">Data Analytics</a>
+            <a href="portfolio/automation/">Automation</a>
+            </div>
+        </div>
+
+        <!-- Other Interests Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn" title="Life Outside Work">Other Interests ▼</button>
+            <div class="dropdown-content">
+            <a href="farm/">Farm Plans</a>
+            <a href="hobbies/">Hobbies</a>
+            </div>
+        </div>
+
+        </nav>
+    </div>
+    </header>
+
+  <main class="content">
+
+    <h1>About Me</h1>
+
+    <p class="intro">
+      I’m a geoscientist with experience across drilling operations, core logging, geophysics, 
+      data analytics, and workflow automation. My work bridges field operations, technical 
+      interpretation, and software‑driven solutions that improve efficiency and decision‑making.
+    </p>
+
+    <p>
+      Over the years, I’ve developed a hybrid skill set that combines geological expertise with 
+      modern analytical tools. I enjoy building prototypes that demonstrate real‑world workflows, 
+      whether it’s core logging, MT analysis, automation scripts, or interactive dashboards.
+    </p>
+
+    <p>
+      This website is my ongoing project — a place where I document my work, share tools, and 
+      explore new ideas in geoscience, analytics, and software development.
+    </p>
+
+    <h2>What I’m Working On</h2>
+    <ul>
+      <li>Expanding my geology and geophysics project sections</li>
+      <li>Building new MT and airborne magnetics prototypes</li>
+      <li>Developing automation tools for exploration workflows</li>
+      <li>Designing interactive dashboards and analytics tools</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>
+      <i class="fa-solid fa-envelope"></i> 
+      <a href="mailto:pedroalfonzo@gmail.com">pedroalfonzo@gmail.com</a>
+    </p>
+    <p>
+      <i class="fa-brands fa-linkedin"></i> 
+      <a href="https://www.linkedin.com/in/pedroalfonzoroque" target="_blank">LinkedIn Profile</a>
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-left">
+        <span>© 2026 Pedro Alfonzo</span>
+        <span>pedroalfonzo.com</span>
+      </div>
+
+      <div class="footer-right">
+        <a href="/assets/about/"><i class="fa-solid fa-user"></i> About Me</a>
+        <a href="/assets/cv/CV _PA_Geoph_June2025.pdf" target="_blank"> <i class="fa-solid fa-file-pdf"></i> CV</a>
+        <a href="https://www.linkedin.com/in/pedroalfonzoroque" target="_blank"> <i class="fa-brands fa-linkedin"></i>LinkedIn</a>
+        <a href="pedroalfonzo@gmail.com"> <i class="fa-solid fa-envelope"></i>Email</a>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
