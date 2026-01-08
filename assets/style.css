@@ -544,6 +544,38 @@ footer {
 }
 /* #endregion */
 
+/* #region bagde*/
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+.badge.new {
+  background: #ff4757;
+  color: white;
+}
+
+.badge.updated {
+  background: #1e90ff;
+  color: white;
+}
+
+.badge.soon {
+  background: #ffa502;
+  color: white;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+/* #endregion*/
+
 /* #region Responsive Tweaks */
 /* ===== Responsive Tweaks ======== */
 
