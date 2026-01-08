@@ -10,13 +10,13 @@
   <body>
     <div class="page">
 
-      <!-- Header -->
+      <!-- HEADER (same as your main site) -->
       <header>
         <div class="nav-container">
 
           <!-- Profile + Brand -->
           <div class="brand-section">
-            <img src="assets/images/profile.png" alt="Profile photo" class="profile-pic">
+            <img src="assets/images/profile1.jpg" alt="Profile photo" class="profile-pic">
             <div class="brand-text">
               <div class="name">PEDRO ALFONZO</div>
               <div class="tagline">Geoscience • Geophysics • Analytics</div>
@@ -25,31 +25,38 @@
 
           <!-- Navigation -->
           <nav>
-            <a href="index.html">Home</a>
+            <a href="/index.html">Home</a>
             
             <!-- Geoscience Dropdown --> 
             <div class="dropdown"> 
-              <button class="dropbtn">Geoscience ▼</button> 
+              <button class="dropbtn" title="Explore my geoscience background and field experience">Geoscience ▼</button> 
               <div class="dropdown-content"> 
-                <a href="geoscience/geology/">Geology</a> 
                 <a href="geoscience/geophysics/">Geophysics</a> 
+                <a href="geoscience/geology/">Geology</a> 
                 <a href="geoscience/field/">Field Operations</a> 
               </div> 
             </div>
 
             <!-- Portfolio Dropdown -->
             <div class="dropdown">
-              <button class="dropbtn">Portfolio ▼</button>
+              <button class="dropbtn" title="Visit my project prototypes that illustrate my experience" >
+                Projects ▼ <span class="badge new">NEW</span>
+              </button>
               <div class="dropdown-content">
-                <a href="projects/core-logging/">Core Logging</a>
-                <a href="portfolio/geophysics/">Geophysics</a>
+                <a href="portfolio/geophysics/">
+                  Geophysics <span class="badge soon">Soon</span>
+                </a>
+                <a href="projects/geology/">
+                  Geology<span class="badge updated">Updated</span>
+                </a>
+                <a href="portfolio/data-analytics/">Data Analytics</a>
                 <a href="portfolio/automation/">Automation</a>
               </div>
             </div>
 
             <!-- Other Interests Dropdown -->
             <div class="dropdown">
-              <button class="dropbtn">Other Interests ▼</button>
+              <button class="dropbtn" title="Life Outside Work">Other Interests ▼</button>
               <div class="dropdown-content">
                 <a href="farm/">Farm Plans</a>
                 <a href="hobbies/">Hobbies</a>
