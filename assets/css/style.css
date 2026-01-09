@@ -632,12 +632,12 @@ footer {
 /* #region Page Background */
 .page-background-sky {
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
+  min-height: 100vh; /* ✔ Ensures the background covers the full screen.*/ 
+  overflow: hidden; /* Prevents blur from spilling outside the viewport.*/
 }
 
 /* The blurred + darkened background layer */
-.page-background-sky::before {
+.page-background-sky::before { /* ::before creates a separate layer */
   content: "";
   position: fixed; /* stays in place while scrolling */
   top: 0;
@@ -650,7 +650,7 @@ footer {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: brightness(0.7) blur(3px);/* <— HERE is your filter */
+  filter: brightness(0.85) blur(2px);/* <— HERE is your filter */
   z-index: -1; /* keeps it behind all content */
 }
 
