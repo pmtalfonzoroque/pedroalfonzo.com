@@ -630,14 +630,30 @@ footer {
 /* #endregion*/
 
 /* #region Page Background */
-.page-background-sky { 
-  background-image: 
-    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
-    url("/assets/images/bannerSky.jpeg"); 
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; /* FIXES DUPLICATION */ 
-  background-attachment: fixed; /* optional parallax */ }
+.page-background-sky {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* The blurred + darkened background layer */
+.page-background-sky::before {
+  content: "";
+  position: fixed; /* stays in place while scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.60), rgba(0,0,0,0.60)),
+    url("/assets/images/bannerSky.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.7) blur(3px);/* <— HERE is your filter */
+  z-index: -1; /* keeps it behind all content */
+}
+
 
 .page-background-rocks {
   background-image: url("/assets/images/geologyRocks.jpeg");
