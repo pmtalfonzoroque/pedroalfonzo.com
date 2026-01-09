@@ -400,11 +400,6 @@ footer {
   color: inherit; /* default */
 }
 
-.tech-icons i {
-  color: unset !important;
-}
-
-
 .card.tech-stack {
   color: inherit;
 }
