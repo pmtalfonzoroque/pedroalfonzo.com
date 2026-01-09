@@ -761,11 +761,6 @@ body.page-background-sky {
 
 /* #endregion Responsive Tweaks */
 
-/* #region Force tech-stack icons to use their brand colors */
-.card.tech-stack i {
-  color: inherit !important;
-}
-
 /* Reset FA brand icon inheritance */
 .tech-icons i {
   --fa-primary-color: initial !important;
