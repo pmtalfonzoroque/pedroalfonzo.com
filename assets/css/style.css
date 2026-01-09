@@ -143,6 +143,26 @@ nav a:hover {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+/* ===  top-contact-bar ==== */
+.top-contact-bar {
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 20px;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.top-contact-bar a {
+  margin-left: 16px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.top-contact-bar a:hover {
+  color: var(--accent);
+}
+
 /* #endregion Header + navigation  */
 
 /* #region   Larger profile photo on homepage only */
