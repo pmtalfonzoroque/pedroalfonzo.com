@@ -401,8 +401,9 @@ footer {
 }
 
 .tech-icons i {
-  color: initial !important;
+  color: unset !important;
 }
+
 
 .card.tech-stack {
   color: inherit;
@@ -767,12 +768,13 @@ body.page-background-sky {
 }
 
 /* Brand colors */
-.fa-python { --fa-primary-color: #3776AB !important; }
-.fa-html5 { --fa-primary-color: #E34F26 !important; }
-.fa-css3-alt { --fa-primary-color: #1572B6 !important; }
-.fa-js { --fa-primary-color: #F7DF1E !important; }
-.fa-git-alt { --fa-primary-color: #F05033 !important; }
-.fa-linux { --fa-primary-color: #FCC624 !important; }
+.fa-python { color: #3776AB !important; }
+.fa-html5 { color: #E34F26 !important; }
+.fa-css3-alt { color: #1572B6 !important; }
+.fa-js { color: #F7DF1E !important; }
+.fa-git-alt { color: #F05033 !important; }
+.fa-linux { color: #FCC624 !important; }
+
 
 
 /*#endregion*/
