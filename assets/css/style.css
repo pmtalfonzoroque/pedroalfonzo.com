@@ -319,6 +319,14 @@ body.home header {
   margin-bottom: 12px; 
   opacity: 0.9; 
 }
+
+.disabled-link {
+  color: #bbb;
+  pointer-events: none; /* makes it unclickable */
+  cursor: default;
+  text-decoration: none;
+}
+
 /* #endregion Grid Cards  */
 
 /* #region footer  */
