@@ -190,9 +190,17 @@ body.home header {
   border: 1px solid var(--border);
 }
 
+/* old version of hero
 .hero-title {
   font-size: 1.8rem;
   margin: 0 0 8px;
+} */
+
+.hero-title { /*new version: Your name becomes the first thing people see — strong, confident, professional.*/
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
 .hero-subtitle {
@@ -200,6 +208,8 @@ body.home header {
   color: var(--muted);
   font-size: 0.98rem;
 }
+
+
 /* #endregion Hero section  */
 
 /* #region Tags  */
@@ -219,6 +229,12 @@ body.home header {
   background: #f3f4ff;
   color: #1d4ed8;
 }
+
+.tag i {
+  margin-right: 6px;
+}
+
+
 /* #endregion Tags  */
 
 /* #region Buttons  */
@@ -265,6 +281,7 @@ body.home header {
   border-radius: var(--radius);
   padding: 16px 16px 18px;
   border: 1px solid var(--border);
+  transition: transform .2s ease, box-shadow .2s ease; /* NEW */
 }
 
 .card h2 {
@@ -284,8 +301,22 @@ body.home header {
   text-decoration: none;
 }
 
+/* Hover underline for links inside cards */
 .card a:hover {
   text-decoration: underline;
+}
+/* NEW: Hover elevation + shadow */ 
+.card:hover { 
+  transform: translateY(-4px); 
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15); 
+} 
+
+/* Optional: thumbnail/icon inside cards */ 
+.card-icon { 
+  width: 48px; 
+  height: 48px; 
+  margin-bottom: 12px; 
+  opacity: 0.9; 
 }
 /* #endregion Grid Cards  */
 
@@ -591,6 +622,27 @@ footer {
 }
 
 /* #endregion*/
+
+/* #region Page Background */
+.page-background-sky {
+  background-image: url("/assets/images/bannerSky.jpeg");
+}
+
+.page-background-rocks {
+  background-image: url("/assets/images/geologyRocks.jpeg");
+}
+
+.page-background-farm {
+  background-image: url("/assets/images/farmField.jpeg");
+}
+
+.page-background-hobby {
+  background-image: url("/assets/images/hobbyMountains.jpeg");
+}
+
+
+/* #endregion */
+
 
 /* #region Responsive Tweaks */
 /* ===== Responsive Tweaks ======== */
