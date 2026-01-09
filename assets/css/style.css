@@ -360,12 +360,13 @@ footer {
   color: inherit; /* default */
 }
 
-.fa-python { color: #3776AB; }
-.fa-html5 { color: #E34F26; }
-.fa-css3-alt { color: #1572B6; }
-.fa-js { color: #F7DF1E; }
-.fa-git-alt { color: #F05033; }
-.fa-linux { color: #FCC624; }
+.fa-python { color: #3776AB !important; }
+.fa-html5 { color: #E34F26 !important; }
+.fa-css3-alt { color: #1572B6 !important; }
+.fa-js { color: #F7DF1E !important; }
+.fa-git-alt { color: #F05033 !important; }
+.fa-linux { color: #FCC624 !important; }
+
 
 
 /* #endregion tooltip  */
@@ -482,8 +483,8 @@ footer {
 
 /* #endregion unit grid project/phoenix/index */
 
-/* #region icon + arrow */
-/* === icons + arrow alignment === */
+/* #region arrow */
+/* ===  arrow alignment === */
 .collapsible-btn {
   width: 100%;
   text-align: left;
@@ -652,13 +653,13 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+  background-image: /*To make the sky more visible, you want: lighter gradient & higher brightness*/
+    linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)),
     url("/assets/images/bannerSky.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: brightness(0.85) blur(2px);/* <— HERE is your filter */
+  filter: brightness(1.05) blur(2px);/* <— HERE is your filter and 1.05 slightly boosts the blue*/
   z-index: -10; /* ⭐ push FAR behind everything */
 }
 
