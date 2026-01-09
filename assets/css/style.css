@@ -146,12 +146,21 @@ nav a:hover {
 
 /* ===  top-contact-bar ==== */
 .top-contact-bar {
+  width: 100%;
   background: var(--bg-alt);
+  border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 6px 20px;
-  font-size: 0.85rem;
-  text-align: center;
 }
+
+.contact-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
 
 .top-contact-bar a {
   margin-left: 16px;
