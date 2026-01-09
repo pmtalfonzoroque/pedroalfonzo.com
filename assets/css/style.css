@@ -751,9 +751,6 @@ body.page-background-sky {
 
 /* #endregion Responsive Tweaks */
 /* Reset icon color so FA brand colors can apply */ 
-.tech-icons i {
-   color: unset !important; 
-}
 
 /* Brand colors */
 .fa-python { color: #3776AB !important; }
@@ -762,7 +759,5 @@ body.page-background-sky {
 .fa-js { color: #F7DF1E !important; }
 .fa-git-alt { color: #F05033 !important; }
 .fa-linux { color: #FCC624 !important; }
-
-
 
 /*#endregion*/
