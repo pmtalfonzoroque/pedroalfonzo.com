@@ -400,6 +400,13 @@ footer {
   color: inherit; /* default */
 }
 
+.tech-icons i {
+  color: initial !important;
+}
+
+.card.tech-stack {
+  color: inherit;
+}
 
 
 /* #endregion tooltip  */
