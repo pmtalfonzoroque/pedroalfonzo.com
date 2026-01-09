@@ -24,6 +24,7 @@ body {
   color: var(--text);
   line-height: 1.6;
 }
+
 /* #endregion */
 
 /* #region Layout Containers */
@@ -360,13 +361,6 @@ footer {
   color: inherit; /* default */
 }
 
-.fa-python { color: #3776AB !important; }
-.fa-html5 { color: #E34F26 !important; }
-.fa-css3-alt { color: #1572B6 !important; }
-.fa-js { color: #F7DF1E !important; }
-.fa-git-alt { color: #F05033 !important; }
-.fa-linux { color: #FCC624 !important; }
-
 
 
 /* #endregion tooltip  */
@@ -663,6 +657,10 @@ footer {
   z-index: -10; /* ⭐ push FAR behind everything */
 }
 
+body.page-background-sky {
+  background: none !important;
+}
+
 
 .page-background-rocks {
   background-image: url("/assets/images/geologyRocks.jpeg");
@@ -698,3 +696,15 @@ footer {
 }
 /* #endregion Responsive Tweaks */
 
+/* #region Force tech-stack icons to use their brand colors */
+.card.tech-stack i {
+  color: inherit !important;
+}
+
+.fa-python { color: #3776AB !important; }
+.fa-html5 { color: #E34F26 !important; }
+.fa-css3-alt { color: #1572B6 !important; }
+.fa-js { color: #F7DF1E !important; }
+.fa-git-alt { color: #F05033 !important; }
+.fa-linux { color: #FCC624 !important; }
+/*#endregion*/
