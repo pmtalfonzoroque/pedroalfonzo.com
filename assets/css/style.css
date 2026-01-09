@@ -55,6 +55,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 /* ===== BRAND SECTION ===== */
@@ -718,19 +719,40 @@ body.page-background-sky {
 /* #region Responsive Tweaks */
 /* ===== Responsive Tweaks ======== */
 
+/* ===== Responsive Tweaks ======== */
 @media (max-width: 600px) {
+
+  /* Hero adjustments */
   .hero-card {
     padding: 20px 18px 24px;
   }
+
   .hero-title {
     font-size: 1.5rem;
   }
+
   nav a {
     margin-left: 10px;
   }
+
+  /* Unit cards */
   .unit-card { padding: 8px; } 
   .unit-card img { max-width: 90%; }
+
+  /* Header fixes */
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 }
+
+
 /* #endregion Responsive Tweaks */
 
 /* #region Force tech-stack icons to use their brand colors */
