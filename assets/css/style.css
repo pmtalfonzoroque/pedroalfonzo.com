@@ -641,7 +641,7 @@ footer {
 .page-background-sky {
   position: relative;
   min-height: 100vh; /* ✔ Ensures the background covers the full screen.*/ 
-  
+  z-index: 0; /* ⭐ REQUIRED: creates stacking context */
 }
 
 /* The blurred + darkened background layer */
@@ -659,7 +659,7 @@ footer {
   background-position: center;
   background-repeat: no-repeat;
   filter: brightness(0.85) blur(2px);/* <— HERE is your filter */
-  z-index: -1; /* keeps it behind all content */
+  z-index: -10; /* ⭐ push FAR behind everything */
 }
 
 
