@@ -761,10 +761,9 @@ body.page-background-sky {
 
 
 /* #endregion Responsive Tweaks */
-
-/* Reset FA brand icon inheritance */
+/* Reset icon color so FA brand colors can apply */ 
 .tech-icons i {
-  --fa-primary-color: initial !important;
+   color: unset !important; 
 }
 
 /* Brand colors */
