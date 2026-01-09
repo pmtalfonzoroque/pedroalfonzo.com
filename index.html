@@ -11,20 +11,7 @@
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
-<script>
-  async function loadComponent(id, file) {
-    const container = document.getElementById(id);
-    const response = await fetch(file);
-    const html = await response.text();
-    container.innerHTML = html;
-  }
-
-  loadComponent("header", "/components/header.html");
-  loadComponent("footer", "/components/footer.html");
-</script>
-
-
-<body class="page home page-background-sky"">
+<body class="page home page-background-sky">
 
 <!-- HEADER -->
 <div id="header"></div>
@@ -112,6 +99,17 @@
   <!-- FOOTER -->
   <div id="footer"></div>
   
+  <script>
+    async function loadComponent(id, file) {
+      const container = document.getElementById(id);
+      const response = await fetch(file);
+      const html = await response.text();
+      container.innerHTML = html;
+    }
+
+    loadComponent("header", "/components/header.html");
+    loadComponent("footer", "/components/footer.html");
+  </script>
 
 </body>
 </html>

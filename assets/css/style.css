@@ -354,6 +354,12 @@ footer {
   margin-left: 6px;
 }
 
+.tech-icons i {
+  font-size: 32px;
+  margin-right: 12px;
+  opacity: 0.9;
+}
+
 /* #endregion tooltip  */
 
 /* #region Content Card */
@@ -624,9 +630,14 @@ footer {
 /* #endregion*/
 
 /* #region Page Background */
-.page-background-sky {
-  background-image: url("/assets/images/bannerSky.jpeg");
-}
+.page-background-sky { 
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
+    url("/assets/images/bannerSky.jpeg"); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; /* FIXES DUPLICATION */ 
+  background-attachment: fixed; /* optional parallax */ }
 
 .page-background-rocks {
   background-image: url("/assets/images/geologyRocks.jpeg");
