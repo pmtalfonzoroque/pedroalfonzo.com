@@ -17,28 +17,31 @@
       
       <!-- Geoscience Dropdown --> 
        <div class="dropdown"> 
-        <button class="dropbtn" title="Explore my geoscience background and field experience">Geoscience ▼</button> 
+        <button class="dropbtn" title="Explore my geoscience background and field experience">Geoscience Background▼</button> 
         <div class="dropdown-content"> 
-          <a href="/geoscience/geophysics/">Geophysics</a> 
-          <a href="/geoscience/geology/">Geology</a> 
+          <a href="/geoscience-background/geophysics/">Geophysics</a> 
+          <a href="/geoscience-background/geology/">Geology</a> 
           <a class="disabled-link">Field Operations</a> 
         </div> 
       </div>
 
-      <!-- Project Dropdown -->
+      <!-- Case Studies (Project) Dropdown -->
       <div class="dropdown">
-        <button class="dropbtn" title="Visit my project prototypes that illustrate my experience" >
-          Projects ▼ <span class="badge new">NEW</span>
+        <button class="dropbtn"
+                title="Visit my project prototypes that illustrate my experience"
+                onclick="window.location.href='/case-studies/';">
+          Case Studies ▼ <span class="badge new">NEW</span>
         </button>
+
         <div class="dropdown-content">
-          <a href="/projects/geophysics/">
-            Geophysics <span class="badge soon">Soon</span>
+          <a href="/case-studies/applied-geophysics/">
+            Applied Geophysics <span class="badge soon">Soon</span>
           </a>
-          <a href="/projects/geology/">
-            Geology<span class="badge updated">Updated</span>
+          <a href="/case-studies/integrated-geology/">
+            Integrated Geology<span class="badge updated">Updated</span>
           </a>
-          <a class="disabled-link">Data Analytics</a>
-          <a href="/projects/automation/">Automation</a>
+          <a class="disabled-link">Operational Excellence</a>
+          <!-- <a href="/projects/automation/">Automation</a>  Disable for now-->
         </div>
       </div>
 
@@ -46,7 +49,7 @@
       <div class="dropdown">
         <button class="dropbtn" title="Life Outside Work">Other Interests ▼</button>
         <div class="dropdown-content">
-          <a href="/other interests/farm/">Farm Plans</a>
+          <a href="/other-interests/farm/">Farm Plans</a>
           <a class="disabled-link">Hobbies</a>  <!-- OPTION B (badge):  <a class="disabled-link">Hobbies <span class="badge soon">Soon</span></a> -->
         </div>
       </div>
