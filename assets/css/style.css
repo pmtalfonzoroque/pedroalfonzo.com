@@ -99,7 +99,7 @@ header {
 nav {
   display: flex;
   align-items: center;
-  gap: 0px;
+  gap: 5px;
   flex-wrap: wrap; /* ⭐ REQUIRED */
 }
 
