@@ -206,6 +206,15 @@ body.home header {
   border-bottom: 1px solid var(--border);
 }
 
+.subtagline {
+  font-size: 0.85rem;        /* slightly smaller than the main tagline */
+  font-weight: 300;          /* lighter, elegant */
+  color: #e0e0e0;            /* soft grey to avoid overpowering */
+  margin-top: 2px;           /* tight spacing under the tagline */
+  line-height: 1.3;          /* readable but compact */
+  max-width: 380px;          /* prevents long lines in the header */
+}
+
 /* #region Hero section  */
 /* ====Hero Section============ */
 .hero {
