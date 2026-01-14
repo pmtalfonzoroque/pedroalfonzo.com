@@ -59,7 +59,7 @@ header {
   gap: 32px; /* adds clean space between brand and menu */
 }
 
-/* ===== BRAND SECTION ===== */
+/* ===== BRAND SECTION: proofile and logo ===== */
 .brand-section {
   display: flex;
   align-items: center;
@@ -75,6 +75,12 @@ header {
   object-fit: cover;
   margin-right: 12px;
   border: 2px solid var(--accent);
+}
+
+.farm-logo {
+  width: 120px;
+  margin-bottom: 20px;
+  opacity: 0.9;
 }
 
 .brand-text {
