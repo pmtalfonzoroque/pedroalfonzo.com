@@ -1,35 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Project Demos – Pedro Alfonzo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/assets/css/style.css">
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Applied Geophysics – Case Studies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
 
-  <body>
-    <div class="page page-background-sky">
+<body>
+  <div class="page page-background-sky">
 
-      <!-- HEADER (same as your main site) -->
-      <!-- HEADER -->
-      <div id="header"></div>
+    <!-- HEADER -->
+    <div id="header"></div>
 
-  <main>
-    <div class="content">
-      <main class="content">
+    <main class="content">
 
-      <h1>Geology Projects</h1>
+      <h1>Applied Geophysics</h1>
       <p class="intro">
-        Geological interpretation, drilling workflows, core logging, and applied exploration analysis.
-        This section highlights my geology‑focused prototypes and field‑related work.
-      </p> 
+        A set of exploration‑focused prototypes built from public datasets.  
+        These projects illustrate practical workflows in MT, gravimetry, EM, and integrated interpretation.
+      </p>
 
-      <!-- Geophysics -->
+      <div class="unit-grid">
+
+        <!-- Geophysical Interpretation -->
         <div class="unit-card">
           <img src="/assets/thumbnails/geophysics.jpg" alt="Geophysics">
           <h4>Geophysical Interpretation</h4>
-          <p>MT, gravimetry, EM and attribute‑based analysis.</p>
-          <a href="/case-studies/integrated-geology/geophysics/" class="btn btn-secondary">View Project →</a>
+          <p>MT, gravimetry, EM, and attribute‑based analysis.</p>
+          <a class="disabled-link btn btn-secondary">View Project →</a>
         </div>
 
         <!-- Applied Geophysics -->
@@ -37,29 +36,32 @@
           <img src="/assets/thumbnails/applied-geophysics.jpg" alt="Applied Geophysics">
           <h4>Applied Geophysics</h4>
           <p>Integrated workflows for exploration and QA decision‑making.</p>
-          <a href="/case-studies/integrated-geology/applied-geophysics/" class="btn btn-secondary">View Project →</a>
+          <a class="disabled-link btn btn-secondary">View Project →</a>
         </div>
-      <div class="content">
-            <h2>COMMING SOON - WORK IN PROGRESS</h2>
-        </div> 
-    </div>
-  </main>
 
-  <!-- FOOTER -->
-  <div id="footer"></div>
-  
-  <script>
-    async function loadComponent(id, file) {
-      const container = document.getElementById(id);
-      const response = await fetch(file);
-      const html = await response.text();
-      container.innerHTML = html;
-    }
+      </div>
 
-    loadComponent("header", "/components/header.html");
-    loadComponent("footer", "/components/footer.html");
-  </script>
+      <div class="content" style="text-align:center; margin-top: 30px;">
+        <h2>COMING SOON — WORK IN PROGRESS</h2>
+      </div>
 
-    </div> <!-- closes .page -->
-  </body>
+    </main>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <script>
+      async function loadComponent(id, file) {
+        const container = document.getElementById(id);
+        const response = await fetch(file);
+        const html = await response.text();
+        container.innerHTML = html;
+      }
+
+      loadComponent("header", "/components/header.html");
+      loadComponent("footer", "/components/footer.html");
+    </script>
+
+  </div>
+</body>
 </html>
