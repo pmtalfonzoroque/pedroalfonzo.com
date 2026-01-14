@@ -104,12 +104,12 @@ header {
 .farm-title-row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* aligné à gauche */
   gap: 12px;
 }
 
 .farm-logo-small {
-  width: 55px;
+  width: 250px;
   height: auto;
   opacity: 0.95;
 }
