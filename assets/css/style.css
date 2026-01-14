@@ -801,6 +801,51 @@ body.page-background-sky {
 
 /* #endregion*/
 
+/* #Region About*/
+.about-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  padding: 40px 20px;
+}
+
+.about-sidebar {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.about-sidebar h2 {
+  margin-bottom: 12px;
+}
+
+.about-sidebar h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.about-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-sidebar li {
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+.about-content h1 {
+  margin-bottom: 20px;
+}
+
+.about-content p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+
+/* #endregion*/
 
 /* #region Responsive Tweaks */
 /* ===== Responsive Tweaks ======== */
