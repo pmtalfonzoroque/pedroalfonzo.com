@@ -736,6 +736,15 @@ body.page-background-sky {
 
 /* #endregion */
 
+/* #source note*/
+.source-note {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* #endregion*/
+
 
 /* #region Responsive Tweaks */
 /* ===== Responsive Tweaks ======== */
