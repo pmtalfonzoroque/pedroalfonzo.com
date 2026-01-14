@@ -83,6 +83,37 @@ header {
   opacity: 0.9;
 }
 
+.farm-watermark {
+  position: relative;
+}
+
+.farm-watermark::after {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 180px;
+  height: 180px;
+  background-image: url('/assets/images/LogoAlain.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.farm-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.farm-logo-small {
+  width: 55px;
+  height: auto;
+  opacity: 0.95;
+}
+
 .brand-text {
   display: flex;
   flex-direction: column;
@@ -387,6 +418,14 @@ body.home header {
   text-decoration: none;
 }
 
+.menu-icon {
+  width: 20px;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 6px;
+  opacity: 0.9;
+}
+
 /* #endregion Grid Cards  */
 
 /* #region footer  */
@@ -426,6 +465,17 @@ footer {
 .tech-icons i {
   font-size: 32px;
   margin-right: 12px;
+}
+
+.farm-footer-logo {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.farm-footer-logo img {
+  width: 80px;
+  opacity: 0.85;
 }
 
 /* #endregion tooltip  */

@@ -22,10 +22,15 @@
       <main>
 
         <!-- Hero Section -->
-        <section class="hero">
+        <section class="hero farm-watermark">
           <div class="hero-card">
-            <img src="/assets/images/LogoAlain.png" alt="Farm Logo" class="farm-logo">
-            <h1 class="hero-title">Farm Project</h1>
+
+            <!-- Logo + Titre sur la même ligne -->
+            <div class="farm-title-row">
+              <img src="/assets/images/LogoAlain.png" alt="Farm Logo" class="farm-logo-small">
+              <h1 class="hero-title">Farm Project</h1>
+            </div>
+
             <p class="hero-subtitle">
               A long‑term venture focused on sustainable land use, agricultural development, 
               and future business expansion. This section documents the planning, research, 
@@ -38,8 +43,10 @@
               <span class="tag">Long‑Term Planning</span>
               <span class="tag">Business Development</span>
             </div>
+
           </div>
         </section>
+
 
 
         <!-- Vision -->
@@ -93,7 +100,10 @@
 
       <!-- FOOTER -->
       <div id="footer"></div>
-      
+      <div class="farm-footer-logo">
+        <img src="/assets/images/LogoAlain.png" alt="Finca Alain Logo">
+      </div>
+
       <script>
         async function loadComponent(id, file) {
           const container = document.getElementById(id);
