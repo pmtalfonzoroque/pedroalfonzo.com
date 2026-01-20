@@ -18,97 +18,91 @@
 
 <section class="banner"></section>
 
-  <main>
-    
-      <!-- HERO SECTION -->
-      <section class="hero">
-        <div class="hero-card">
-          <h1 class="hero-title">Welcome to pedroalfonzo.com</h1>
-          <p class="hero-subtitle">Explore my work across geoscience, drilling, analytics, automation, and more.</p>
+<main>
 
-          <div class="hero-tags"> 
-            <span class="tag"><i class="fa-solid fa-globe"></i>Geoscience</span> f
-            <span class="tag"><i class="fa-solid fa-oil-well"></i>Drilling</span> 
-            <span class="tag"><i class="fa-solid fa-chart-line"></i>Analytics</span> 
-            <span class="tag"><i class="fa-solid fa-robot"></i>Automation</span> 
-            <span class="tag"><i class="fa-solid fa-code"></i>Software</span> 
-          </div>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-card">
+      <h1 class="hero-title">Welcome to pedroalfonzo.com</h1>
+      <p class="hero-subtitle">
+        Explore my work across geoscience, drilling, analytics, automation, and software development.
+      </p>
 
-          <a href="/case-studies/" class="btn btn-primary">View Portfolio</a>
-        </div>
-      </section>
+      <div class="hero-tags"> 
+        <span class="tag"><i class="fa-solid fa-globe"></i>Geoscience</span>
+        <span class="tag"><i class="fa-solid fa-oil-well"></i>Drilling</span> 
+        <span class="tag"><i class="fa-solid fa-chart-line"></i>Analytics</span> 
+        <span class="tag"><i class="fa-solid fa-robot"></i>Automation</span> 
+        <span class="tag"><i class="fa-solid fa-code"></i>Software</span> 
+      </div>
 
-      <!-- GRID CARDS -->
-      <section class="grid">
+      <a href="/case-studies/" class="btn btn-primary">View Portfolio</a>
+    </div>
+  </section>
 
-        <div class="card">
-          <h2>Geology</h2>
-          <p>Core logging, drilling workflows, alteration mapping, and geological interpretation.</p>
-          <a href="/projects/geology/">Explore geology »</a>
-        </div>
+  <!-- GRID CARDS -->
+  <section class="grid">
 
-        <div class="card">
-          <h2>Geophysics <span class="badge soon">Soon</span></h2>
-          <p>MT, airborne magnetics, gravity modelling, and synthetic analysis.</p>
-          <a href="/projects/geophysics/">Explore geophysics »</a>
-        </div>
+    <div class="card">
+      <h2>Geology</h2>
+      <p>Core logging, drilling workflows, mapping, and geological interpretation.</p>
+      <a href="/case-studies/integrated-geology/">Explore geology »</a>
+    </div>
 
-        <div class="card">
-          <h2>Data Analytics</h2>
-          <p>Dashboards, exploratory data analysis, and Python-based insights.</p>
-          <a href="/projects/data-analytics/">View analytics »</a>
-        </div>
+    <div class="card">
+      <h2>Geophysics <span class="badge soon">Soon</span></h2>
+      <p>EM, GPR, airborne magnetics, gravity modelling, and synthetic analysis.</p>
+      <a href="/case-studies/applied-geophysics/">Explore geophysics »</a>
+    </div>
 
-        <div class="card">
-          <h2>Automation</h2>
-          <p>Tools, scripts, and workflow optimization for geoscience and operations.</p>
-          <a href="/projects/automation/">See tools »</a>
-        </div>
+    <div class="card">
+      <h2>Data Analytics</h2>
+      <p>Dashboards, exploratory data analysis, and Python‑based insights.</p>
+      <a class="disabled-link">Coming Soon »</a>
+    </div>
 
-        <div class="card">
-          <h2>Farm & Planning</h2>
-          <p>Business planning, investment modeling, and long-term development ideas.</p>
-          <a href="/other interests/farm/">Learn more »</a>
-        </div>
+    <div class="card">
+      <h2>Automation</h2>
+      <p>Tools, scripts, and workflow optimization for geoscience and operations.</p>
+      <a class="disabled-link">Coming Soon »</a>
+    </div>
 
-        <div class="card tech-stack">
-          <h3>Tech Stack</h3>
-          <div class="tech-icons">
-            <i class="fa-brands fa-python" title="Python"></i>
-            <i class="fa-brands fa-html5" title="HTML5"></i>
-            <i class="fa-brands fa-css3-alt" title="CSS3"></i>
-            <i class="fa-brands fa-js" title="JavaScript"></i>
-            <i class="fa-brands fa-git-alt" title="Git"></i>
-            <i class="fa-brands fa-linux" title="Linux"></i>
+    <div class="card">
+      <h2>Farm & Planning</h2>
+      <p>Business planning, investment modeling, and long‑term development ideas.</p>
+      <a href="/other-interests/farm/">Learn more »</a>
+    </div>
 
-            <!-- <img src="/assets/icons/qgis.png">
-            <img src="/assets/icons/arcgis.png">
-            <img src="/assets/icons/jupyter.png">
-            <img src="/assets/icons/pandas.png">
-            <img src="/assets/icons/numpy.png">
-            <img src="/assets/icons/sql.png"> -->
-          </div>
-        </div>
+    <div class="card tech-stack">
+      <h3>Tech Stack</h3>
+      <div class="tech-icons">
+        <i class="fa-brands fa-python" title="Python"></i>
+        <i class="fa-brands fa-html5" title="HTML5"></i>
+        <i class="fa-brands fa-css3-alt" title="CSS3"></i>
+        <i class="fa-brands fa-js" title="JavaScript"></i>
+        <i class="fa-brands fa-git-alt" title="Git"></i>
+        <i class="fa-brands fa-linux" title="Linux"></i>
+      </div>
+    </div>
 
-      </section>
+  </section>
 
-    
-  </main>
+</main>
 
-  <!-- FOOTER -->
-  <div id="footer"></div>
-  
-  <script>
-    async function loadComponent(id, file) {
-      const container = document.getElementById(id);
-      const response = await fetch(file);
-      const html = await response.text();
-      container.innerHTML = html;
-    }
+<!-- FOOTER -->
+<div id="footer"></div>
 
-    loadComponent("header", "/components/header.html");
-    loadComponent("footer", "/components/footer.html");
-  </script>
+<script>
+  async function loadComponent(id, file) {
+    const container = document.getElementById(id);
+    const response = await fetch(file);
+    const html = await response.text();
+    container.innerHTML = html;
+  }
+
+  loadComponent("header", "/components/header.html");
+  loadComponent("footer", "/components/footer.html");
+</script>
 
 </body>
 </html>
