@@ -233,25 +233,27 @@
     </section>
    
     <div style="text-align:center; margin-top: 30px;">
-      <a href="/projects/geology/core-logging/athabasca-field/core-analysis.html" class="btn btn-primary">
+      <a href="/case-studies/integrated-geology/core-logging/athabasca-field/core-analysis.html" class="btn btn-primary">
         Launch Core Interpretation Demo →
       </a>
     </div>
   </main>
 
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <p>© 2026 Pedro Alfonzo — Engineering • Geoscience • Analytics</p>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/geoscience/">Geoscience</a>
-        <a href="/portfolio/">Portfolio</a>
-        <a href="/projects/">Project Demos</a>
-      </nav>
-    </div>
-  </footer>
+  <!-- FOOTER -->
+  <div id="footer"></div>
+  
+  <script>
+    async function loadComponent(id, file) {
+      const container = document.getElementById(id);
+      const response = await fetch(file);
+      const html = await response.text();
+      container.innerHTML = html;
+    }
+
+    loadComponent("header", "/components/header.html");
+    loadComponent("footer", "/components/footer.html");
+  </script>
 
 </div>
 
