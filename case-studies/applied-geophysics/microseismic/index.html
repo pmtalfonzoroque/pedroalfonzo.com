@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microseismic Monitoring – Conceptual Workflow</title>
+
+  <!-- FONT AWESOME ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- LOCAL CSS (optional but recommended) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page">
+
+  <!-- HEADER -->
+  <div id="header"></div>
+
+  <main class="case-study">
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Microseismic Monitoring</h1>
+      <p class="subtitle">Conceptual workflow for event detection and interpretation in potash mining.</p>
+    </section>
+
+    <!-- WHY IT MATTERS -->
+    <section>
+      <h2>Why Microseismic Monitoring Matters</h2>
+      <p>
+        Microseismic monitoring helps detect small-scale rock mass movements that are not visible 
+        through traditional inspection. In high-conductivity environments like potash mines, 
+        microseismic data supports ground control, safety, and operational decision-making.
+      </p>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section>
+      <h2>Conceptual Workflow</h2>
+      <ol>
+        <li><strong>Sensor Layout:</strong> Geophones or accelerometers installed in drifts or boreholes.</li>
+        <li><strong>Noise Filtering:</strong> Removing machinery noise, ventilation noise, and background vibrations.</li>
+        <li><strong>Event Detection:</strong> Identifying small seismic events within noisy data.</li>
+        <li><strong>Event Location:</strong> Triangulating source position using arrival times.</li>
+        <li><strong>Interpretation:</strong> Understanding rock mass behavior and potential instability.</li>
+      </ol>
+    </section>
+
+    <!-- INTERACTIVE JS DEMO -->
+    <section>
+      <h2>Interactive Example – Raw vs Filtered Signal</h2>
+      <p>This simple synthetic example illustrates how filtering improves event visibility.</p>
+
+      <canvas id="waveformCanvas" width="600" height="200"></canvas>
+      <button id="toggleButton">Show Filtered Signal</button>
+
+      <script src="script.js"></script>
+    </section>
+
+    <!-- PYTHON VIDEO -->
+    <section>
+      <h2>Python Demo – Synthetic Microseismic Events</h2>
+      <p>
+        This short Python demonstration shows how synthetic microseismic events can be generated,
+        filtered, and detected. It illustrates the first step of a real microseismic workflow:
+        identifying event candidates within noisy data.
+      </p>
+
+      <h3>Level 1: Single-Trace Event Detection</h3>
+      <p>
+        The video below walks through the raw signal, the filtered signal, and the detection of
+        local maxima (event candidates). This conceptual example is designed for educational
+        purposes and mirrors the early stages of microseismic processing.
+      </p>
+
+      <div class="video-container">
+        <iframe 
+            src="https://www.youtube.com/embed/p9YSbSjCuZg"
+            title="Microseismic Event Detection – Level 1 Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script>
+    async function loadComponent(id, file) {
+      const container = document.getElementById(id);
+      const response = await fetch(file);
+      const html = await response.text();
+      container.innerHTML = html;
+    }
+ 
+    loadComponent("header", "/components/header.html");
+    loadComponent("footer", "/components/footer.html");
+  </script>
+
+</body>
+</html>
