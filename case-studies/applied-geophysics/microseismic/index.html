@@ -11,7 +11,7 @@
   <!-- GLOBAL CSS -->
   <link rel="stylesheet" href="/assets/css/style.css">
 
-  <!-- LOCAL CSS (optional but recommended) -->
+  <!-- LOCAL CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -22,11 +22,11 @@
 
   <main class="content">
 
-    <!-- HERO -->
-    <section class="hero">
-      <h1>Microseismic Monitoring</h1>
-      <p class="subtitle">Conceptual workflow for event detection and interpretation in potash mining.</p>
-    </section>
+    <!-- PAGE TITLE -->
+    <h1>Microseismic Monitoring</h1>
+    <p class="intro">
+      Conceptual workflow for event detection and interpretation in potash mining.
+    </p>
 
     <!-- WHY IT MATTERS -->
     <section>
@@ -55,9 +55,11 @@
       <h2>Interactive Example – Raw vs Filtered Signal</h2>
       <p>This simple synthetic example illustrates how filtering improves event visibility.</p>
 
-      <canvas id="waveformCanvas" width="600" height="200"></canvas>
-      <button id="toggleButton">Show Filtered Signal</button>
+      <div class="seismogram-container">
+        <canvas id="waveformCanvas"></canvas>
+      </div>
 
+      <button id="toggleButton">Show Filtered Signal</button>
       <script src="script.js"></script>
     </section>
 
@@ -77,8 +79,6 @@
         purposes and mirrors the early stages of microseismic processing.
       </p>
 
-      <h3>Microseismic Event Detection – Educational Python Demo (Level 1)</h3>
-
       <div class="video-container">
         <iframe 
             src="https://www.youtube.com/embed/3s4gJdRp-q4?modestbranding=1&rel=0&showinfo=0"
@@ -88,8 +88,11 @@
             allowfullscreen>
         </iframe>
       </div>
-      
-      <h2>Python Demo – Level 2: Multi‑Geophone Synthetic Microseismic Example</h2>
+    </section>
+
+    <!-- LEVEL 2 -->
+    <section>
+      <h2>Level 2: Multi‑Geophone Synthetic Microseismic Example</h2>
 
       <p>
         Educational synthetic example using six geophones. A single microseismic event is recorded 
@@ -100,12 +103,16 @@
 
       <img class="level2-image" src="/assets/images/microseismic_level2_multigeophone.JPG" 
           alt="Level 2 – Multi-Geophone Synthetic Microseismic Event">
+
       <p class="caption">
         Figure: A single synthetic microseismic event recorded across six geophones. 
         Left: filtered traces with detected arrivals. Right: travel‑time trend used for 
         basic quality control and interpretation.
       </p>
+    </section>
 
+    <!-- LEVEL 3 -->
+    <section>
       <h2>Level 3: From Arrival Times to Event Location</h2>
       <p>
         Building on the multi‑geophone example from Level 2, the next step is to use the 
@@ -121,10 +128,7 @@
         not to build a full microseismic locator, but to illustrate the core concepts behind 
         travel‑time inversion.
       </p>
-
-
     </section>
-
 
   </main>
 

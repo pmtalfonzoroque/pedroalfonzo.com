@@ -1,17 +1,23 @@
+/* Video */
 .video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 ratio */
-    height: 0;
-    overflow: hidden;
-    margin: 20px 0;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  margin: 20px 0;
 }
 
 .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Seismogram */
+.seismogram-container {
+  width: 100%;
 }
 
 .seismogram-container canvas {
@@ -20,12 +26,12 @@
   display: block;
 }
 
-.seismogram-container {
-  width: 100%;
-}
-
+/* Level 2 image */
 .level2-image {
   max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
 }
 
