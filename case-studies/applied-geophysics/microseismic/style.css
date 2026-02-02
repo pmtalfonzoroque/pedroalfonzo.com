@@ -13,3 +13,19 @@
     width: 100%;
     height: 100%;
 }
+
+.seismogram-container canvas {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+.seismogram-container {
+  width: 100%;
+}
+
+.level2-image {
+  max-width: 900px;
+  margin: 0 auto;
+}
+

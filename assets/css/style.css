@@ -842,6 +842,12 @@ body.page-background-sky {
   color: var(--muted);
 }
 
+p {
+  text-align: justify;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
 .about-content h1 {
   margin-bottom: 20px;
 }

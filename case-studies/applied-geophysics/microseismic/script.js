@@ -51,7 +51,7 @@ function drawSignal(filtered) {
   ctx.moveTo(0, baseline - data[0] * scale); 
   for (let i = 1; i < data.length; i++) { 
     const x = (i / data.length) * canvas.width; // auto-scale horizontally
-    ctx.lineTo(i, baseline - data[i] * scale); 
+    ctx.lineTo(x, baseline - data[i] * scale); 
   }
 
   ctx.strokeStyle = filtered ? "#d9534f" : "#0275d8"; // red vs blue
@@ -63,10 +63,15 @@ function drawSignal(filtered) {
   ctx.fillStyle = "#555";
 
   // Y-axis label
-  ctx.fillText("Amplitude", 10, canvas.height - 10);
+  ctx.save();
+  ctx.translate(20, canvas.height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText("Amplitude", 0, 0);
+  ctx.restore();
+
 
   // X-axis label
-  ctx.fillText("Time (samples)", canvas.width - 140, canvas.height - 10);
+  ctx.fillText("Time (samples)", canvas.width / 2 - 50, canvas.height - 10);
 
   }
 
