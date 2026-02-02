@@ -89,7 +89,8 @@
         </iframe>
       </div>
       
-      <h2>Python Demo – Multigeophones (Continuation of Previous Example)</h2>
+      <h2>Python Demo – Level 2: Multi‑Geophone Synthetic Microseismic Example</h2>
+
       <p>
         Educational synthetic example using six geophones. A single microseismic event is recorded 
         across the array, with arrival times adjusted for visualization. The left panel shows the 
@@ -99,6 +100,27 @@
 
       <img src="/assets/images/microseismic_level2_multigeophone.png" 
           alt="Level 2 – Multi-Geophone Synthetic Microseismic Event">
+      <p class="caption">
+        Figure: A single synthetic microseismic event recorded across six geophones. 
+        Left: filtered traces with detected arrivals. Right: travel‑time trend used for 
+        basic quality control and interpretation.
+      </p>
+
+      <h2>Level 3: From Arrival Times to Event Location</h2>
+      <p>
+        Building on the multi‑geophone example from Level 2, the next step is to use the 
+        measured arrival times to estimate basic subsurface parameters. In real microseismic 
+        processing, this typically involves a velocity model (from sonic logs, VSP, or 
+        calibration shots) and an inversion that solves for the event’s origin time and 
+        location. 
+      </p>
+      <p>
+        For this educational example, I implement a simplified 1D approach: using the 
+        travel‑time trend across the geophone array to estimate an effective velocity and 
+        demonstrate how arrival‑time differences constrain the event position. The goal is 
+        not to build a full microseismic locator, but to illustrate the core concepts behind 
+        travel‑time inversion.
+      </p>
 
 
     </section>
