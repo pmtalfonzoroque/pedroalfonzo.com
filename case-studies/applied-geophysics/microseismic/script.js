@@ -3,18 +3,28 @@ const ctx = canvas.getContext("2d");
 
 let filtered = false;
 
+// -----------------------------
+// 1) ADD THIS: Resize function
+// -----------------------------
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth;   // match CSS width
+  canvas.height = 300;                 // fixed height
+}
+// Call it immediately
+resizeCanvas();
+// -----------------------------
+
+
 // Generate synthetic seismic trace
 function generateSignal(filtered) {
   const data = [];
   for (let i = 0; i < 400; i++) {
     let noise = Math.sin(i * 0.05) * 2 + (Math.random() - 0.5) * 4;
 
-    // Add synthetic "events"
     if (i === 150 || i === 320 || i === 480) {
       noise += 25;
     }
 
-    // Simple smoothing for filtered version
     if (filtered) {
       noise = noise * 0.3;
     }
@@ -26,10 +36,8 @@ function generateSignal(filtered) {
 
 // Draw the waveform + title
 function drawSignal(filtered) {
-  // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Title
   ctx.font = "16px Arial";
   ctx.fillStyle = "#333";
   const title = filtered
@@ -37,28 +45,22 @@ function drawSignal(filtered) {
     : "Raw Synthetic Seismogram";
   ctx.fillText(title, 10, 20);
 
-  // Generate data
   const data = generateSignal(filtered);
-
-  // Vertical zoom 
   const scale = 6;
-  
-  // Baseline const 
-  baseline = 150;
+  const baseline = 150;
 
-  // Draw waveform
   ctx.beginPath();
-  ctx.moveTo(0, baseline - data[0] * scale); 
-  for (let i = 1; i < data.length; i++) { 
-    const x = (i / data.length) * canvas.width; // auto-scale horizontally
-    ctx.lineTo(x, baseline - data[i] * scale); 
+  ctx.moveTo(0, baseline - data[0] * scale);
+
+  for (let i = 1; i < data.length; i++) {
+    const x = (i / data.length) * canvas.width; // correct scaling
+    ctx.lineTo(x, baseline - data[i] * scale);
   }
 
-  ctx.strokeStyle = filtered ? "#d9534f" : "#0275d8"; // red vs blue
+  ctx.strokeStyle = filtered ? "#d9534f" : "#0275d8";
   ctx.lineWidth = 2;
   ctx.stroke();
-  
-  // Axis labels
+
   ctx.font = "14px Arial";
   ctx.fillStyle = "#555";
 
@@ -69,13 +71,13 @@ function drawSignal(filtered) {
   ctx.fillText("Amplitude", 0, 0);
   ctx.restore();
 
-
   // X-axis label
   ctx.fillText("Time (samples)", canvas.width / 2 - 50, canvas.height - 10);
+}
 
-  }
-
-// Initial draw
+// -----------------------------
+// 2) Initial draw AFTER resizing
+// -----------------------------
 drawSignal(false);
 
 // Toggle button
@@ -85,4 +87,12 @@ document.getElementById("toggleButton").addEventListener("click", () => {
 
   document.getElementById("toggleButton").textContent =
     filtered ? "Show Raw Signal" : "Show Filtered Signal";
+});
+
+// -----------------------------
+// 3) Redraw on window resize
+// -----------------------------
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  drawSignal(filtered);
 });
