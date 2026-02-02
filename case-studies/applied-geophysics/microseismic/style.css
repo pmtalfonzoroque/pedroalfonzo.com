@@ -22,9 +22,10 @@
 
 .seismogram-container canvas {
   width: 100% !important;
-  height: auto !important;
+  height: 350px !important;   /* <-- THIS FIXES THE PROBLEM */
   display: block;
 }
+
 
 /* Level 2 image */
 .level2-image {
