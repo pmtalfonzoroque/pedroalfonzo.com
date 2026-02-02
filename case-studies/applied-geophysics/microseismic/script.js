@@ -6,7 +6,7 @@ let filtered = false;
 // Generate synthetic seismic trace
 function generateSignal(filtered) {
   const data = [];
-  for (let i = 0; i < 600; i++) {
+  for (let i = 0; i < 400; i++) {
     let noise = Math.sin(i * 0.05) * 2 + (Math.random() - 0.5) * 4;
 
     // Add synthetic "events"
@@ -40,18 +40,35 @@ function drawSignal(filtered) {
   // Generate data
   const data = generateSignal(filtered);
 
+  // Vertical zoom 
+  const scale = 6;
+  
+  // Baseline const 
+  baseline = 150;
+
   // Draw waveform
   ctx.beginPath();
-  ctx.moveTo(0, 100 - data[0]);
-
-  for (let i = 1; i < data.length; i++) {
-    ctx.lineTo(i, 100 - data[i]);
+  ctx.moveTo(0, baseline - data[0] * scale); 
+  for (let i = 1; i < data.length; i++) { 
+    const x = (i / data.length) * canvas.width; // auto-scale horizontally
+    ctx.lineTo(i, baseline - data[i] * scale); 
   }
 
   ctx.strokeStyle = filtered ? "#d9534f" : "#0275d8"; // red vs blue
   ctx.lineWidth = 2;
   ctx.stroke();
-}
+  
+  // Axis labels
+  ctx.font = "14px Arial";
+  ctx.fillStyle = "#555";
+
+  // Y-axis label
+  ctx.fillText("Amplitude", 10, canvas.height - 10);
+
+  // X-axis label
+  ctx.fillText("Time (samples)", canvas.width - 140, canvas.height - 10);
+
+  }
 
 // Initial draw
 drawSignal(false);
