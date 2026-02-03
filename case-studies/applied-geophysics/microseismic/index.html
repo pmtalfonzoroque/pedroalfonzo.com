@@ -286,9 +286,16 @@
             oninput="updateVelocity(this.value)">
       <span id="velValue" style="color:white; margin-left:10px;">2500</span>
     </div>
-    <p style="color:white; margin-top:5px; font-size:14px;">
+    <p style="
+      color:#d0d0d0;
+      margin-top:6px;
+      font-size:13px;
+      font-style:italic;
+      text-align:center;
+    ">
       Adjust the assumed P‑wave velocity used in the inversion. Higher velocity = faster travel times.
     </p>
+
 
 
     <!-- PLOT -->
@@ -302,7 +309,8 @@
       const canvas = document.getElementById("level3Plot");
       const ctx3 = canvas.getContext("2d");
 
-      const sx = 20, sz = 20; // equal scaling
+      const sx = 20, sz = 20; 
+      const baseline = 200;   // vertical reference so events stay inside canvas
 
       function drawPoint(ctx, x, y, color, label, outline=false) {
         ctx.fillStyle = color;
@@ -321,7 +329,6 @@
       }
 
       function drawPlot() {
-        // Dark background
         ctx3.fillStyle = "#1a1a1a";
         ctx3.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -330,43 +337,53 @@
         ctx3.font = "18px Arial";
         ctx3.fillText("Cross‑Section View (x vs depth)", 230, 30);
 
-        // Axis labels
+        // X-axis label
         ctx3.font = "14px Arial";
         ctx3.fillText("x (m)", 650, 380);
 
-        // Y-axis label (rotated)
+        // Y-axis label
         ctx3.save();
-        ctx3.translate(20, 250);
+        ctx3.translate(20, 220);
         ctx3.rotate(-Math.PI / 2);
         ctx3.fillText("depth (m)", 0, 0);
         ctx3.restore();
 
-        // Draw geophones (surface)
+        // Draw geophones
         G.forEach((g, i) => {
-          drawPoint(ctx3, g.x * sx, 100, "cyan", "G" + i);
+          drawPoint(ctx3, g.x * sx, baseline, "cyan", "G" + i);
         });
 
-        // Draw true event (synthetic)
-        drawPoint(ctx3, E_true.x * sx, 100 - E_true.z * sz, "lime", "True", true);
+        // Draw true event (now visible)
+        drawPoint(
+          ctx3,
+          E_true.x * sx,
+          baseline - E_true.z * sz,
+          "lime",
+          "True",
+          true
+        );
 
         // Draw estimated event
-        drawPoint(ctx3, E_est.x * sx, 100 - E_est.z * sz, "red", "Estimated", true);
+        drawPoint(
+          ctx3,
+          E_est.x * sx,
+          baseline - E_est.z * sz,
+          "red",
+          "Estimated",
+          true
+        );
       }
 
       function updateVelocity(newVel) {
         document.getElementById("velValue").textContent = newVel + " m/s";
         v = Number(newVel);
 
-        // recompute arrival times
         t_obs = G.map(g => travelTime(g, E_true, v) + (Math.random()*0.002 - 0.001));
-
-        // recompute inversion
         E_est = invertLocation(G, t_obs, v);
 
         drawPlot();
       }
 
-      // expose function so slider can call it
       window.updateVelocity = updateVelocity;
 
       drawPlot();
@@ -374,16 +391,17 @@
     });
     </script>
 
-    <div style="background:#1a1a1a; padding:12px; margin-top:10px;"> 
-      <p style="color:white; margin:0;"> 
-        <strong>Note:</strong> 
-        In real microseismic monitoring, the true event location 
-        is never known. Only the <em>estimated</em> location is available, and its accuracy 
-        depends heavily on the velocity model. Adjusting the velocity slider above shows 
-        how incorrect velocities distort the estimated position — which is why mines rely 
-        on sonic logs, calibration blasts, and iterative velocity updates. 
-      </p> 
-    </div>
+
+    <p style="color:#d98c00; margin-top:10px; font-weight:500;">
+      ⚠️ <strong>Note:</strong> In real microseismic monitoring, the true event location is 
+      never known. Only the <em>estimated</em> location is available, and its accuracy 
+      depends heavily on the velocity model. Adjusting the velocity slider above shows 
+      how incorrect velocities distort the estimated position — which is why mines rely 
+      on sonic logs, calibration blasts, and iterative velocity updates.
+    </p>
+ 
+      
+    
 
 
   </main>
