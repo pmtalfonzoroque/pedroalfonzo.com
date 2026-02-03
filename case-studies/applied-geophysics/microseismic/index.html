@@ -293,6 +293,8 @@
     </div>
 
     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
       const canvas = document.getElementById("level3Plot");
       const ctx3 = canvas.getContext("2d");
 
@@ -324,10 +326,10 @@
           drawPoint(ctx3, g.x * sx, 80, "cyan", "G" + i);
         });
 
-        // Draw true event (synthetic, known only in this demo)
+        // Draw true event (synthetic)
         drawPoint(ctx3, E_true.x * sx, 80 - E_true.z * sz, "lime", "True");
 
-        // Draw estimated event (what we would have in real life)
+        // Draw estimated event
         drawPoint(ctx3, E_est.x * sx, 80 - E_est.z * sz, "red", "Estimated");
       }
 
@@ -344,8 +346,14 @@
         drawPlot();
       }
 
+      // expose function so slider can call it
+      window.updateVelocity = updateVelocity;
+
       drawPlot();
+
+    });
     </script>
+
 
     <p style="color:white; margin-top:10px;">
       <strong>Note:</strong> In real microseismic monitoring, the true event location is 
