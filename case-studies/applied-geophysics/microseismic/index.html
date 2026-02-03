@@ -310,10 +310,9 @@
       const canvas = document.getElementById("level3Plot");
       const ctx3 = canvas.getContext("2d");
 
-      const sx = 20, sz = 20;
-
-      // Move geophones UP (back to where they were)
-      const baseline = 120;  
+      const sx = 20;      // horizontal scale
+      const sz = 10;      // vertical scale (reduced so true event is visible)
+      const baseline = 100;  // geophones stay near the top
 
       function drawPoint(ctx, x, y, color, label, outline=false) {
         ctx.fillStyle = color;
@@ -351,12 +350,26 @@
         ctx3.fillText("depth (m)", 0, 0);
         ctx3.restore();
 
-        // Draw geophones (moved up)
+        // Depth scale ticks
+        ctx3.strokeStyle = "#888";
+        ctx3.fillStyle = "#ccc";
+        ctx3.font = "12px Arial";
+
+        for (let d = 0; d >= -40; d -= 5) {
+          let y = baseline - d * sz;
+          ctx3.beginPath();
+          ctx3.moveTo(45, y);
+          ctx3.lineTo(60, y);
+          ctx3.stroke();
+          ctx3.fillText(d + " m", 65, y + 4);
+        }
+
+        // Geophones (stay at baseline)
         G.forEach((g, i) => {
           drawPoint(ctx3, g.x * sx, baseline, "cyan", "G" + i);
         });
 
-        // Draw TRUE event (now visible)
+        // True event (now visible)
         drawPoint(
           ctx3,
           E_true.x * sx,
@@ -366,7 +379,7 @@
           true
         );
 
-        // Draw estimated event
+        // Estimated event
         drawPoint(
           ctx3,
           E_est.x * sx,
@@ -393,6 +406,7 @@
 
     });
     </script>
+
 
 
 
