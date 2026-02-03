@@ -282,19 +282,52 @@
       <label for="velSlider" style="color:white; font-weight:bold;">
         Velocity (m/s):
       </label>
-      <input type="range" id="velSlider" min="1500" max="4500" value="2500" step="100" 
-            oninput="updateVelocity(this.value)">
+      <input 
+        type="range" 
+        id="velSlider"
+        min="1500" 
+        max="4500" 
+        value="2500" 
+        step="100"
+        oninput="updateVelocity(this.value)"
+        style="width: 420px;"
+      >
       <span id="velValue" style="color:white; margin-left:10px;">2500</span>
     </div>
     <div style="
-      text-align:center;
+      width:420px;
+      margin:4px auto 0 auto;
+      display:flex;
+      justify-content:space-between;
       color:#4d6aff;
-      font-size:12px;
-      margin-top:4px;
-      letter-spacing:1px;
+      font-size:11px;
     ">
-      1500  2000  2500  3000  3500  4000  4500 m/s
+      <span>|</span>
+      <span>|</span>
+      <span>|</span>
+      <span>|</span>
+      <span>|</span>
+      <span>|</span>
+      <span>|</span>
     </div>
+
+    <div style="
+      width:420px;
+      margin:2px auto 0 auto;
+      display:flex;
+      justify-content:space-between;
+      color:#4d6aff;
+      font-size:11px;
+    ">
+      <span>1500</span>
+      <span>2000</span>
+      <span>2500</span>
+      <span>3000</span>
+      <span>3500</span>
+      <span>4000</span>
+      <span>4500</span>
+    </div>
+
 
     <p style="
       color:#4da3ff;
