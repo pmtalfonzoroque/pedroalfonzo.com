@@ -244,25 +244,54 @@
     var t_obs = G.map(g => travelTime(g, E_true, v) + (Math.random()*0.002 - 0.001));
 
     function invertLocation(G, t_obs, v) {
+
+      // We will store the best (lowest) misfit found so far.
+      // Start with a huge number so the first real misfit will replace it.
       let best = {x: 0, z: 0, misfit: 1e9};
 
+      // Loop over a 2D grid of possible event locations.
+      // x goes from 0 to 25 m, z goes from -40 m to -5 m.
+      // This is a brute‑force grid search.
       for (let x = 0; x <= 25; x += 0.2) {
         for (let z = -40; z <= -5; z += 0.2) {
+
+          // Trial event location
           let E = {x: x, y: 0, z: z};
+
+          // Compute theoretical arrival times for this trial location
           let t_calc = G.map(g => travelTime(g, E, v));
 
+          // Initialize misfit for this trial location.
+          // "mis" = misfit = how wrong this location is.
           let mis = 0;
+
+          // Compare arrival‑time differences between geophones.
+          // We use differences because the origin time is unknown.
           for (let i = 0; i < G.length - 1; i++) {
+
+            // Observed time difference between geophone i and i+1
             let dt_obs  = t_obs[i+1] - t_obs[i];
+
+            // Calculated time difference for this trial location
             let dt_calc = t_calc[i+1] - t_calc[i];
+
+            // Add squared error to misfit.
+            // Squaring avoids cancellation and penalizes large errors.
             mis += Math.pow(dt_calc - dt_obs, 2);
           }
 
-          if (mis < best.misfit) best = {x: x, z: z, misfit: mis};
+          // If this trial location fits the data better than previous ones,
+          // store it as the new best solution.
+          if (mis < best.misfit) {
+            best = {x: x, z: z, misfit: mis};
+          }
         }
       }
+
+      // Return the best‑fitting event location
       return best;
     }
+
 
     var E_est = invertLocation(G, t_obs, v);
     </script>
