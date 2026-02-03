@@ -129,6 +129,7 @@
         travel‑time inversion.
       </p>
     </section>
+
     <section>
       <h3>3.1 Synthetic Setup</h3>
       <p>
@@ -165,6 +166,7 @@
     }
       </code></pre>
     </section>
+
     <section>
       <h3>3.2 Arrival‑Time Inversion</h3>
       <p>
@@ -205,10 +207,59 @@
       return best;
     }
 
-    let E_est = invertLocation(G, t_obs, v);
-    console.log(E_est);
+    E_est = invertLocation(G, t_obs, v);
       </code></pre>
     </section>
+
+    <!-- REAL JAVASCRIPT (this is what actually runs) -->
+    <script>
+    // Six geophones along a drift
+    var G = [
+      {x: 0,  y: 0, z: 0},
+      {x: 5,  y: 0, z: 0},
+      {x: 10, y: 0, z: 0},
+      {x: 15, y: 0, z: 0},
+      {x: 20, y: 0, z: 0},
+      {x: 25, y: 0, z: 0}
+    ];
+
+    var E_true = {x: 12, y: 0, z: -18};
+    var v = 2500;
+
+    function travelTime(G, E, v) {
+      let dx = G.x - E.x;
+      let dy = G.y - E.y;
+      let dz = G.z - E.z;
+      let d  = Math.sqrt(dx*dx + dy*dy + dz*dz);
+      return d / v;
+    }
+
+    var t_obs = G.map(g => travelTime(g, E_true, v) + (Math.random()*0.002 - 0.001));
+
+    function invertLocation(G, t_obs, v) {
+      let best = {x: 0, z: 0, misfit: 1e9};
+
+      for (let x = 0; x <= 25; x += 0.2) {
+        for (let z = -40; z <= -5; z += 0.2) {
+          let E = {x: x, y: 0, z: z};
+          let t_calc = G.map(g => travelTime(g, E, v));
+
+          let mis = 0;
+          for (let i = 0; i < G.length - 1; i++) {
+            let dt_obs  = t_obs[i+1] - t_obs[i];
+            let dt_calc = t_calc[i+1] - t_calc[i];
+            mis += Math.pow(dt_calc - dt_obs, 2);
+          }
+
+          if (mis < best.misfit) best = {x: x, z: z, misfit: mis};
+        }
+      }
+      return best;
+    }
+
+    var E_est = invertLocation(G, t_obs, v);
+    </script>
+
     <section>
       <h3>3.3 Estimated Event Location</h3>
       <p>
@@ -254,6 +305,8 @@
         further reduce uncertainty and improve location accuracy.
       </p>
     </section>
+
+    
 
 
 
