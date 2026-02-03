@@ -129,6 +129,135 @@
         travel‑time inversion.
       </p>
     </section>
+    <section>
+      <h3>3.1 Synthetic Setup</h3>
+      <p>
+        To remain consistent with Level 2, this example uses six geophones placed along a 
+        horizontal drift. A synthetic microseismic event is defined below the array, and 
+        theoretical travel times are computed using a constant velocity of 2500 m/s. Small 
+        perturbations are added to mimic realistic picking uncertainty.
+      </p>
+
+      <pre><code>
+    // Six geophones along a drift (meters)
+    G = [
+      {x: 0,  y: 0, z: 0},
+      {x: 5,  y: 0, z: 0},
+      {x: 10, y: 0, z: 0},
+      {x: 15, y: 0, z: 0},
+      {x: 20, y: 0, z: 0},
+      {x: 25, y: 0, z: 0}
+    ];
+
+    // True event location
+    E_true = {x: 12, y: 0, z: -18};
+
+    // Velocity (m/s)
+    v = 2500;
+
+    // Travel-time function
+    function travelTime(G, E, v) {
+      let dx = G.x - E.x;
+      let dy = G.y - E.y;
+      let dz = G.z - E.z;
+      let d  = Math.sqrt(dx*dx + dy*dy + dz*dz);
+      return d / v;
+    }
+      </code></pre>
+    </section>
+    <section>
+      <h3>3.2 Arrival‑Time Inversion</h3>
+      <p>
+        Because the event origin time is unknown, the inversion uses arrival‑time 
+        differences between geophones. With six sensors, the system is over‑determined, 
+        which stabilizes the solution and reduces sensitivity to noise. A simple 2D 
+        grid‑search inversion is used for clarity.
+      </p>
+
+      <pre><code>
+    // Synthetic observed arrival times (with small noise)
+    t_obs = G.map(g => travelTime(g, E_true, v) + (Math.random()*0.002 - 0.001));
+
+    // Grid-search inversion
+    function invertLocation(G, t_obs, v) {
+      let best = {x: 0, z: 0, misfit: 1e9};
+
+      for (let x = 0; x <= 25; x += 0.2) {
+        for (let z = -40; z <= -5; z += 0.2) {
+          let E = {x: x, y: 0, z: z};
+
+          // Compute predicted times
+          let t_calc = G.map(g => travelTime(g, E, v));
+
+          // Misfit based on all arrival-time differences
+          let mis = 0;
+          for (let i = 0; i < G.length - 1; i++) {
+            let dt_obs  = t_obs[i+1] - t_obs[i];
+            let dt_calc = t_calc[i+1] - t_calc[i];
+            mis += Math.pow(dt_calc - dt_obs, 2);
+          }
+
+          if (mis < best.misfit) {
+            best = {x: x, z: z, misfit: mis};
+          }
+        }
+      }
+      return best;
+    }
+
+    let E_est = invertLocation(G, t_obs, v);
+    console.log(E_est);
+      </code></pre>
+    </section>
+    <section>
+      <h3>3.3 Estimated Event Location</h3>
+      <p>
+        The plot below shows the six geophones, the true synthetic event, and the estimated 
+        event obtained from the arrival‑time inversion. Even with a simple 1D velocity model, 
+        the inversion recovers a location close to the true source.
+      </p>
+
+      <canvas id="level3Plot" width="700" height="350"></canvas>
+
+      <script>
+        const ctx3 = document.getElementById("level3Plot").getContext("2d");
+
+        function drawPoint(ctx, x, y, color, label) {
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, 2*Math.PI);
+          ctx.fill();
+          ctx.fillText(label, x + 8, y + 4);
+        }
+
+        const sx = 20, sz = 5;
+
+        ctx3.font = "14px Arial";
+        ctx3.fillText("Geophones (surface)", 10, 20);
+
+        // Draw geophones
+        G.forEach((g, i) => {
+          drawPoint(ctx3, g.x * sx, 50, "blue", "G" + i);
+        });
+
+        // Draw true event
+        drawPoint(ctx3, E_true.x * sx, 50 - E_true.z * sz, "green", "True");
+
+        // Draw estimated event
+        drawPoint(ctx3, E_est.x * sx, 50 - E_est.z * sz, "red", "Estimated");
+      </script>
+
+      <p>
+        This simplified example demonstrates the core idea behind microseismic event 
+        location: arrival‑time differences constrain the geometry of the source. In real 
+        mining applications, 3D velocity models, calibration blasts, and additional sensors 
+        further reduce uncertainty and improve location accuracy.
+      </p>
+    </section>
+
+
+
+
 
   </main>
 
