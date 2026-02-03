@@ -286,6 +286,10 @@
             oninput="updateVelocity(this.value)">
       <span id="velValue" style="color:white; margin-left:10px;">2500</span>
     </div>
+    <p style="color:white; margin-top:5px; font-size:14px;">
+      Adjust the assumed P‑wave velocity used in the inversion. Higher velocity = faster travel times.
+    </p>
+
 
     <!-- PLOT -->
     <div style="display:flex; justify-content:center; margin-top:20px;">
@@ -300,11 +304,19 @@
 
       const sx = 20, sz = 20; // equal scaling
 
-      function drawPoint(ctx, x, y, color, label) {
+      function drawPoint(ctx, x, y, color, label, outline=false) {
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x, y, 6, 0, 2*Math.PI);
+        ctx.arc(x, y, 7, 0, 2*Math.PI);
         ctx.fill();
+
+        if (outline) {
+          ctx.strokeStyle = "black";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = "white";
         ctx.fillText(label, x + 10, y + 4);
       }
 
@@ -313,28 +325,36 @@
         ctx3.fillStyle = "#1a1a1a";
         ctx3.fillRect(0, 0, canvas.width, canvas.height);
 
+        // Title
         ctx3.fillStyle = "white";
-        ctx3.font = "16px Arial";
-        ctx3.fillText("Cross‑Section View (x vs depth)", 240, 30);
+        ctx3.font = "18px Arial";
+        ctx3.fillText("Cross‑Section View (x vs depth)", 230, 30);
 
-        ctx3.font = "12px Arial";
-        ctx3.fillText("x (m)", 650, 390);
-        ctx3.fillText("depth (m)", 10, 390);
+        // Axis labels
+        ctx3.font = "14px Arial";
+        ctx3.fillText("x (m)", 650, 380);
+
+        // Y-axis label (rotated)
+        ctx3.save();
+        ctx3.translate(20, 250);
+        ctx3.rotate(-Math.PI / 2);
+        ctx3.fillText("depth (m)", 0, 0);
+        ctx3.restore();
 
         // Draw geophones (surface)
         G.forEach((g, i) => {
-          drawPoint(ctx3, g.x * sx, 80, "cyan", "G" + i);
+          drawPoint(ctx3, g.x * sx, 100, "cyan", "G" + i);
         });
 
         // Draw true event (synthetic)
-        drawPoint(ctx3, E_true.x * sx, 80 - E_true.z * sz, "lime", "True");
+        drawPoint(ctx3, E_true.x * sx, 100 - E_true.z * sz, "lime", "True", true);
 
         // Draw estimated event
-        drawPoint(ctx3, E_est.x * sx, 80 - E_est.z * sz, "red", "Estimated");
+        drawPoint(ctx3, E_est.x * sx, 100 - E_est.z * sz, "red", "Estimated", true);
       }
 
       function updateVelocity(newVel) {
-        document.getElementById("velValue").textContent = newVel;
+        document.getElementById("velValue").textContent = newVel + " m/s";
         v = Number(newVel);
 
         // recompute arrival times
@@ -354,14 +374,16 @@
     });
     </script>
 
-
-    <p style="color:white; margin-top:10px;">
-      <strong>Note:</strong> In real microseismic monitoring, the true event location is 
-      never known. Only the <em>estimated</em> location is available, and its accuracy 
-      depends heavily on the velocity model. Adjusting the velocity slider above shows 
-      how incorrect velocities distort the estimated position — which is why mines rely 
-      on sonic logs, calibration blasts, and iterative velocity updates.
-    </p>
+    <div style="background:#1a1a1a; padding:12px; margin-top:10px;"> 
+      <p style="color:white; margin:0;"> 
+        <strong>Note:</strong> 
+        In real microseismic monitoring, the true event location 
+        is never known. Only the <em>estimated</em> location is available, and its accuracy 
+        depends heavily on the velocity model. Adjusting the velocity slider above shows 
+        how incorrect velocities distort the estimated position — which is why mines rely 
+        on sonic logs, calibration blasts, and iterative velocity updates. 
+      </p> 
+    </div>
 
 
   </main>
