@@ -122,10 +122,20 @@
       </p>
     </section>
 
-    <!-- COLLAPSIBLE: Synthetic Setup -->
+    <section>
+      <h3>3.1 Synthetic Setup</h3>
+      <p>
+        To remain consistent with Level 2, this example uses six geophones placed along a 
+        horizontal drift. A synthetic microseismic event is defined below the array, and 
+        theoretical travel times are computed using a constant velocity. Small perturbations 
+        are added to mimic realistic picking uncertainty.
+      </p>
+    </section>
+
+    <!-- COLLAPSIBLE: numeric/code details for setup -->
     <div class="info-box-collapsible">
       <button class="collapsible-btn" onclick="toggleSection('level3setup')">
-        <span class="icon">📐</span> Synthetic Setup (show/hide)
+        <span class="icon">📐</span> Numeric details (show/hide)
         <span class="arrow">▼</span>
       </button>
 
@@ -159,10 +169,20 @@
       </div>
     </div>
 
-    <!-- COLLAPSIBLE: Inversion Code -->
+    <section>
+      <h3>3.2 Arrival‑Time Inversion</h3>
+      <p>
+        Because the event origin time is unknown, the inversion uses arrival‑time differences 
+        between geophones. With six sensors, the system is over‑determined, which stabilizes 
+        the solution and reduces sensitivity to noise. A simple 2D grid‑search inversion is 
+        used for clarity.
+      </p>
+    </section>
+
+    <!-- COLLAPSIBLE: numeric/code details for inversion -->
     <div class="info-box-collapsible">
       <button class="collapsible-btn" onclick="toggleSection('level3invert')">
-        <span class="icon">🔧</span> Arrival-Time Inversion Code (show/hide)
+        <span class="icon">🔧</span> Inversion details (show/hide)
         <span class="arrow">▼</span>
       </button>
 
@@ -247,6 +267,16 @@
     var E_est = invertLocation(G, t_obs, v);
     </script>
 
+    <section>
+      <h3>3.3 Estimated Event Location</h3>
+      <p>
+        The cross‑section below shows the six geophones, the true synthetic event, and the 
+        estimated event obtained from the arrival‑time inversion. The small offset between 
+        true and estimated location reflects realistic uncertainty due to noise, simplified 
+        velocity assumptions, and grid resolution.
+      </p>
+    </section>
+
     <!-- INTERACTIVE PLOT CONTROLS -->
     <div style="text-align:center; margin-top:20px;">
       <label for="velSlider" style="color:white; font-weight:bold;">
@@ -289,19 +319,18 @@
         ctx3.fillText("x (m)", 650, 390);
         ctx3.fillText("depth (m)", 10, 390);
 
-        // Draw geophones
+        // Draw geophones (surface)
         G.forEach((g, i) => {
           drawPoint(ctx3, g.x * sx, 80, "cyan", "G" + i);
         });
 
-        // Draw true event
+        // Draw true event (synthetic, known only in this demo)
         drawPoint(ctx3, E_true.x * sx, 80 - E_true.z * sz, "lime", "True");
 
-        // Draw estimated event
+        // Draw estimated event (what we would have in real life)
         drawPoint(ctx3, E_est.x * sx, 80 - E_est.z * sz, "red", "Estimated");
       }
 
-      // Update velocity interactively
       function updateVelocity(newVel) {
         document.getElementById("velValue").textContent = newVel;
         v = Number(newVel);
@@ -327,12 +356,6 @@
     </p>
 
 
-    
-
-
-
-
-
   </main>
 
   <!-- FOOTER -->
@@ -349,6 +372,15 @@
     loadComponent("header", "/components/header.html");
     loadComponent("footer", "/components/footer.html");
   </script>
+
+  <script>
+  function toggleSection(id) {
+    const box = document.getElementById(id);
+    if (!box) return;
+    box.classList.toggle("open");
+  }
+  </script>
+
 
 </body>
 </html>
