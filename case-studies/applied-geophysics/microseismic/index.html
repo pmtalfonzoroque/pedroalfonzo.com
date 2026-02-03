@@ -287,7 +287,7 @@
       <span id="velValue" style="color:white; margin-left:10px;">2500</span>
     </div>
     <p style="
-      color:#d0d0d0;
+      color:#4da3ff;
       margin-top:6px;
       font-size:13px;
       font-style:italic;
@@ -295,6 +295,7 @@
     ">
       Adjust the assumed P‑wave velocity used in the inversion. Higher velocity = faster travel times.
     </p>
+
 
 
 
@@ -309,8 +310,10 @@
       const canvas = document.getElementById("level3Plot");
       const ctx3 = canvas.getContext("2d");
 
-      const sx = 20, sz = 20; 
-      const baseline = 200;   // vertical reference so events stay inside canvas
+      const sx = 20, sz = 20;
+
+      // Move geophones UP (back to where they were)
+      const baseline = 120;  
 
       function drawPoint(ctx, x, y, color, label, outline=false) {
         ctx.fillStyle = color;
@@ -341,19 +344,19 @@
         ctx3.font = "14px Arial";
         ctx3.fillText("x (m)", 650, 380);
 
-        // Y-axis label
+        // Y-axis label (unchanged)
         ctx3.save();
         ctx3.translate(20, 220);
         ctx3.rotate(-Math.PI / 2);
         ctx3.fillText("depth (m)", 0, 0);
         ctx3.restore();
 
-        // Draw geophones
+        // Draw geophones (moved up)
         G.forEach((g, i) => {
           drawPoint(ctx3, g.x * sx, baseline, "cyan", "G" + i);
         });
 
-        // Draw true event (now visible)
+        // Draw TRUE event (now visible)
         drawPoint(
           ctx3,
           E_true.x * sx,
@@ -390,6 +393,7 @@
 
     });
     </script>
+
 
 
     <p style="color:#d98c00; margin-top:10px; font-weight:500;">
