@@ -535,42 +535,84 @@
     <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">
       <thead>
         <tr style="background:#f2f2f2;">
-          <th style="padding:8px; border:1px solid #ccc;">Layer</th>
-          <th style="padding:8px; border:1px solid #ccc;">Mineral</th>
-          <th style="padding:8px; border:1px solid #ccc;">Formula</th>
-          <th style="padding:8px; border:1px solid #ccc;">Typical P-wave Velocity (m/s)</th>
+          <th style="padding:8px; border:1px solid #ccc;">Material</th>
+          <th style="padding:8px; border:1px solid #ccc;">Velocity (m/s)</th>
+          <th style="padding:8px; border:1px solid #ccc;">Notes</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="padding:8px; border:1px solid #ccc;">Sylvite</td>
-          <td style="padding:8px; border:1px solid #ccc;">Potassium chloride</td>
-          <td style="padding:8px; border:1px solid #ccc;">KCl</td>
-          <td style="padding:8px; border:1px solid #ccc;">2500–3000</td>
+          <td style="padding:8px; border:1px solid #ccc;">Air</td>
+          <td style="padding:8px; border:1px solid #ccc;">~330</td>
+          <td style="padding:8px; border:1px solid #ccc;">Extremely compressible</td>
         </tr>
         <tr>
-          <td style="padding:8px; border:1px solid #ccc;">Halite</td>
-          <td style="padding:8px; border:1px solid #ccc;">Sodium chloride</td>
-          <td style="padding:8px; border:1px solid #ccc;">NaCl</td>
+          <td style="padding:8px; border:1px solid #ccc;">Unsaturated weathering layer</td>
+          <td style="padding:8px; border:1px solid #ccc;">300–1500</td>
+          <td style="padding:8px; border:1px solid #ccc;">Loose grains, air-filled pores</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Seawater</td>
+          <td style="padding:8px; border:1px solid #ccc;">~1500</td>
+          <td style="padding:8px; border:1px solid #ccc;">High bulk modulus, uniform</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Soft marine sediments</td>
+          <td style="padding:8px; border:1px solid #ccc;">1400–1800</td>
+          <td style="padding:8px; border:1px solid #ccc;">Slightly lower or higher than seawater</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Sylvite (KCl)</td>
+          <td style="padding:8px; border:1px solid #ccc;">2500–3000</td>
+          <td style="padding:8px; border:1px solid #ccc;">Main potash mineral</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Potash ore mixture</td>
+          <td style="padding:8px; border:1px solid #ccc;">2000–3000</td>
+          <td style="padding:8px; border:1px solid #ccc;">Sylvite + halite + insolubles</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Halite (NaCl)</td>
           <td style="padding:8px; border:1px solid #ccc;">~4500</td>
+          <td style="padding:8px; border:1px solid #ccc;">Strong evaporite</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Sandstone</td>
+          <td style="padding:8px; border:1px solid #ccc;">2500–4500</td>
+          <td style="padding:8px; border:1px solid #ccc;">Depends on compaction</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Shale</td>
+          <td style="padding:8px; border:1px solid #ccc;">2500–3500</td>
+          <td style="padding:8px; border:1px solid #ccc;">Highly variable</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Limestone</td>
+          <td style="padding:8px; border:1px solid #ccc;">5500–6000</td>
+          <td style="padding:8px; border:1px solid #ccc;">High stiffness</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">Dolomite</td>
+          <td style="padding:8px; border:1px solid #ccc;">6000–6500</td>
+          <td style="padding:8px; border:1px solid #ccc;">Very stiff</td>
         </tr>
         <tr>
           <td style="padding:8px; border:1px solid #ccc;">Anhydrite</td>
-          <td style="padding:8px; border:1px solid #ccc;">Calcium sulfate</td>
-          <td style="padding:8px; border:1px solid #ccc;">CaSO₄</td>
           <td style="padding:8px; border:1px solid #ccc;">~6000</td>
+          <td style="padding:8px; border:1px solid #ccc;">Strong evaporite</td>
         </tr>
         <tr>
-          <td style="padding:8px; border:1px solid #ccc;">Carbonate</td>
-          <td style="padding:8px; border:1px solid #ccc;">Limestone/Dolomite</td>
-          <td style="padding:8px; border:1px solid #ccc;">CaCO₃ / CaMg(CO₃)₂</td>
-          <td style="padding:8px; border:1px solid #ccc;">5500–6500</td>
+          <td style="padding:8px; border:1px solid #ccc;">Basement rocks</td>
+          <td style="padding:8px; border:1px solid #ccc;">5500–7000+</td>
+          <td style="padding:8px; border:1px solid #ccc;">High density, high modulus</td>
         </tr>
       </tbody>
     </table>
 
 
+
     <p style="text-align:center; color:#888; font-size:12px; margin-top:4px;">
+      Typical seismic velocities for common geological materials.
       Adapted from typical potash and evaporite velocity ranges reported in mining geophysics literature.
     </p>
   </section>
@@ -591,11 +633,13 @@
     These methods provide independent constraints that reduce uncertainty in the 
     velocity model and improve the reliability of microseismic event locations.
   </p>
+  <!--
   <p>Related projects: 
-    <a href="/gpr.html">GPR demo</a>, 
-    <a href="/em.html">EM/MT example</a>, 
-    <a href="/refraction.html">Seismic refraction</a>.
-  </p>
+    <a href="/case-studies/applied-geophysics/gpr/">GPR demo</a>, 
+    <a href="/case-studies/applied-geophysics/em-mt/">EM/MT example</a>, 
+    <a href="/case-studies/applied-geophysics/refraction/">Seismic refraction</a>.
+  </p> 
+  -->
 
 
 
