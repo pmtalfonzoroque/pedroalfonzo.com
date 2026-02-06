@@ -373,7 +373,7 @@
 
     <!-- PLOT -->
     <div style="display:flex; justify-content:center; margin-top:20px;">
-      <canvas id="level3Plot" style="width:100%; max-width:700px; height:auto;"></canvas>
+      <canvas id="level3Plot" width="700" height="400"></canvas>
     </div>
 
     <script>
@@ -403,24 +403,22 @@
       }
 
       function drawPlot() {
-          const scale = canvas.width / 700;   // scale factor
-          const baseline = 100 * scale;       // scaled baseline
 
           ctx3.fillStyle = "#1a1a1a";
           ctx3.fillRect(0, 0, canvas.width, canvas.height);
 
           // Title
           ctx3.fillStyle = "white";
-          ctx3.font = `${18 * scale}px Arial`;
-          ctx3.fillText("Cross‑Section View (x vs depth)", 230 * scale, 30 * scale);
+          ctx3.font = "18px Arial";
+          ctx3.fillText("Cross‑Section View (x vs depth)", 230, 30);
 
           // X-axis label
-          ctx3.font = `${14 * scale}px Arial`;
-          ctx3.fillText("x (m)", 650 * scale, 380 * scale);
+          ctx3.font = "14px Arial";
+          ctx3.fillText("x (m)", 650, 380);
 
           // Y-axis label
           ctx3.save();
-          ctx3.translate(20 * scale, 220 * scale);
+          ctx3.translate(20, 220);
           ctx3.rotate(-Math.PI / 2);
           ctx3.fillText("depth (m)", 0, 0);
           ctx3.restore();
@@ -428,27 +426,29 @@
           // Depth scale ticks
           ctx3.strokeStyle = "#888";
           ctx3.fillStyle = "#ccc";
-          ctx3.font = `${12 * scale}px Arial`;
+          ctx3.font = "12px Arial";
+
+          const baseline = 100;
 
           for (let d = 0; d >= -40; d -= 5) {
-              let y = baseline - d * sz * scale;
+              let y = baseline - d * sz;
               ctx3.beginPath();
-              ctx3.moveTo(45 * scale, y);
-              ctx3.lineTo(60 * scale, y);
+              ctx3.moveTo(45, y);
+              ctx3.lineTo(60, y);
               ctx3.stroke();
-              ctx3.fillText(d + " m", 65 * scale, y + 4 * scale);
+              ctx3.fillText(d + " m", 65, y + 4);
           }
 
           // Geophones
           G.forEach((g, i) => {
-              drawPoint(ctx3, g.x * sx * scale, baseline, "cyan", "G" + i);
+              drawPoint(ctx3, g.x * sx, baseline, "cyan", "G" + i);
           });
 
           // True event
           drawPoint(
               ctx3,
-              E_true.x * sx * scale,
-              baseline - E_true.z * sz * scale,
+              E_true.x * sx,
+              baseline - E_true.z * sz,
               "lime",
               "True",
               true
@@ -457,13 +457,14 @@
           // Estimated event
           drawPoint(
               ctx3,
-              E_est.x * sx * scale,
-              baseline - E_est.z * sz * scale,
+              E_est.x * sx,
+              baseline - E_est.z * sz,
               "red",
               "Estimated",
               true
           );
       }
+
 
 
 
