@@ -384,7 +384,7 @@
 
       const sx = 20;      // horizontal scale
       const sz = 10;      // vertical scale (reduced so true event is visible)
-      const baseline = 100* scale;  // geophones stay near the top
+      
 
       function drawPoint(ctx, x, y, color, label, outline=false) {
         ctx.fillStyle = color;
@@ -404,7 +404,8 @@
 
       function drawPlot() {
         const scale = canvas.width / 700;   // 700 = your original design width
-
+        const baseline = 100* scale;  // geophones stay near the top
+        
         ctx3.fillStyle = "#1a1a1a";
         ctx3.fillRect(0, 0, canvas.width, canvas.height);
 
