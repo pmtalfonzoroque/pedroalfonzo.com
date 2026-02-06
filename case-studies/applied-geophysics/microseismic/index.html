@@ -403,67 +403,68 @@
       }
 
       function drawPlot() {
-        const scale = canvas.width / 700;   // 700 = your original design width
-        const baseline = 100* scale;  // geophones stay near the top
-        
-        ctx3.fillStyle = "#1a1a1a";
-        ctx3.fillRect(0, 0, canvas.width, canvas.height);
+          const scale = canvas.width / 700;   // 700 = original design width
+          const baseline = 100;               // keep baseline FIXED for now
 
-        // Title
-        ctx3.fillStyle = "white";
-        ctx3.font = "18px Arial";
-        ctx3.fillText("Cross‑Section View (x vs depth)", 230* scale, 30* scale);
+          ctx3.fillStyle = "#1a1a1a";
+          ctx3.fillRect(0, 0, canvas.width, canvas.height);
 
-        // X-axis label
-        ctx3.font = "14px Arial";
-        ctx3.fillText("x (m)", 650* scale, 380* scale);
+          // Title
+          ctx3.fillStyle = "white";
+          ctx3.font = "18px Arial";
+          ctx3.fillText("Cross‑Section View (x vs depth)", 230 * scale, 30 * scale);
 
-        // Y-axis label (unchanged)
-        ctx3.save();
-        ctx3.translate(20* scale, 220* scale);
-        ctx3.rotate(-Math.PI / 2);
-        ctx3.fillText("depth (m)", 0, 0);
-        ctx3.restore();
+          // X-axis label
+          ctx3.font = "14px Arial";
+          ctx3.fillText("x (m)", 650 * scale, 380 * scale);
 
-        // Depth scale ticks
-        ctx3.strokeStyle = "#888";
-        ctx3.fillStyle = "#ccc";
-        ctx3.font = "12px Arial";
+          // Y-axis label
+          ctx3.save();
+          ctx3.translate(20 * scale, 220 * scale);
+          ctx3.rotate(-Math.PI / 2);
+          ctx3.fillText("depth (m)", 0, 0);
+          ctx3.restore();
 
-        for (let d = 0; d >= -40; d -= 5) {
-          let y = baseline - d * sz;
-          ctx3.beginPath();
-          ctx3.moveTo(45* scale, y);
-          ctx3.lineTo(60* scale, y);
-          ctx3.stroke();
-          ctx3.fillText(d + " m", 65* scale, y + 4* scale);
-        }
+          // Depth scale ticks (UNSCALED for now)
+          ctx3.strokeStyle = "#888";
+          ctx3.fillStyle = "#ccc";
+          ctx3.font = "12px Arial";
 
-        // Geophones (stay at baseline)
-        G.forEach((g, i) => {
-          drawPoint(ctx3, g.x * sx* scale, baseline* scale, "cyan", "G" + i);
-        });
+          for (let d = 0; d >= -40; d -= 5) {
+              let y = baseline - d * sz;   // ← no scaling yet
+              ctx3.beginPath();
+              ctx3.moveTo(45 * scale, y);
+              ctx3.lineTo(60 * scale, y);
+              ctx3.stroke();
+              ctx3.fillText(d + " m", 65 * scale, y + 4);
+          }
 
-        // True event (now visible)
-        drawPoint(
-          ctx3,
-          E_true.x * sx* scale,
-          (baseline - E_true.z * sz)* scale,
-          "lime",
-          "True",
-          true
-        );
+          // Geophones
+          G.forEach((g, i) => {
+              drawPoint(ctx3, g.x * sx * scale, baseline, "cyan", "G" + i);
+          });
 
-        // Estimated event
-        drawPoint(
-          ctx3,
-          E_est.x * sx * scale,
-          (baseline - E_est.z * sz)* scale,
-          "red",
-          "Estimated",
-          true
-        );
+          // True event
+          drawPoint(
+              ctx3,
+              E_true.x * sx * scale,
+              baseline - E_true.z * sz,
+              "lime",
+              "True",
+              true
+          );
+
+          // Estimated event
+          drawPoint(
+              ctx3,
+              E_est.x * sx * scale,
+              baseline - E_est.z * sz,
+              "red",
+              "Estimated",
+              true
+          );
       }
+
 
       function updateVelocity(newVel) {
         document.getElementById("velValue").textContent = newVel + " m/s";
