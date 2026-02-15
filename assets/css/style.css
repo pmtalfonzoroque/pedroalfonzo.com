@@ -894,6 +894,14 @@ p {
   }
 }
 
+.caption {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+}
+
 
 /* #endregion Responsive Tweaks */
 /* Reset icon color so FA brand colors can apply */ 
