@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality – Data Analysis & Tools</title>
+
+  <!-- FONT AWESOME ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- LOCAL CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page page-background-sky">
+
+  <!-- HEADER -->
+  <div id="header"></div>
+
+  <main class="content">
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Quality – Data Analysis & Tools</h1>
+
+    <p class="caption">
+      Interactive Power BI dashboard demonstrating quality KPIs and operational insights.
+    </p>
+
+    <p class="section-text">
+    In my quality work, I focused on a data‑driven approach to explore root causes and improve decision‑making.
+    Many available data sources were not connected, so I integrated them, built relationships, and created
+    visual dashboards to reveal patterns and operational insights. This analytical mindset can be applied
+    across sectors such as geoscience, engineering, and other technical fields. Through this process, I
+    taught myself Power BI and developed practical skills in data modeling, visualization, and workflow
+    automation.
+    </p>
+
+    <!-- VIDEO SECTION -->
+    <div class="video-container">
+        <iframe
+            src="https://www.youtube.com/embed/YQXd30kG_EQ"
+            title="Quality Dashboard – Power BI Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+
+  </main>
+
+   <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script>
+    async function loadComponent(id, file) {
+      const container = document.getElementById(id);
+      const response = await fetch(file);
+      const html = await response.text();
+      container.innerHTML = html;
+    }
+ 
+    loadComponent("header", "/components/header.html");
+    loadComponent("footer", "/components/footer.html");
+  </script>
+
+  
+</body>
+</html>
