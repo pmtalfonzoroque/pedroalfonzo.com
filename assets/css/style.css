@@ -556,6 +556,15 @@ footer {
   font-size: 0.95rem;
 }
 
+.level2-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
 /* #region tooltip  */
 /* === tooltip in the core-logging === */
 .tooltip-icon {
@@ -602,8 +611,9 @@ footer {
   font-size: 0.95rem;
   margin-bottom: 16px;
 }
+/* #endregion*/
 
-/* === project cards === */
+/* #region === project cards === */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -659,8 +669,9 @@ footer {
   max-height: none; /* It works no matter how long the content is*/
   padding: 12px;     /* expanded padding */
 }
+/* #endregion info-content */
 
-/*  === Old Engine Info Box === */
+/*  #region === Old Engine Info Box === */
 .info-box {
   margin-bottom: 20px;
   border: 1px solid var(--border);
@@ -679,8 +690,9 @@ footer {
   cursor: pointer;
   border-radius: var(--radius) var(--radius) 0 0;
 }
+/* #endregion */
 
-/* === New Collapsible Section Button === */
+/* #region === New Collapsible Section Button === */
 .info-box-collapsible button {
   width: 100%;
   text-align: left;
@@ -820,7 +832,7 @@ body.page-background-sky {
 
 /* #endregion */
 
-/* #source note*/
+/* #region source note*/
 .source-note {
   font-size: 0.85rem;
   color: #777;
@@ -829,7 +841,7 @@ body.page-background-sky {
 
 /* #endregion*/
 
-/* #Region About*/
+/* #region About*/
 .about-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -939,7 +951,7 @@ section {
 /* #endregion Responsive Tweaks */
 /* Reset icon color so FA brand colors can apply */ 
 
-/* Brand colors */
+/* #region Brand colors */
 .fa-python { color: #3776AB !important; }
 .fa-html5 { color: #E34F26 !important; }
 .fa-css3-alt { color: #1572B6 !important; }
