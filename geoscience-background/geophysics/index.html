@@ -5,46 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geoscience | Geophysics – Pedro Alfonzo</title>
 
-  <!-- FONT AWESOME ICONS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- YOUR MAIN CSS -->
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
-  <body>
-    <div class="page">
+<body class="page page-background-sky">
 
-      <!-- HEADER (same as your main site) -->
-      <!-- HEADER -->
-      <div id="header"></div>
+  <!-- HEADER -->
+  <div id="header"></div>
 
-      <!-- Main Content -->
-      <main>
-        <div class="content">
-          <div class="content">
-                <h2>COMMING SOON - WORK IN PROGRESS</h2>
-            </div> 
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1 class="hero-title">Geophysics</h1>
+        <p class="hero-subtitle">
+          Applied geophysics experience including 3D seismic acquisition, seismic processing, 
+          LWD log interpretation, and subsurface mapping.  
+          For a broader overview of my background and field experience, see the About Me page or the PDF summary.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3D SEISMIC ACQUISITION -->
+    <section class="content">
+      <h2>3D Seismic Acquisition</h2>
+      <p class="subtitle">
+        Experience with survey design, field QC, and operational workflows.
+      </p>
+
+      <div class="unit-grid">
+        <div class="unit-card">
+          <img src="/assets/geoscience/seismic-acquisition.jpg" alt="3D Seismic Acquisition">
+          <h4>Acquisition & Field Operations</h4>
+          <p>Survey geometry, source/receiver layout, and acquisition QC procedures.</p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
         </div>
-      </main>
 
-      <!-- FOOTER -->
-      <div id="footer"></div>
-      
-      <script>
-        async function loadComponent(id, file) {
-          const container = document.getElementById(id);
-          const response = await fetch(file);
-          const html = await response.text();
-          container.innerHTML = html;
-        }
+        <div class="unit-card">
+          <img src="/assets/geoscience/seismic-qc.jpg" alt="Seismic QC">
+          <h4>Quality Control</h4>
+          <p>Noise checks, geometry validation, and field data verification.</p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
+        </div>
+      </div>
+    </section>
 
-        loadComponent("header", "/components/header.html");
-        loadComponent("footer", "/components/footer.html");
-      </script>
+    <!-- SEISMIC PROCESSING -->
+    <section class="content">
+      <h2>Seismic Processing</h2>
+      <p class="subtitle">
+        Processing workflows including filtering, velocity analysis, stacking, and migration.
+      </p>
 
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-  </body>
+      <div class="unit-grid">
+        <div class="unit-card">
+          <img src="/assets/geoscience/seismic-processing.jpg" alt="Seismic Processing">
+          <h4>Processing Workflows</h4>
+          <p>Experience with 2D/3D processing steps and interpretation-ready deliverables.</p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
+        </div>
+
+        <div class="unit-card">
+          <img src="/assets/geoscience/velocity-analysis.jpg" alt="Velocity Analysis">
+          <h4>Velocity Analysis</h4>
+          <p>Picking, QC, and building velocity models for imaging.</p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LWD LOGS & SUBSURFACE MAPPING -->
+    <section class="content">
+      <h2>LWD Logs & Subsurface Mapping</h2>
+      <p class="subtitle">
+        Interpretation of LWD logs and integration into 2D/3D subsurface models.
+      </p>
+
+      <div class="unit-grid">
+        <div class="unit-card">
+          <img src="/assets/geoscience/lwd-logs.jpg" alt="LWD Logs">
+          <h4>LWD Interpretation</h4>
+          <p>Analysis of logs for lithology, porosity, and structural trends.</p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
+        </div>
+
+        <div class="unit-card">
+          <img src="/assets/geoscience/subsurface-model.jpg" alt="Subsurface Model">
+          <h4>2D/3D Subsurface Models</h4>
+          <p>Building structural maps and integrating seismic + logs for interpretation.</p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MICROSEISMIC STUDY PROJECT -->
+    <section class="content">
+      <h2>Microseismic Study Project</h2>
+      <p class="subtitle">
+        A self‑directed project completed for a technical interview and to expand my skills.
+      </p>
+
+      <div class="unit-grid">
+        <div class="unit-card">
+          <img src="/assets/geoscience/microseismic-study.jpg" alt="Microseismic Study">
+          <h4>Learning & Technical Challenge</h4>
+          <p>
+            A microseismic analysis project completed independently to demonstrate rapid learning, 
+            signal processing fundamentals, and workflow automation capabilities.
+          </p>
+          <a class="disabled-link btn btn-secondary">Coming Soon</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW GEOPHYSICS SHAPES MY DATA WORK -->
+    <section class="content">
+      <h2>How Geophysics Shapes My Data Work</h2>
+      <p class="subtitle">
+        A scientific foundation that strengthens automation, analysis, and problem‑solving.
+      </p>
+
+      <p>
+        My geophysics background influences the way I design automation tools and data workflows. 
+        Concepts like signal processing, noise reduction, QC, and multi‑source data integration 
+        translate directly into my current work in Python automation and analytics.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script>
+    async function loadComponent(id, file) {
+      const container = document.getElementById(id);
+      const response = await fetch(file);
+      const html = await response.text();
+      container.innerHTML = html;
+    }
+
+    loadComponent("header", "/components/header.html");
+    loadComponent("footer", "/components/footer.html");
+  </script>
+
+</body>
 </html>
-
