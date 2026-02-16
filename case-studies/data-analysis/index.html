@@ -29,14 +29,116 @@
       and reduce manual effort. My work spans Python scripting, analytics automation, 
       JavaScript bookmarklets, local APIs, and dashboard development.
     </p>
+
     <h3>Areas of Focus</h3>
-        <ul>
-          <li>Python automation for QA and engineering workflows</li>
-          <li>Python for exploration data analysis</li>
-          <li>Local APIs for data retrieval and integration</li>
-          <li>JavaScript bookmarklets for UI automation</li>
-          <li>Power BI dashboards and data pipelines</li>
-        </ul>
+    <ul>
+      <li>Python automation for QA and engineering workflows</li>
+      <li>Python for exploration data analysis</li>
+      <li>Local APIs for data retrieval and integration</li>
+      <li>JavaScript bookmarklets for UI automation</li>
+      <li>Power BI dashboards and data pipelines</li>
+    </ul>
+
+    <!-- RESPONSIVE TABLE STYLE -->
+    <style>
+      .responsive-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 14px;
+      }
+
+      .responsive-table th,
+      .responsive-table td {
+        padding: 8px;
+        border: 1px solid #ccc;
+      }
+
+      @media (max-width: 600px) {
+        .responsive-table thead {
+          display: none;
+        }
+        .responsive-table tr {
+          display: block;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+        }
+        .responsive-table td {
+          display: block;
+          text-align: left;
+          border: none;
+          border-bottom: 1px solid #eee;
+        }
+        .responsive-table td::before {
+          content: attr(data-label);
+          font-weight: bold;
+          display: block;
+          margin-bottom: 4px;
+          color: #555;
+        }
+      }
+    </style>
+
+    <!-- WORKFLOW TABLE -->
+    <table class="responsive-table">
+      <thead>
+        <tr style="background:#f2f2f2;">
+          <th>Layer</th>
+          <th>Role</th>
+          <th>Process</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Layer">Front-End (User)</td>
+          <td data-label="Role">User Interface</td>
+          <td data-label="Process">
+            The user interacts with the Web App or Power BI.  
+            When more details are needed, the user triggers the workflow (e.g., by clicking a bookmarklet or a button).
+          </td>
+        </tr>
+        <tr>
+          <td data-label="Layer">Automation Layer (JS + Local API)</td>
+          <td data-label="Role">Workflow Trigger & Data Transfer</td>
+          <td data-label="Process">
+            JavaScript bookmarklets autofill fields or extract key information from the Web App.  
+            The Web App sends this key to the Local API, which activates the Python script.
+          </td>
+        </tr>
+        <tr>
+          <td data-label="Layer">Back-End (Python + Databases)</td>
+          <td data-label="Role">Data Processing</td>
+          <td data-label="Process">
+            Python queries multiple internal databases, extracts relevant details,  
+            and returns a structured JSON or HTML report to the API.
+          </td>
+        </tr>
+        <tr>
+          <td data-label="Layer">Front-End (Result)</td>
+          <td data-label="Role">Display</td>
+          <td data-label="Process">
+            The Web App displays the results instantly in a popup window or a detailed HTML page.  
+            The entire workflow runs in seconds.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- DIAGRAM SECTION -->
+    <section>
+      <h2>Workflow Diagram: Data, Power BI & Python Integration</h2>
+
+      <p>
+        This diagram summarizes the table above and provides context for the videos shown below.
+      </p>
+
+      <img class="level2-image" src="/assets/images/automationWorkflow.jpg" 
+          alt="Automation Workflow Diagram">
+
+      <p class="caption">
+        I created this diagram to visually explain the logic behind the workflow demonstrated in the videos below.
+      </p>
+    </section>
 
 
     <section>
