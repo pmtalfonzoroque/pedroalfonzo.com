@@ -877,6 +877,10 @@ p {
   color: #333;
 }
 
+section {
+  margin-bottom: 40px;
+}
+
 .about-content h1 {
   margin-bottom: 20px;
 }
