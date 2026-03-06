@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Electromagnetics (EM) – Applied Geophysics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+  <div class="page page-background-sky">
+
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <main class="content">
+
+      <h1>Electromagnetics (EM)</h1>
+      <p class="intro">
+        EM methods span from borehole‑scale resistivity tools used in geosteering to airborne and ground‑based systems for exploration.  
+        This section introduces core concepts and depth‑of‑investigation principles across frequencies and acquisition geometries.
+      </p>
+
+      <div class="unit-grid">
+
+        <!-- DOI Overview -->
+        <div class="unit-card">
+          <img src="/assets/thumbnails/em-doi.jpg" alt="Depth of Investigation">
+          <h4>Depth of Investigation (DOI)</h4>
+          <p>General concepts of EM penetration, skin depth, and system sensitivity.</p>
+          <a href="/case-studies/applied-geophysics/em/doi/" class="btn btn-secondary">View →</a>
+        </div>
+
+        <!-- Frequency-Domain DOI -->
+        <div class="unit-card">
+          <img src="/assets/thumbnails/em-fdem.jpg" alt="Frequency Domain EM">
+          <h4>DOI – Frequency Domain</h4>
+          <p>Interactive visualization of skin depth and Tx–Rx spacing effects.</p>
+          <a href="/case-studies/applied-geophysics/em/doi/frequency-domain/" class="btn btn-secondary">View →</a>
+        </div>
+
+      </div>
+
+      <div class="content" style="text-align:center; margin-top: 30px;">
+        <h2> WORK IN PROGRESS </h2>
+      </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <script>
+      async function loadComponent(id, file) {
+        const container = document.getElementById(id);
+        const response = await fetch(file);
+        const html = await response.text();
+        container.innerHTML = html;
+      }
+
+      loadComponent("header", "/components/header.html");
+      loadComponent("footer", "/components/footer.html");
+    </script>
+
+  </div>
+</body>
+</html>
