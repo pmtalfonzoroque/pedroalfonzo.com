@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Depth of Investigation (DOI) – Electromagnetics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+  <div class="page page-background-sky">
+
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <main class="content">
+
+      <h1>Depth of Investigation (DOI)</h1>
+
+      <p class="intro">
+        The depth of investigation (DOI) describes how deeply an EM system can sense into the subsurface.  
+        It depends on physical attenuation (skin depth), transmitter–receiver geometry, and the electrical properties of the ground.
+      </p>
+
+      <!-- Static DOI Image -->
+      <div style="text-align:center; margin: 20px 0;">
+        <img src="/assets/thumbnails/em-doi.jpg" alt="Skin Depth Diagram" style="max-width: 500px; border-radius: 6px;">
+        <p style="font-size: 0.85rem; color: #666;">
+          Skin‑depth attenuation in a conductive medium. The field amplitude decreases exponentially with depth.
+        </p>
+      </div>
+
+      <!-- Physics Section -->
+      <section style="margin-top: 40px;">
+        <h2>What Controls the Depth of Investigation?</h2>
+
+        <p>
+          In electromagnetic methods, the <strong>depth of investigation (DOI)</strong> describes how deeply the system can sense 
+          into the subsurface. Even before considering frequency, the DOI is fundamentally limited by 
+          <strong>attenuation of the EM field</strong> as it diffuses into the ground.
+        </p>
+
+        <p>
+          The key physical control is the <strong>skin depth</strong>, which describes how quickly the field amplitude decays:
+        </p>
+
+        <pre style="background:#f7f7f7; padding:12px; border-radius:6px; overflow-x:auto;">
+δ = √( 2 / ( ω μ σ ) )
+        </pre>
+
+        <p>
+          A depth of one skin depth (δ) corresponds to a reduction of the EM field to about 37% of its surface value.  
+          Two skin depths reduce it to ~14%, and so on. This exponential decay sets a natural limit on how deeply 
+          the system can “see.”
+        </p>
+      </section>
+
+      <!-- Geometry Section -->
+      <section style="margin-top: 40px;">
+        <h2>Geometry and System Design</h2>
+
+        <p>
+          Even in non‑frequency‑domain scenarios, the <strong>transmitter–receiver spacing</strong> plays a major role in DOI.  
+          A larger spacing increases sensitivity to deeper currents, while a very small spacing restricts the system 
+          to shallow responses.
+        </p>
+
+        <p>
+          However, geometry cannot overcome the fundamental attenuation imposed by the ground’s conductivity.  
+          Even with a large spacing, highly conductive ground will limit DOI.
+        </p>
+      </section>
+
+      <!-- Interactive Physics Placeholder -->
+      <section style="margin-top: 40px;">
+        <h2>Interactive Physics</h2>
+        <p>
+          Below is a conceptual interactive tool (to be implemented) that will allow you to explore how 
+          <strong>transmitter–receiver spacing</strong>, <strong>ground conductivity</strong>, and <strong>signal strength</strong> 
+          influence DOI in a general EM setting.
+        </p>
+
+        <div style="background:#eef6ff; padding:20px; border-radius:6px; margin-top:20px;">
