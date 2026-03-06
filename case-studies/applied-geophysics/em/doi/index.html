@@ -45,7 +45,7 @@
         </p>
 
         <pre style="background:#f7f7f7; padding:12px; border-radius:6px; overflow-x:auto;">
-δ = √( 2 / ( ω μ σ ) )
+        δ = √( 2 / ( ω μ σ ) )
         </pre>
 
         <p>
@@ -81,3 +81,53 @@
         </p>
 
         <div style="background:#eef6ff; padding:20px; border-radius:6px; margin-top:20px;">
+          <p><strong>Coming soon:</strong> Adjust parameters and watch the DOI update in real time.</p>
+
+          <ul style="margin-top:10px;">
+            <li>Transmitter–receiver spacing (m)</li>
+            <li>Ground conductivity (S/m)</li>
+            <li>Magnetic permeability (optional)</li>
+            <li>Signal amplitude / noise floor</li>
+          </ul>
+
+          <p style="margin-top:10px;">
+            This interactive section will help visualize why some systems claim deep DOI but are limited by physics.
+          </p>
+        </div>
+      </section>
+
+      <!-- Link to Frequency Domain DOI -->
+      <section style="margin-top: 40px;">
+        <h2>Frequency‑Domain DOI</h2>
+        <p>
+          Frequency‑domain EM systems have a well‑defined relationship between frequency and penetration depth.  
+          Explore this relationship using the interactive tool below.
+        </p>
+
+        <a href="/case-studies/applied-geophysics/em/doi/frequency-domain/" 
+           class="btn btn-secondary" 
+           style="display:inline-block; margin-top: 10px;">
+          Go to Frequency‑Domain DOI →
+        </a>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <script>
+      async function loadComponent(id, file) {
+        const container = document.getElementById(id);
+        const response = await fetch(file);
+        const html = await response.text();
+        container.innerHTML = html;
+      }
+
+      loadComponent("header", "/components/header.html");
+      loadComponent("footer", "/components/footer.html");
+    </script>
+
+  </div>
+</body>
+</html>
