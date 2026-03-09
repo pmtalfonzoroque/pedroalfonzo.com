@@ -155,5 +155,91 @@
     </script>
 
   </div>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    // -------------------------------
+    // Canvas Setup
+    // -------------------------------
+    const canvas = document.getElementById("doiCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // -------------------------------
+    // Slider Elements
+    // -------------------------------
+    const spacingSlider = document.getElementById("spacing");
+    const conductivitySlider = document.getElementById("conductivity");
+    const permeabilitySlider = document.getElementById("permeability");
+    const noiseSlider = document.getElementById("noise");
+
+    // -------------------------------
+    // Main Update Function
+    // -------------------------------
+    function updatePlot() {
+        clearCanvas();
+        drawAxes();
+        drawCurve();   // placeholder
+        drawDOIMarker(); // placeholder
+        updateExplanation(); // placeholder
+    }
+
+    // -------------------------------
+    // Canvas Helpers
+    // -------------------------------
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawAxes() {
+        ctx.strokeStyle = "#999";
+        ctx.lineWidth = 1;
+
+        // Y-axis (depth)
+        ctx.beginPath();
+        ctx.moveTo(40, 10);
+        ctx.lineTo(40, canvas.height - 10);
+        ctx.stroke();
+
+        // X-axis (amplitude)
+        ctx.beginPath();
+        ctx.moveTo(40, canvas.height - 10);
+        ctx.lineTo(canvas.width - 10, canvas.height - 10);
+        ctx.stroke();
+    }
+
+    // -------------------------------
+    // Placeholder Functions
+    // -------------------------------
+    function drawCurve() {}
+    function drawDOIMarker() {}
+
+    function updateExplanation() {
+        document.getElementById("doi-explanation").innerHTML =
+        "<p><strong>DOI:</strong> Interactive calculation coming soon.</p>";
+    }
+
+    // -------------------------------
+    // Event Listeners
+    // -------------------------------
+    spacingSlider.addEventListener("input", updatePlot);
+    conductivitySlider.addEventListener("input", updatePlot);
+    permeabilitySlider.addEventListener("input", updatePlot);
+    noiseSlider.addEventListener("input", updatePlot);
+
+    // Initial draw
+    updatePlot();
+
+  });
+  </script>
+
+
+
 </body>
 </html>
