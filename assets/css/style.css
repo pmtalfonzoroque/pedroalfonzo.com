@@ -943,6 +943,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: flex-start;
 }
 
 /* Controls */
@@ -961,7 +962,8 @@ section {
   background: #f7f7f7;
   padding: 15px;
   border-radius: 6px;
-  text-align: center;
+  text-align: center; 
+  min-height: 300px;
 }
 
 #doiCanvas {
@@ -972,7 +974,7 @@ section {
 /* Desktop layout */
 @media (min-width: 768px) {
   .doi-interactive-container {
-    flex-direction: row;
+    flex-direction: row;    
   }
 
   .doi-controls, .doi-plot {
