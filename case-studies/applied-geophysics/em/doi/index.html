@@ -206,12 +206,23 @@
         ctx.moveTo(40, 10);
         ctx.lineTo(40, canvas.height - 10);
         ctx.stroke();
+				ctx.save(); 
+				ctx.translate(12, canvas.height / 2 + 20); 
+				ctx.rotate(-Math.PI / 2); 
+				ctx.fillText("Depth (m)", 0, 0); 
+				ctx.restore();
+				
 
         // X-axis (amplitude)
         ctx.beginPath();
         ctx.moveTo(40, canvas.height - 10);
         ctx.lineTo(canvas.width - 10, canvas.height - 10);
         ctx.stroke();
+				ctx.fillStyle = "#444"; 
+				ctx.font = "14px sans-serif"; 
+				ctx.fillText("Amplitude", 
+				canvas.width / 2 - 30, 
+				canvas.height - 2);
     }
 
     // -------------------------------
