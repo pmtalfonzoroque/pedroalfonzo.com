@@ -217,13 +217,129 @@
     // -------------------------------
     // Placeholder Functions
     // -------------------------------
-    function drawCurve() {}
-    function drawDOIMarker() {}
+    // -------------------------------
+// Physics helpers
+// -------------------------------
+function computeSkinDepth(conductivity, permeability) {
+    const mu0 = 4 * Math.PI * 1e-7;
+    const mu = mu0 * permeability;
+    const omega = 2 * Math.PI * 1000; // assume 1 kHz equivalent diffusion rate
+    return Math.sqrt(2 / (omega * mu * conductivity));
+}
 
-    function updateExplanation() {
-        document.getElementById("doi-explanation").innerHTML =
-        "<p><strong>DOI:</strong> Interactive calculation coming soon.</p>";
+function computeDecayCurve(delta, maxDepth, steps = 200) {
+    const points = [];
+    for (let i = 0; i <= steps; i++) {
+        const z = (i / steps) * maxDepth;
+        const amp = Math.exp(-z / delta);
+        points.push({ z, amp });
     }
+    return points;
+}
+
+// -------------------------------
+// Draw the exponential decay curve
+// -------------------------------
+function drawCurve() {
+    const spacing = Number(spacingSlider.value);
+    const conductivity = Number(conductivitySlider.value);
+    const permeability = Number(permeabilitySlider.value);
+
+    const delta = computeSkinDepth(conductivity, permeability);
+    const maxDepth = spacing * 3; // show 3× spacing for context
+
+    const curve = computeDecayCurve(delta, maxDepth);
+
+    // Canvas scaling
+    const left = 40;
+    const bottom = canvas.height - 10;
+    const right = canvas.width - 10;
+    const top = 10;
+
+    const depthToY = (z) =>
+        bottom - (z / maxDepth) * (bottom - top);
+
+    const ampToX = (amp) =>
+        left + amp * (right - left);
+
+    ctx.strokeStyle = "#2563eb";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    curve.forEach((p, i) => {
+        const x = ampToX(p.amp);
+        const y = depthToY(p.z);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+
+    ctx.stroke();
+}
+
+// -------------------------------
+// Draw DOI marker (where amplitude = noise floor)
+// -------------------------------
+function drawDOIMarker() {
+    const spacing = Number(spacingSlider.value);
+    const conductivity = Number(conductivitySlider.value);
+    const permeability = Number(permeabilitySlider.value);
+    const noise = Number(noiseSlider.value);
+
+    const delta = computeSkinDepth(conductivity, permeability);
+
+    // Solve exp(-z/δ) = noise  →  z = -δ ln(noise)
+    const doi = -delta * Math.log(noise);
+
+    const maxDepth = spacing * 3;
+
+    if (doi > maxDepth) return; // marker off-screen
+
+    const left = 40;
+    const bottom = canvas.height - 10;
+    const right = canvas.width - 10;
+    const top = 10;
+
+    const depthToY = (z) =>
+        bottom - (z / maxDepth) * (bottom - top);
+
+    const ampToX = (amp) =>
+        left + amp * (right - left);
+
+    const y = depthToY(doi);
+    const x = ampToX(noise);
+
+    // Marker line
+    ctx.strokeStyle = "#e11d48";
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(left, y);
+    ctx.lineTo(right, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Marker dot
+    ctx.fillStyle = "#e11d48";
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+// -------------------------------
+// Update explanation text
+// -------------------------------
+function updateExplanation() {
+    const conductivity = Number(conductivitySlider.value);
+    const permeability = Number(permeabilitySlider.value);
+    const noise = Number(noiseSlider.value);
+
+    const delta = computeSkinDepth(conductivity, permeability);
+    const doi = -delta * Math.log(noise);
+
+    document.getElementById("doi-explanation").innerHTML =
+        `<p><strong>Skin depth:</strong> ${delta.toFixed(2)} m<br>
+         <strong>Estimated DOI:</strong> ${doi.toFixed(2)} m</p>`;
+}
+
 
     // -------------------------------
     // Event Listeners
