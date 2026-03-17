@@ -339,17 +339,36 @@ function drawDOIMarker() {
 // Update explanation text
 // -------------------------------
 function updateExplanation() {
+    const spacing = Number(spacingSlider.value);
     const conductivity = Number(conductivitySlider.value);
     const permeability = Number(permeabilitySlider.value);
     const noise = Number(noiseSlider.value);
 
     const delta = computeSkinDepth(conductivity, permeability);
     const doi = -delta * Math.log(noise);
+    const ampAtDOI = Math.exp(-doi / delta); // should equal noise
+
+    // Compare DOI to spacing
+    let spacingInterpretation = "";
+    if (doi < spacing * 0.5) spacingInterpretation = "Very shallow relative to spacing.";
+    else if (doi < spacing) spacingInterpretation = "Shallow but within expected range.";
+    else if (doi < spacing * 2) spacingInterpretation = "Moderate penetration.";
+    else spacingInterpretation = "Deep penetration relative to spacing.";
+
+    // Qualitative interpretation
+    let qualitative = "";
+    if (delta < 5) qualitative = "Highly conductive ground → strong attenuation.";
+    else if (delta < 15) qualitative = "Moderately conductive ground.";
+    else qualitative = "Resistive ground → deeper penetration.";
 
     document.getElementById("doi-explanation").innerHTML =
         `<p><strong>Skin depth:</strong> ${delta.toFixed(2)} m<br>
-         <strong>Estimated DOI:</strong> ${doi.toFixed(2)} m</p>`;
+         <strong>Estimated DOI:</strong> ${doi.toFixed(2)} m<br>
+         <strong>Amplitude at DOI:</strong> ${(ampAtDOI * 100).toFixed(2)}% of surface<br>
+         <strong>Relative to spacing:</strong> ${spacingInterpretation}<br>
+         <strong>Interpretation:</strong> ${qualitative}</p>`;
 }
+
 
 
     // -------------------------------
