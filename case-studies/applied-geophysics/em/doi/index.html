@@ -162,255 +162,247 @@
 
   
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
+	document.addEventListener("DOMContentLoaded", () => {
 
-    // -------------------------------
-    // Canvas Setup
-    // -------------------------------
-    const canvas = document.getElementById("doiCanvas");
-    const ctx = canvas.getContext("2d");
+			// -------------------------------
+			// Canvas Setup
+			// -------------------------------
+			const canvas = document.getElementById("doiCanvas");
+			const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-    }
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+			function resizeCanvas() {
+					canvas.width = canvas.clientWidth;
+					canvas.height = canvas.clientHeight;
+			}
+			resizeCanvas();
+			window.addEventListener("resize", resizeCanvas);
 
-    // -------------------------------
-    // Slider Elements
-    // -------------------------------
-    const spacingSlider = document.getElementById("spacing");
-    const conductivitySlider = document.getElementById("conductivity");
-    const permeabilitySlider = document.getElementById("permeability");
-    const noiseSlider = document.getElementById("noise");
+			// -------------------------------
+			// Sliders
+			// -------------------------------
+			const spacingSlider = document.getElementById("spacing");
+			const conductivitySlider = document.getElementById("conductivity");
+			const permeabilitySlider = document.getElementById("permeability");
+			const noiseSlider = document.getElementById("noise");
+			const heightSlider = document.getElementById("height");
 
-    // -------------------------------
-    // Main Update Function
-    // -------------------------------
-    function updatePlot() {
-        clearCanvas();
-        drawAxes();
-        drawCurve();   // placeholder
-        drawDOIMarker(); // placeholder
-        updateExplanation(); // placeholder
-    }
+			// -------------------------------
+			// Main Update Function
+			// -------------------------------
+			function updatePlot() {
+					clearCanvas();
+					drawAxes();
+					drawCurve();
+					drawDOIMarker();
+					updateExplanation();
+			}
 
-    // -------------------------------
-    // Canvas Helpers
-    // -------------------------------
-    function clearCanvas() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+			// -------------------------------
+			// Canvas Helpers
+			// -------------------------------
+			function clearCanvas() {
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+			}
 
-    function drawAxes() {
-        ctx.strokeStyle = "#999";
-        ctx.lineWidth = 1;
+			function drawAxes() {
+					ctx.strokeStyle = "#999";
+					ctx.lineWidth = 1;
 
-        // Y-axis (depth)
-        ctx.beginPath();
-        ctx.moveTo(40, 10);
-        ctx.lineTo(40, canvas.height - 10);
-        ctx.stroke();
-				ctx.save(); 
-				ctx.translate(12, canvas.height / 2 + 20); 
-				ctx.rotate(-Math.PI / 2); 
-				ctx.fillText("Depth (m)", 0, 0); 
-				ctx.restore();
-				
+					// Y-axis
+					ctx.beginPath();
+					ctx.moveTo(40, 10);
+					ctx.lineTo(40, canvas.height - 20);
+					ctx.stroke();
 
-        // X-axis (amplitude)
-        ctx.beginPath();
-        ctx.moveTo(40, canvas.height - 10);
-        ctx.lineTo(canvas.width - 10, canvas.height - 10);
-        ctx.stroke();
-				ctx.fillStyle = "#444"; 
-				ctx.font = "14px sans-serif"; 
-				ctx.fillText("Amplitude", 
-				canvas.width / 2 - 30, 
-				canvas.height - 4);
-    }
+					// Y-axis label
+					ctx.save();
+					ctx.translate(12, canvas.height / 2 + 20);
+					ctx.rotate(-Math.PI / 2);
+					ctx.fillText("Depth (m)", 0, 0);
+					ctx.restore();
 
-    // -------------------------------
-    // Placeholder Functions
-    // -------------------------------
-    // -------------------------------
-// Physics helpers
-// -------------------------------
-function computeSkinDepth(conductivity, permeability) {
-    const mu0 = 4 * Math.PI * 1e-7;
-    const mu = mu0 * permeability;
-    const omega = 2 * Math.PI * 1000; // assume 1 kHz equivalent diffusion rate
-    return Math.sqrt(2 / (omega * mu * conductivity));
-}
+					// X-axis
+					ctx.beginPath();
+					ctx.moveTo(40, canvas.height - 20);
+					ctx.lineTo(canvas.width - 10, canvas.height - 20);
+					ctx.stroke();
 
-function computeDecayCurve(delta, maxDepth, steps = 200) {
-    const points = [];
-    for (let i = 0; i <= steps; i++) {
-        const z = (i / steps) * maxDepth;
-        const amp = Math.exp(-z / delta);
-        points.push({ z, amp });
-    }
-    return points;
-}
+					// X-axis label
+					ctx.fillStyle = "#444";
+					ctx.font = "14px sans-serif";
+					ctx.fillText("Amplitude", canvas.width / 2 - 30, canvas.height - 4);
+			}
 
-// -------------------------------
-// Draw the exponential decay curve
-// -------------------------------
-function drawCurve() {
-    const spacing = Number(spacingSlider.value);
-    const conductivity = Number(conductivitySlider.value);
-    const permeability = Number(permeabilitySlider.value);
+			// -------------------------------
+			// Physics Helpers
+			// -------------------------------
+			function computeSkinDepth(conductivity, permeability) {
+					const mu0 = 4 * Math.PI * 1e-7;
+					const mu = mu0 * permeability;
+					const omega = 2 * Math.PI * 1000; // 1 kHz equivalent
+					return Math.sqrt(2 / (omega * mu * conductivity));
+			}
 
-    const delta = computeSkinDepth(conductivity, permeability);
-    // depth axis now goes from sensor → ground → subsurface 
-		const sensorHeight = Number(heightSlider.value);
-		const maxDepth = sensorHeight + spacing * 3; // show 3× spacing for context
+			function computeDecayCurve(delta, maxDepth, steps = 200) {
+					const points = [];
+					for (let i = 0; i <= steps; i++) {
+							const z = (i / steps) * maxDepth;
+							const amp = Math.exp(-z / delta);
+							points.push({ z, amp });
+					}
+					return points;
+			}
 
-    const curve = computeDecayCurve(delta, maxDepth);
+			// -------------------------------
+			// Draw Decay Curve + Ground Line
+			// -------------------------------
+			function drawCurve() {
+					const spacing = Number(spacingSlider.value);
+					const conductivity = Number(conductivitySlider.value);
+					const permeability = Number(permeabilitySlider.value);
+					const sensorHeight = Number(heightSlider.value);
 
-    // Canvas scaling
-    const left = 40;
-    const bottom = canvas.height - 20;
-    const right = canvas.width - 10;
-    const top = 10;
+					const delta = computeSkinDepth(conductivity, permeability);
+					const maxDepth = sensorHeight + spacing * 3;
 
-    const depthToY = (z) =>
-        bottom - (z / maxDepth) * (bottom - top);
+					const curve = computeDecayCurve(delta, maxDepth);
 
-    const ampToX = (amp) =>
-        left + amp * (right - left);
+					const left = 40;
+					const bottom = canvas.height - 20;
+					const right = canvas.width - 10;
+					const top = 10;
 
-    ctx.strokeStyle = "#2563eb";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
+					const depthToY = (z) =>
+							bottom - (z / maxDepth) * (bottom - top);
 
-    curve.forEach((p, i) => {
-        const x = ampToX(p.amp);
-        const y = depthToY(p.z);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-    });
+					const ampToX = (amp) =>
+							left + amp * (right - left);
 
-    ctx.stroke();
-}
+					// Blue decay curve
+					ctx.strokeStyle = "#2563eb";
+					ctx.lineWidth = 2;
+					ctx.beginPath();
 
-// -------------------------------
-// Draw DOI marker (where amplitude = noise floor)
-// -------------------------------
-function drawDOIMarker() {
-    const spacing = Number(spacingSlider.value);
-    const conductivity = Number(conductivitySlider.value);
-    const permeability = Number(permeabilitySlider.value);
-    const noise = Number(noiseSlider.value);
+					curve.forEach((p, i) => {
+							const x = ampToX(p.amp);
+							const y = depthToY(p.z);
+							if (i === 0) ctx.moveTo(x, y);
+							else ctx.lineTo(x, y);
+					});
+					ctx.stroke();
 
-    const delta = computeSkinDepth(conductivity, permeability);
+					// Ground line
+					ctx.strokeStyle = "#444";
+					ctx.setLineDash([4, 4]);
+					ctx.beginPath();
+					ctx.moveTo(left, depthToY(sensorHeight));
+					ctx.lineTo(right, depthToY(sensorHeight));
+					ctx.stroke();
+					ctx.setLineDash([]);
 
-    // Solve exp(-z/δ) = noise  →  z = -δ ln(noise)
-    const doi = -delta * Math.log(noise);
-		const doiDepth = sensorHeight + doi;
+					ctx.fillStyle = "#444";
+					ctx.font = "12px sans-serif";
+					ctx.fillText("Ground", right - 60, depthToY(sensorHeight) - 4);
+			}
 
-    const maxDepth = spacing * 3;
+			// -------------------------------
+			// Draw DOI Marker
+			// -------------------------------
+			function drawDOIMarker() {
+					const spacing = Number(spacingSlider.value);
+					const conductivity = Number(conductivitySlider.value);
+					const permeability = Number(permeabilitySlider.value);
+					const noise = Number(noiseSlider.value);
+					const sensorHeight = Number(heightSlider.value);
 
-    if (doi > maxDepth) return; // marker off-screen
+					const delta = computeSkinDepth(conductivity, permeability);
+					const doi = -delta * Math.log(noise);
+					const doiDepth = sensorHeight + doi;
 
-    const left = 40;
-    const bottom = canvas.height - 10;
-    const right = canvas.width - 10;
-    const top = 10;
+					const maxDepth = sensorHeight + spacing * 3;
 
-    const depthToY = (z) =>
-        bottom - (z / maxDepth) * (bottom - top);
+					if (doiDepth > maxDepth) return;
 
-    const ampToX = (amp) =>
-        left + amp * (right - left);
+					const left = 40;
+					const bottom = canvas.height - 20;
+					const right = canvas.width - 10;
+					const top = 10;
 
-    const y = depthToY(doiDepth);
-    const x = ampToX(noise);
+					const depthToY = (z) =>
+							bottom - (z / maxDepth) * (bottom - top);
 
-    // Marker line
-    ctx.strokeStyle = "#e11d48";
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath();
-    ctx.moveTo(left, y);
-    ctx.lineTo(right, y);
-    ctx.stroke();
-    ctx.setLineDash([]);
+					const ampToX = (amp) =>
+							left + amp * (right - left);
 
-    // Marker dot
-    ctx.fillStyle = "#e11d48";
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fill();
+					const y = depthToY(doiDepth);
+					const x = ampToX(noise);
 
-		// Draw ground line
-		ctx.strokeStyle = "#444";
-		ctx.setLineDash([4, 4]);
-		ctx.beginPath();
-		ctx.moveTo(left, depthToY(sensorHeight));
-		ctx.lineTo(right, depthToY(sensorHeight));
-		ctx.stroke();
-		ctx.setLineDash([]);
+					// Red DOI line
+					ctx.strokeStyle = "#e11d48";
+					ctx.setLineDash([6, 4]);
+					ctx.beginPath();
+					ctx.moveTo(left, y);
+					ctx.lineTo(right, y);
+					ctx.stroke();
+					ctx.setLineDash([]);
 
-		ctx.fillStyle = "#444";
-		ctx.font = "12px sans-serif";
-		ctx.fillText("Ground", right - 60, depthToY(sensorHeight) - 4);
+					// Red DOI dot
+					ctx.fillStyle = "#e11d48";
+					ctx.beginPath();
+					ctx.arc(x, y, 5, 0, Math.PI * 2);
+					ctx.fill();
+			}
 
-}
+			// -------------------------------
+			// Explanation Text
+			// -------------------------------
+			function updateExplanation() {
+					const spacing = Number(spacingSlider.value);
+					const conductivity = Number(conductivitySlider.value);
+					const permeability = Number(permeabilitySlider.value);
+					const noise = Number(noiseSlider.value);
+					const sensorHeight = Number(heightSlider.value);
 
-// -------------------------------
-// Update explanation text
-// -------------------------------
-function updateExplanation() {
-    const spacing = Number(spacingSlider.value);
-    const conductivity = Number(conductivitySlider.value);
-    const permeability = Number(permeabilitySlider.value);
-    const noise = Number(noiseSlider.value);
-		const heightSlider = document.getElementById("height");
-		heightSlider.addEventListener("input", updatePlot);
+					const delta = computeSkinDepth(conductivity, permeability);
+					const doi = -delta * Math.log(noise);
+					const doiFromSensor = sensorHeight + doi;
+					const ampAtDOI = Math.exp(-doi / delta);
 
+					let spacingInterpretation = "";
+					if (doi < spacing * 0.5) spacingInterpretation = "Very shallow relative to spacing.";
+					else if (doi < spacing) spacingInterpretation = "Shallow but within expected range.";
+					else if (doi < spacing * 2) spacingInterpretation = "Moderate penetration.";
+					else spacingInterpretation = "Deep penetration relative to spacing.";
 
+					let qualitative = "";
+					if (delta < 5) qualitative = "Highly conductive ground → strong attenuation.";
+					else if (delta < 15) qualitative = "Moderately conductive ground.";
+					else qualitative = "Resistive ground → deeper penetration.";
 
-    const delta = computeSkinDepth(conductivity, permeability);
-    const doi = -delta * Math.log(noise);
-    const ampAtDOI = Math.exp(-doi / delta); // should equal noise
+					document.getElementById("doi-explanation").innerHTML =
+							`<p><strong>Skin depth:</strong> ${delta.toFixed(2)} m<br>
+							<strong>DOI below ground:</strong> ${doi.toFixed(2)} m<br>
+							<strong>DOI from sensor:</strong> ${doiFromSensor.toFixed(2)} m<br>
+							<strong>Amplitude at DOI:</strong> ${(ampAtDOI * 100).toFixed(2)}%<br>
+							<strong>Relative to spacing:</strong> ${spacingInterpretation}<br>
+							<strong>Interpretation:</strong> ${qualitative}</p>`;
+			}
 
-    // Compare DOI to spacing
-    let spacingInterpretation = "";
-    if (doi < spacing * 0.5) spacingInterpretation = "Very shallow relative to spacing.";
-    else if (doi < spacing) spacingInterpretation = "Shallow but within expected range.";
-    else if (doi < spacing * 2) spacingInterpretation = "Moderate penetration.";
-    else spacingInterpretation = "Deep penetration relative to spacing.";
+			// -------------------------------
+			// Event Listeners
+			// -------------------------------
+			spacingSlider.addEventListener("input", updatePlot);
+			conductivitySlider.addEventListener("input", updatePlot);
+			permeabilitySlider.addEventListener("input", updatePlot);
+			noiseSlider.addEventListener("input", updatePlot);
+			heightSlider.addEventListener("input", updatePlot);
 
-    // Qualitative interpretation
-    let qualitative = "";
-    if (delta < 5) qualitative = "Highly conductive ground → strong attenuation.";
-    else if (delta < 15) qualitative = "Moderately conductive ground.";
-    else qualitative = "Resistive ground → deeper penetration.";
+			// Initial draw
+			updatePlot();
 
-    document.getElementById("doi-explanation").innerHTML =
-        `<p><strong>Skin depth:</strong> ${delta.toFixed(2)} m<br>
-         <strong>Estimated DOI:</strong> ${doi.toFixed(2)} m<br>
-         <strong>Amplitude at DOI:</strong> ${(ampAtDOI * 100).toFixed(2)}% of surface<br>
-         <strong>Relative to spacing:</strong> ${spacingInterpretation}<br>
-         <strong>Interpretation:</strong> ${qualitative}</p>`;
-}
+	});
+	</script>
 
-
-
-    // -------------------------------
-    // Event Listeners
-    // -------------------------------
-    spacingSlider.addEventListener("input", updatePlot);
-    conductivitySlider.addEventListener("input", updatePlot);
-    permeabilitySlider.addEventListener("input", updatePlot);
-    noiseSlider.addEventListener("input", updatePlot);
-
-    // Initial draw
-    updatePlot();
-
-  });
-  </script>
 
 
 
