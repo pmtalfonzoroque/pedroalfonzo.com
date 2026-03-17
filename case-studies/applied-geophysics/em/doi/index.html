@@ -105,6 +105,12 @@
                 Noise Floor (relative amplitude)
                 <input type="range" id="noise" min="0.0001" max="0.1" step="0.0001" value="0.01">
             </label>
+
+						<label>
+							Sensor Height Above Ground (m)
+							<input type="range" id="height" min="0" max="200" value="30">
+						</label>
+
             </div>
 
             <!-- RIGHT: Plot -->
@@ -222,7 +228,7 @@
 				ctx.font = "14px sans-serif"; 
 				ctx.fillText("Amplitude", 
 				canvas.width / 2 - 30, 
-				canvas.height - 2);
+				canvas.height - 4);
     }
 
     // -------------------------------
@@ -257,13 +263,15 @@ function drawCurve() {
     const permeability = Number(permeabilitySlider.value);
 
     const delta = computeSkinDepth(conductivity, permeability);
-    const maxDepth = spacing * 3; // show 3× spacing for context
+    // depth axis now goes from sensor → ground → subsurface 
+		const sensorHeight = Number(heightSlider.value);
+		const maxDepth = sensorHeight + spacing * 3; // show 3× spacing for context
 
     const curve = computeDecayCurve(delta, maxDepth);
 
     // Canvas scaling
     const left = 40;
-    const bottom = canvas.height - 10;
+    const bottom = canvas.height - 20;
     const right = canvas.width - 10;
     const top = 10;
 
@@ -300,6 +308,7 @@ function drawDOIMarker() {
 
     // Solve exp(-z/δ) = noise  →  z = -δ ln(noise)
     const doi = -delta * Math.log(noise);
+		const doiDepth = sensorHeight + doi;
 
     const maxDepth = spacing * 3;
 
@@ -316,7 +325,7 @@ function drawDOIMarker() {
     const ampToX = (amp) =>
         left + amp * (right - left);
 
-    const y = depthToY(doi);
+    const y = depthToY(doiDepth);
     const x = ampToX(noise);
 
     // Marker line
@@ -333,6 +342,20 @@ function drawDOIMarker() {
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, Math.PI * 2);
     ctx.fill();
+
+		// Draw ground line
+		ctx.strokeStyle = "#444";
+		ctx.setLineDash([4, 4]);
+		ctx.beginPath();
+		ctx.moveTo(left, depthToY(sensorHeight));
+		ctx.lineTo(right, depthToY(sensorHeight));
+		ctx.stroke();
+		ctx.setLineDash([]);
+
+		ctx.fillStyle = "#444";
+		ctx.font = "12px sans-serif";
+		ctx.fillText("Ground", right - 60, depthToY(sensorHeight) - 4);
+
 }
 
 // -------------------------------
@@ -343,6 +366,10 @@ function updateExplanation() {
     const conductivity = Number(conductivitySlider.value);
     const permeability = Number(permeabilitySlider.value);
     const noise = Number(noiseSlider.value);
+		const heightSlider = document.getElementById("height");
+		heightSlider.addEventListener("input", updatePlot);
+
+
 
     const delta = computeSkinDepth(conductivity, permeability);
     const doi = -delta * Math.log(noise);
