@@ -503,7 +503,7 @@ footer {
 
 /* #region Content Card */
 /* === General Content Wrapper ======= */
-.content { 
+/* ===.content {   <<-- OLD VERSION
   max-width: var(--max-width); 
   margin: 32px auto; 
   padding: 28px 24px 32px; 
@@ -511,6 +511,18 @@ footer {
   border-radius: var(--radius); 
   box-shadow: var(--shadow); 
   border: 1px solid var(--border);
+} === */
+/* === New Content version - fully responsive ======= */
+.content { 
+  width: 100%; /* = makes the content shrink on mobile== */
+  max-width: var(--max-width); /* = keeps it centered on desktop == */
+  margin: 32px auto; 
+  padding: 28px 24px 32px; 
+  background: var(--bg-alt); 
+  border-radius: var(--radius); 
+  box-shadow: var(--shadow); 
+  border: 1px solid var(--border);
+  box-sizing: border-box; /* = prevents padding from exceeding the viewport == */
 }
 
 .content-card {
