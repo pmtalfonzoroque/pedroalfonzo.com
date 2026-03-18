@@ -987,8 +987,11 @@ section {
     padding: 15px;
     border-radius: 6px;
     text-align: center;
-    min-height: 450px;                  /* ensures graph column is tall */
+    min-height: 600px;                  /* ensures graph column is tall */
     min-width: 0;                       /* prevents overflow in grid */
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
   }
 
   /* Canvas */
@@ -1055,6 +1058,12 @@ section {
 
 .doi-ranges li {
   margin-bottom: 4px;
+}
+
+.plot-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
 
