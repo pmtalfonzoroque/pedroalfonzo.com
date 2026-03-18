@@ -22,6 +22,11 @@
         It depends on physical attenuation (skin depth), transmitter–receiver geometry, and the electrical properties of the ground.
       </p>
 
+			<p class="doi-abstract">
+				This interactive module demonstrates how classical skin‑depth attenuation and survey geometry jointly control the practical depth of investigation (DOI) in near‑surface electromagnetic (EM) methods. Users can vary geometry (transmitter–receiver spacing, sensor height) and material parameters (conductivity, magnetic permeability) to see how field amplitude decays with depth and where it intersects the instrument noise floor. The tool highlights how geometry can extend sensitivity but cannot overcome conductive attenuation governed by the skin‑depth relation. Parameter ranges, modeling assumptions, and a simple sensitivity analysis are included, with a clear path toward a frequency‑domain extension (amplitude and phase).
+			</p>
+
+
       <!-- Static DOI Image -->
       <div style="text-align:center; margin: 20px 0;">
         <img src="/assets/images/SkinDepth.jpg"  alt="Skin Depth Diagram" style="max-width: 100%; height: auto; border-radius: 6px;">
@@ -78,6 +83,19 @@
             Explore how transmitter–receiver spacing, ground conductivity, magnetic permeability, 
             and signal amplitude influence the depth of investigation (DOI).
         </p>
+				
+			<div class="doi-assumptions">
+				<h3>Model & Assumptions</h3>
+				<ul>
+					<li>Homogeneous, isotropic half‑space; no lateral variations, no anisotropy, no induced polarization (IP).</li>
+					<li>Quasi‑static EM approximation; displacement currents neglected.</li>
+					<li>Field amplitude decays approximately following the classical skin‑depth relation.</li>
+					<li>DOI is defined where the modeled signal amplitude falls below the user‑specified instrument noise floor.</li>
+					<li>Geometry factor accounts for transmitter–receiver spacing and sensor height, implemented here as a simplified multiplicative term.</li>
+					<li>Air–ground interface is flat; no cultural noise, no system‑specific calibration, and no coupling effects.</li>
+				</ul>
+			</div>
+	
 
         <!-- Responsive container -->
         <div class="doi-interactive-container">

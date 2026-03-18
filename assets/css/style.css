@@ -1013,6 +1013,36 @@ section {
   display: block;
 }
 
+.doi-abstract {
+  font-size: 1rem;
+  line-height: 1.55;
+  margin-bottom: 24px;
+  max-width: 720px;
+}
+
+.doi-assumptions {
+  background: #f2f2f2;
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.doi-assumptions h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.doi-assumptions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.doi-assumptions li {
+  margin-bottom: 6px;
+  line-height: 1.45;
+}
+
 
 /* #endregion Responsive Tweaks */
 /* Reset icon color so FA brand colors can apply */ 
