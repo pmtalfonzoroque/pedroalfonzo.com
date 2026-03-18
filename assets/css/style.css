@@ -938,51 +938,56 @@ section {
   nav a {
     margin-left: 10px;
   }
-  /* Container: mobile-first (stacked) */
-.doi-interactive-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: stretch;
-}
-
-/* Controls */
-.doi-controls label {
-  display: block;
-  margin-bottom: 15px;
-  font-size: 0.95rem;
-}
-
-.doi-controls input[type="range"] {
-  width: 100%;
-}
-
-/* Plot area */
-.doi-plot {
-  background: #f7f7f7;
-  padding: 15px;
-  border-radius: 6px;
-  text-align: center; 
-  min-height: 450px;
-  flex: 1 1 auto;
-}
-
-#doiCanvas {
-  width: 100%;
-  height: 400px;
-  display: block;
-}
-
-/* Desktop layout */
-@media (min-width: 600px) {
+ 
+  /* Main layout: 2-column grid */
   .doi-interactive-container {
-    flex-direction: row;    
+    display: grid;
+    grid-template-columns: 340px 1fr;   /* left = controls, right = graph */
+    gap: 20px;
+    align-items: start;                 /* align both columns at the top */
   }
 
-  .doi-controls, .doi-plot {
-    flex: 1;
+  /* Controls column */
+  .doi-controls {
+    display: grid;
+    gap: 14px;                          /* clean spacing between sliders */
   }
-}
+
+  .doi-controls label {
+    display: grid;
+    gap: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .doi-controls input[type="range"] {
+    width: 100%;
+  }
+
+  /* Plot area (right column) */
+  .doi-plot {
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    min-height: 450px;                  /* ensures graph column is tall */
+    min-width: 0;                       /* prevents overflow in grid */
+  }
+
+  /* Canvas */
+  #doiCanvas {
+    width: 100%;
+    height: 400px;                      /* actual visible graph height */
+    display: block;
+  }
+
+  /* Desktop layout (optional, grid already handles it) */
+  @media (min-width: 600px) {
+    .doi-interactive-container {
+      grid-template-columns: 340px 1fr;
+    }
+  }
+
 
   /* Unit cards */
   .unit-card { padding: 8px; } 
