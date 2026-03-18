@@ -1042,6 +1042,20 @@ section {
   margin-bottom: 6px;
   line-height: 1.45;
 }
+.doi-ranges {
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.doi-ranges ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
+}
+
+.doi-ranges li {
+  margin-bottom: 4px;
+}
 
 
 /* #endregion Responsive Tweaks */

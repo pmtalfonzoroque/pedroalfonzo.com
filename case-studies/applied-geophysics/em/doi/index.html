@@ -102,32 +102,59 @@
 
             <!-- LEFT: Controls -->
             <div class="doi-controls">
-            <h3>Parameters</h3>
+							<h3>Parameters</h3>
+							
+							<div class="doi-ranges"> 
+								<strong>Typical Ranges:</strong> 
+								<ul> 
+									<li>Spacing L: 1–50 m (handheld → boom → small airborne loops)</li> 
+									<li>Conductivity σ: 1e‑4–1 S/m (dry sand → clay/saline)</li> 
+									<li>Permeability μ/μ₀: 1–10 (nonmagnetic → magnetite‑rich soils)</li> 
+									<li>Sensor height h: 0–120 m (ground → airborne)</li> 
+									<li>Noise floor: 1e‑6–1e‑2 (relative amplitude)</li> 
+								</ul> 
+							</div>
 
-            <label>
-                Transmitter–Receiver Spacing (m)
-                <input type="range" id="spacing" min="1" max="200" value="30">
-            </label>
+							<label> Presets 
+								<select id="presetSelect" onchange="applyPreset()"> 
+									<option value="">Select preset…</option> 
+									<option value="dry">Dry sand (σ=0.001 S/m, μ=1)</option> 
+									<option value="sat">Saturated sand (σ=0.01 S/m)</option> 
+									<option value="clay">Clayey soil (σ=0.1 S/m)</option> 
+									<option value="mag">Magnetic gravel (μ/μ₀=5)</option> 
+								</select> 
+							</label>
 
-            <label>
-                Ground Conductivity (S/m)
-                <input type="range" id="conductivity" min="0.0001" max="1" step="0.0001" value="0.01">
-            </label>
+							<!-- sliders -->
+							<label>
+									Transmitter–Receiver Spacing L (m)
+									<input type="range" id="spacing" min="1" max="50" step="1" value="10">
+									<span id="spacingValue">10 m</span>
+							</label>
 
-            <label>
-                Magnetic Permeability (μ / μ₀)
-                <input type="range" id="permeability" min="1" max="10" value="1">
-            </label>
+							<label>
+									Ground Conductivity σ  (S/m)
+									<input type="range" id="conductivity" min="0.0001" max="1" step="0.0001" value="0.01">
+									<span id="conductivityValue">0.01 S/m</span>
+							</label>
 
-            <label>
-                Noise Floor (relative amplitude)
-                <input type="range" id="noise" min="0.0001" max="0.1" step="0.0001" value="0.01">
-            </label>
+							<label>
+									Magnetic Permeability (μ / μ₀)
+									<input type="range" id="permeability" min="1" max="10" step="0.1" value="1">
+									<span id="permeabilityValue">1×μ₀</span>
+							</label>
 
-						<label>
-							Sensor Height Above Ground (m)
-							<input type="range" id="height" min="0" max="200" value="30">
-						</label>
+							<label>
+									Noise Floor (relative amplitude)
+									<input type="range" id="noise" min="0.000001" max="0.01" step="0.000001" value="0.0001">
+									<span id="noiseValue">1×10⁻⁴</span>
+							</label>
+
+							<label>
+								Sensor Height Above Ground h (m)
+								<input type="range" id="height" min="0" max="120" step="1"  value="30">
+								<span id="heightValue">30 m</span>
+							</label>
 
             </div>
 
