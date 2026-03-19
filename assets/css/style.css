@@ -986,13 +986,11 @@ section {
     background: #f7f7f7;
     padding: 15px;
     border-radius: 6px;
-    text-align: center;
-    min-height: 600px;                  /* ensures graph column is tall */
-    min-width: 0;                       /* prevents overflow in grid */
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+    min-height: 600px;
+    min-width: 0;
+    display: block;   /* important */
   }
+
 
   /* Canvas */
   #doiCanvas {
@@ -1002,11 +1000,16 @@ section {
   }
 
   /* Desktop layout (optional, grid already handles it) */
-  @media (min-width: 600px) {
+  @media (max-width: 800px) {
     .doi-interactive-container {
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: 1fr;   /* collapse to one column */
+    }
+
+    .doi-plot {
+      min-height: 400px;            /* reasonable height on mobile */
     }
   }
+
 
 .caption {
   font-size: 0.85rem;
@@ -1014,13 +1017,6 @@ section {
   font-style: italic;
   margin-top: 4px;
   display: block;
-}
-
-.doi-abstract {
-  font-size: 1rem;
-  line-height: 1.55;
-  margin-bottom: 24px;
-  max-width: 720px;
 }
 
 .doi-assumptions {
