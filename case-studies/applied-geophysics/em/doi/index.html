@@ -272,11 +272,18 @@
 		function drawAxes() {
 			ctx.strokeStyle = "#999";
 			ctx.lineWidth = 1;
+			ctx.font = "12px sans-serif";
+			ctx.fillStyle = "#444";
 
-			// Y-axis
+			const left = 40;
+			const bottom = canvas.height - 20;
+			const right = canvas.width - 10;
+			const top = 10;
+
+			// Draw Y-axis
 			ctx.beginPath();
-			ctx.moveTo(40, 10);
-			ctx.lineTo(40, canvas.height - 20);
+			ctx.moveTo(left, top);
+			ctx.lineTo(left, bottom);
 			ctx.stroke();
 
 			// Y-axis label
@@ -286,17 +293,45 @@
 			ctx.fillText("Depth (m)", 0, 0);
 			ctx.restore();
 
-			// X-axis
+			// Draw Y ticks (10 ticks)
+			for (let i = 0; i <= 10; i++) {
+				const t = i / 10;
+				const y = bottom - t * (bottom - top);
+				const depth = (t * maxDepth).toFixed(0);
+
+				ctx.beginPath();
+				ctx.moveTo(left - 5, y);
+				ctx.lineTo(left, y);
+				ctx.stroke();
+
+				ctx.fillText(depth, left - 35, y + 4);
+			}
+
+			// Draw X-axis
 			ctx.beginPath();
-			ctx.moveTo(40, canvas.height - 20);
-			ctx.lineTo(canvas.width - 10, canvas.height - 20);
+			ctx.moveTo(left, bottom);
+			ctx.lineTo(right, bottom);
 			ctx.stroke();
 
+			// Draw X ticks (10 ticks)
+			for (let i = 0; i <= 10; i++) {
+				const t = i / 10;
+				const x = left + t * (right - left);
+				const amp = t.toFixed(1);
+
+				ctx.beginPath();
+				ctx.moveTo(x, bottom);
+				ctx.lineTo(x, bottom + 5);
+				ctx.stroke();
+
+				ctx.fillText(amp, x - 6, bottom + 18);
+			}
+
 			// X-axis label
-			ctx.fillStyle = "#444";
 			ctx.font = "14px sans-serif";
-			ctx.fillText("Amplitude", canvas.width / 2 - 30, canvas.height - 4);
+			ctx.fillText("Amplitude (relative)", (left + right) / 2 - 60, bottom + 36);
 		}
+
 
 		// -------------------------------
 		// Physics Helpers

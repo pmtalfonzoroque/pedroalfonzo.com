@@ -10,7 +10,7 @@
   --border: #e1e1e6;
   --radius: 10px;
   --shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-  --max-width: 960px;
+  --max-width: 1200px;
 }
 
 * {
@@ -513,11 +513,11 @@ footer {
   border: 1px solid var(--border);
 } === */
 /* === New Content version - fully responsive ======= */
-.content { 
+. { 
   width: 100%; /* = makes the content shrink on mobile== */
   max-width: var(--max-width); /* = keeps it centered on desktop == */
   margin: 32px auto; 
-  padding: 28px 24px 32px; 
+  padding: content 28px 24px 32px; 
   background: var(--bg-alt); 
   border-radius: var(--radius); 
   box-shadow: var(--shadow); 
