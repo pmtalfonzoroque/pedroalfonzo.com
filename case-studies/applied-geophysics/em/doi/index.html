@@ -275,12 +275,17 @@
 			ctx.font = "12px sans-serif";
 			ctx.fillStyle = "#444";
 
+			// Compute maxDepth here so ticks match the curve
+			const spacing = Number(spacingSlider.value);
+			const sensorHeight = Number(heightSlider.value);
+			const maxDepth = sensorHeight + spacing * 3;
+
 			const left = 40;
 			const bottom = canvas.height - 20;
 			const right = canvas.width - 10;
 			const top = 10;
 
-			// Draw Y-axis
+			// --- Y AXIS ---
 			ctx.beginPath();
 			ctx.moveTo(left, top);
 			ctx.lineTo(left, bottom);
@@ -293,7 +298,7 @@
 			ctx.fillText("Depth (m)", 0, 0);
 			ctx.restore();
 
-			// Draw Y ticks (10 ticks)
+			// Y ticks
 			for (let i = 0; i <= 10; i++) {
 				const t = i / 10;
 				const y = bottom - t * (bottom - top);
@@ -307,13 +312,13 @@
 				ctx.fillText(depth, left - 35, y + 4);
 			}
 
-			// Draw X-axis
+			// --- X AXIS ---
 			ctx.beginPath();
 			ctx.moveTo(left, bottom);
 			ctx.lineTo(right, bottom);
 			ctx.stroke();
 
-			// Draw X ticks (10 ticks)
+			// X ticks (linear)
 			for (let i = 0; i <= 10; i++) {
 				const t = i / 10;
 				const x = left + t * (right - left);
@@ -331,6 +336,7 @@
 			ctx.font = "14px sans-serif";
 			ctx.fillText("Amplitude (relative)", (left + right) / 2 - 60, bottom + 36);
 		}
+
 
 
 		// -------------------------------
