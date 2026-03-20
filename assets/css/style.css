@@ -10,7 +10,7 @@
   --border: #e1e1e6;
   --radius: 10px;
   --shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-  --max-width: 1200px;
+  --max-width: clamp(800px, 80vw, 1600px);
 }
 
 * {
@@ -513,17 +513,18 @@ footer {
   border: 1px solid var(--border);
 } === */
 /* === New Content version - fully responsive ======= */
-.content { 
+.content {
   width: 100%;
   max-width: var(--max-width);
   margin: 32px auto;
-  padding: 28px 24px 32px;   /* ✔ fixed */
+  padding: 28px 24px 32px;
   background: var(--bg-alt);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
   box-sizing: border-box;
 }
+
 
 
 
