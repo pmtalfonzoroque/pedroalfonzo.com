@@ -487,7 +487,7 @@
 
 			const depthToY = (z) => {
 				const depthRange = (normMode === "depth") ? (maxDepth / delta) : maxDepth;
-				return bottom - (z / depthRange) * (bottom - top);
+				return top + (z / depthRange) * (bottom - top);
 			};
 
 			const ampToX = (amp) => {
