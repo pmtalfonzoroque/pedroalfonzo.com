@@ -270,20 +270,23 @@
 		}
 
 		function drawAxes() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 			ctx.strokeStyle = "#999";
 			ctx.lineWidth = 1;
 			ctx.font = "12px sans-serif";
 			ctx.fillStyle = "#444";
 
-			// Compute maxDepth here so ticks match the curve
-			const spacing = Number(spacingSlider.value);
-			const sensorHeight = Number(heightSlider.value);
-			const maxDepth = sensorHeight + spacing * 3;
+			// margins inside the canvas
+			const marginLeft = 50;
+			const marginRight = 20;
+			const marginTop = 20;
+			const marginBottom = 40;  // ⬅ extra space for x-axis label
 
-			const left = 40;
-			const bottom = canvas.height - 20;
-			const right = canvas.width - 10;
-			const top = 10;
+			const left = marginLeft;
+			const right = canvas.width - marginRight;
+			const top = marginTop;
+			const bottom = canvas.height - marginBottom;
 
 			// --- Y AXIS ---
 			ctx.beginPath();
@@ -293,12 +296,16 @@
 
 			// Y-axis label
 			ctx.save();
-			ctx.translate(12, canvas.height / 2 + 20);
+			ctx.translate(15, (top + bottom) / 2);
 			ctx.rotate(-Math.PI / 2);
 			ctx.fillText("Depth (m)", 0, 0);
 			ctx.restore();
 
 			// Y ticks
+			const spacing = Number(spacingSlider.value);
+			const sensorHeight = Number(heightSlider.value);
+			const maxDepth = sensorHeight + spacing * 3;
+
 			for (let i = 0; i <= 10; i++) {
 				const t = i / 10;
 				const y = bottom - t * (bottom - top);
@@ -311,6 +318,36 @@
 
 				ctx.fillText(depth, left - 35, y + 4);
 			}
+
+			// --- X AXIS ---
+			ctx.beginPath();
+			ctx.moveTo(left, bottom);
+			ctx.lineTo(right, bottom);
+			ctx.stroke();
+
+			// X ticks
+			for (let i = 0; i <= 10; i++) {
+				const t = i / 10;
+				const x = left + t * (right - left);
+				const amp = t.toFixed(1);
+
+				ctx.beginPath();
+				ctx.moveTo(x, bottom);
+				ctx.lineTo(x, bottom + 5);
+				ctx.stroke();
+
+				ctx.fillText(amp, x - 6, bottom + 18);
+			}
+
+			// X-axis label (now safely below ticks)
+			ctx.font = "14px sans-serif";
+			ctx.fillText(
+				"Amplitude (relative units)",
+				(left + right) / 2 - 80,
+				bottom + 32
+			);
+		}
+
 
 			// --- X AXIS ---
 			ctx.beginPath();
