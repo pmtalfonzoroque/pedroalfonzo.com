@@ -514,16 +514,17 @@ footer {
 } === */
 /* === New Content version - fully responsive ======= */
 .content { 
-  width: 100%; /* = makes the content shrink on mobile== */
-  max-width: var(--max-width); /* = keeps it centered on desktop == */
+  width: 100%;
+  max-width: var(--max-width);
   margin: 32px auto; 
-  padding: content 28px 24px 32px; 
+  padding: 28px 24px 32px;   /* ✔️ fixed */
   background: var(--bg-alt); 
   border-radius: var(--radius); 
   box-shadow: var(--shadow); 
   border: 1px solid var(--border);
-  box-sizing: border-box; /* = prevents padding from exceeding the viewport == */
+  box-sizing: border-box;
 }
+
 
 .content-card {
   background: var(--bg-alt);
