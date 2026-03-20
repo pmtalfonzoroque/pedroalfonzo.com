@@ -989,7 +989,7 @@ section {
     background: #f7f7f7;
     padding: 15px;
     border-radius: 6px;
-    min-height: 600px;
+    min-height: 800px;
     min-width: 0;
     display: block;   /* important */
   }
@@ -998,7 +998,7 @@ section {
   /* Canvas */
   #doiCanvas {
     width: 100%;
-    height: 400px;                      /* actual visible graph height */
+    height: 600px;                      /* actual visible graph height */
     display: block;
   }
 
@@ -1009,7 +1009,7 @@ section {
     }
 
     .doi-plot {
-      min-height: 400px;            /* reasonable height on mobile */
+      min-height: 500px;            /* reasonable height on mobile */
     }
   }
 
