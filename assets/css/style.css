@@ -513,7 +513,7 @@ footer {
   border: 1px solid var(--border);
 } === */
 /* === New Content version - fully responsive ======= */
-. { 
+.content { 
   width: 100%; /* = makes the content shrink on mobile== */
   max-width: var(--max-width); /* = keeps it centered on desktop == */
   margin: 32px auto; 
