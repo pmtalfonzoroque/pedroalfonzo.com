@@ -21,9 +21,16 @@
       <section id="intro" style="margin-top: 40px;">
         <h2>Frequency‑Domain Electromagnetics</h2>
         <p>
-          Frequency‑domain EM systems use sinusoidal sources to probe the subsurface. 
-          The relationship between frequency, attenuation, and penetration depth provides 
-          a complementary perspective to the time‑domain formulation.
+          Electromagnetic fields in the frequency domain behave diffusively rather than as propagating waves. 
+          The penetration depth is controlled primarily by frequency, conductivity, and magnetic permeability, 
+          making frequency a direct lever on the depth of investigation (DOI). Lower frequencies penetrate deeper 
+          but provide lower resolution, while higher frequencies resolve shallow structure with greater detail.
+
+          Understanding this relationship is essential for evaluating survey design, instrument performance, 
+          and claims about achievable DOI. In particular, frequency‑dependent attenuation explains why small 
+          transmitter–receiver spacing cannot produce deep penetration, and why sensor height has a measurable 
+          impact on detectability. This module explores these relationships through analytical expressions, 
+          interactive visualizations, and numerical simulations.
         </p>
       </section>
 
@@ -34,9 +41,20 @@
       <section id="abstract" style="margin-top: 40px;">
         <h2>Abstract</h2>
         <p>
-          This module introduces the concept of depth of investigation (DOI) in the 
-          frequency domain. By examining amplitude and phase responses across frequencies, 
-          we explore how conductivity structure influences penetration depth and resolution.
+          This module explores the depth of investigation (DOI) in frequency‑domain 
+          electromagnetic (EM) methods. In contrast to time‑domain systems, 
+          frequency‑domain EM uses sinusoidal sources, and the penetration depth is 
+          controlled primarily by frequency, conductivity, and magnetic permeability. 
+          Lower frequencies penetrate deeper but provide coarser resolution, while 
+          higher frequencies resolve shallow structure with greater detail.
+        </p>
+        <p>
+          We introduce the key analytical relationships between frequency, skin depth, 
+          and attenuation, and examine how survey geometry and sensor height influence 
+          the effective DOI. A simple numerical model is then used to visualize 
+          frequency‑dependent attenuation and to clarify why small transmitter–receiver 
+          spacing and elevated sensor heights limit sensitivity to deeper targets, 
+          despite common claims of “deep penetration” in commercial systems.
         </p>
       </section>
 
@@ -58,12 +76,65 @@
       <!-- ========================= -->
       <section id="physics" style="margin-top: 40px;">
         <h2>Physics of Frequency‑Domain Attenuation</h2>
+
+        <p><strong>Complex wavenumber:</strong></p>
         <p>
-          Frequency‑domain EM responses depend on the complex impedance of the Earth. 
-          Higher frequencies attenuate more rapidly, while lower frequencies penetrate deeper. 
-          The key relationships will be introduced here using LaTeX‑rendered expressions.
+          \( k = \alpha + i \beta \), where \( \alpha \) is the attenuation constant 
+          and \( \beta \) is the phase constant.
+        </p>
+
+        <p><strong>Skin depth:</strong></p>
+        <p>
+          For a good conductor at angular frequency \( \omega \),
+          
+
+      \[
+            \delta = \sqrt{\frac{2}{\omega \mu \sigma}}.
+          \]
+
+
+        </p>
+
+        <p><strong>Amplitude decay with depth:</strong></p>
+        <p>
+          
+
+      \[
+            A(z) = A_0 e^{-z / \delta},
+          \]
+
+
+          where \( A_0 \) is the amplitude at the surface and \( z \) is depth.
+        </p>
+
+        <p><strong>Phase shift with depth:</strong></p>
+        <p>
+          
+
+      \[
+            \phi(z) \propto \frac{z}{\delta},
+          \]
+
+
+          indicating that both amplitude and phase carry information about 
+          subsurface conductivity.
+        </p>
+
+        <p><strong>Frequency‑dependent DOI (conceptual):</strong></p>
+        <p>
+          For a given noise threshold on relative amplitude \( A(z)/A_0 \),
+          
+
+      \[
+            z_{\text{DOI}}(\omega) \approx - \delta(\omega) \, \ln(\text{noise}),
+          \]
+
+
+          where \( \delta(\omega) \) decreases with increasing frequency, 
+          leading to shallower DOI at higher frequencies.
         </p>
       </section>
+
 
 
       <!-- ========================= -->
@@ -141,6 +212,6 @@
       loadComponent("header", "/components/header.html");
       loadComponent("footer", "/components/footer.html");
     </script>
-    
+
 </body>
 </html>            
