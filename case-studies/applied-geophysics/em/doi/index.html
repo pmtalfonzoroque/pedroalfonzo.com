@@ -59,7 +59,7 @@
 					\( A(z) = A_0 e^{-z / \delta} \)</p>
 
 				<p><strong>Noise:</strong> 
-				 The threshold relative amplitude \( A(z)/A_0 \)below which the signal becomes indistinguishable from noise and is no longer detectable.</p>
+				 The threshold relative amplitude \( A(z)/A_0 \) below which the signal becomes indistinguishable from noise and is no longer detectable.</p>
 
 				<p><strong>Depth of Investigation (DOI):</strong> 
 					\( z_{\text{DOI}} = - \delta \ln(\text{noise}) \)</p>
@@ -105,7 +105,10 @@
       <!-- Interactive Physics Placeholder -->
       <section id="interactive-physics" style="margin-top: 40px;">  
         <h2>Interactive Physics</h2>
-        <p>
+        <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
+					<strong>Tip:</strong> Adjust the parameters to see how the depth of investigation changes.
+				</p>
+				<p>
             Explore how transmitter–receiver spacing, ground conductivity, magnetic permeability, 
             and signal amplitude influence the depth of investigation (DOI).
         </p>
@@ -210,16 +213,24 @@
         </div>
 
         <!-- Dynamic explanation -->
-        <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
-					<strong>Tip:</strong> Adjust the parameters to see how the depth of investigation changes.
-				</p>
-				<div id="doi-explanation" style="margin-top: 20px;"></div>
+        <div id="doi-explanation" style="margin-top: 20px;"></div>
 
       </section>
 
 			<!-- Sensitivity Panel -->
-			<section id="doi-sensitivity" style="margin-top: 40px;">
+			<section id="doi-sensitivity" style="margin-top: 5px;">
 				<h3>Parameter Sensitivity</h3>
+				
+				<p style="font-size:0.9em; color:#444;">
+				<p>
+					The depth of investigation depends on several parameters.  
+					The chart below shows which parameter currently has the strongest influence on DOI.
+				</p>
+				<p style="font-size:0.9em; color:#444;">
+					<strong>Note:</strong> A logarithmic scale is used so that small sensitivities remain visible without distorting the physics.
+				</p>
+				
+				<div id="sensitivity-bars"></div>
 				<p><em>We compute finite‑difference sensitivities:</em></p>
 
 				<p style="text-align:center; margin-top:10px;">
@@ -228,18 +239,7 @@
 					\approx \frac{\text{DOI}(x + \Delta x) - \text{DOI}(x)}{\Delta x} \]
 
 				</p>
-				<p style="font-size:0.9em; color:#444;">
-					<strong>Note:</strong> A logarithmic scale is used so that small sensitivities remain visible without distorting the physics.
-				</p>
-
-				<p style="font-size:0.9em; color:#444;">
-				<p>
-					The depth of investigation depends on several parameters.  
-					The chart below shows which parameter currently has the strongest influence on DOI.
-				</p>
-				
-				<div id="sensitivity-bars"></div>
-					<strong>Notes:</strong><br>
+				<strong>Notes:</strong><br>
 				• Spacing (L) affects DOI only indirectly because the current model uses a pure skin‑depth + noise formulation (no geometric coupling yet).<br>
 				• Sensor height sensitivity is small because \( \partial DOI / \partial h = 1 \).<br>
 				• Noise sensitivity is large because DOI depends on \( -\delta \ln(\text{noise}) \).<br>
