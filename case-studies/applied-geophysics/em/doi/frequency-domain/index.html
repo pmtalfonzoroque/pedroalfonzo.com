@@ -58,6 +58,85 @@
         </p>
       </section>
 
+      <!-- ========================= -->
+      <!-- Background theory -->
+      <!-- ========================= -->
+      <section id="theory" style="margin-top: 40px;">
+        <h2>Background Theory: Skin Depth, Frequency, and DOI</h2>
+
+        <h3>Skin Depth</h3>
+        <p>
+          Electromagnetic fields in conductive ground decay exponentially with depth. 
+          The characteristic decay length is the <strong>skin depth</strong>:
+        </p>
+
+        <p style="text-align:center;">
+          \( \delta = \sqrt{\frac{2}{\omega \mu \sigma}} \)
+        </p>
+
+        <p>
+          Skin depth controls how deeply a signal can penetrate:
+        </p>
+
+        <ul>
+          <li><strong>Large δ</strong> → slow attenuation → deep penetration</li>
+          <li><strong>Small δ</strong> → fast attenuation → shallow penetration</li>
+        </ul>
+
+        <h3>Frequency Relationship</h3>
+        <p>
+          Frequency directly controls skin depth:
+        </p>
+
+        <ul>
+          <li><strong>High frequency</strong> → large ω → small δ → fast attenuation → shallow DOI</li>
+          <li><strong>Low frequency</strong> → small ω → large δ → slow attenuation → deep DOI</li>
+        </ul>
+
+        <p>In practical terms:</p>
+        <ul>
+          <li><strong>10 Hz</strong> penetrates deepest</li>
+          <li><strong>1000 Hz</strong> penetrates shallowest</li>
+        </ul>
+
+        <h3>What δ Means for Survey Design</h3>
+        <p>Different applications require different skin depths:</p>
+
+        <ul>
+          <li>
+            <strong>Small δ (high frequency)</strong>
+            <ul>
+              <li>shallow DOI</li>
+              <li>high resolution</li>
+              <li>sensitive to near‑surface features</li>
+              <li>used for UXO, archaeology, environmental mapping</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Large δ (low frequency)</strong>
+            <ul>
+              <li>deep DOI</li>
+              <li>lower resolution</li>
+              <li>used for groundwater, mineral exploration, deep structure</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3>Interpreting the Attenuation Curves</h3>
+        <ul>
+          <li>The <strong>10 Hz curve</strong> decays slowly → deep penetration</li>
+          <li>The <strong>1000 Hz curve</strong> decays rapidly → shallow penetration</li>
+          <li>The legend shows δ for each frequency, confirming the relationship</li>
+        </ul>
+
+        <p>
+          These curves provide a clear visual demonstration of how frequency controls 
+          depth of investigation (DOI), and why geometric tricks (like small Tx–Rx 
+          spacing) cannot overcome physical attenuation limits.
+        </p>
+      </section>
+
 
       <!-- ========================= -->
       <!-- DOI Image Placeholder -->
