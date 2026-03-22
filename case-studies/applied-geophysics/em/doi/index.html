@@ -187,6 +187,21 @@
         <div id="doi-explanation" style="margin-top: 20px;">
             <p><strong>DOI:</strong> Adjust parameters to see how the depth of investigation changes.</p>
         </div>
+
+				<div class="doi-note">
+					<p><strong>Depth of Investigation (DOI):</strong>  
+					The shaded red region represents depths where the received amplitude falls below the noise floor. In this zone:
+						<ul>
+							<li>The instrument cannot reliably detect the signal</li>
+							<li>The subsurface response is dominated by noise</li>
+							<li>Inversion results would be unstable or non‑unique</li>
+							<li>The DOI marks the boundary between usable and unusable depth</li>
+						</ul>
+					Everything above the DOI is the <strong>usable signal zone</strong>.  
+					Everything below the DOI is the <strong>unreliable zone</strong>.
+					</p>
+				</div>
+
       </section>
 
 
@@ -508,6 +523,12 @@
 
             ctx.fillStyle = "#900";
             ctx.fillText("Noise floor (instrument + environmental)", left + 5, noiseY - 5);
+						ctx.fillStyle = "#0a0"; // green
+						ctx.fillText("↑ Usable zone", left + 5, noiseY - 20);
+
+						ctx.fillStyle = "#900"; // red
+						ctx.fillText("↓ Unusable zone", left + 5, noiseY + 15);
+
         }
 
         // DOI line
