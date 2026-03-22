@@ -8,7 +8,6 @@
 </head>
 
 <body class="page page-background-sky">
-  
 
     <!-- HEADER -->
     <div id="header"></div>
@@ -26,7 +25,6 @@
 				This interactive module demonstrates how classical skin‑depth attenuation and survey geometry jointly control the practical depth of investigation (DOI) in near‑surface electromagnetic (EM) methods. Users can vary geometry (transmitter–receiver spacing, sensor height) and material parameters (conductivity, magnetic permeability) to see how field amplitude decays with depth and where it intersects the instrument noise floor. The tool highlights how geometry can extend sensitivity but cannot overcome conductive attenuation governed by the skin‑depth relation. Parameter ranges, modeling assumptions, and a simple sensitivity analysis are included, with a clear path toward a frequency‑domain extension (amplitude and phase).
 			</p>
 
-
       <!-- Static DOI Image -->
       <div style="text-align:center; margin: 20px 0;">
         <img src="/assets/images/SkinDepth.jpg"  alt="Skin Depth Diagram" style="max-width: 100%; height: auto; border-radius: 6px;">
@@ -35,7 +33,7 @@
         </p>
       </div>
 
-      [<!-- Physics Section -->
+      <!-- Physics Section -->
       <section style="margin-top: 40px;">
         <h2>What Controls the Depth of Investigation?</h2>
 
@@ -49,9 +47,6 @@
           The key physical control is the <strong>skin depth</strong>, which describes how quickly the field amplitude decays:
         </p>
 
-        <!--<pre style="background:#f7f7f7; padding:12px; border-radius:6px; overflow-x:auto;">
-        δ = √( 2 / ( ω μ σ ) )
-        </pre>-->
 				<div id="doi-theory" class="doi-assumptions">
 				<h3>Skin Depth and DOI</h3>
 
@@ -62,7 +57,7 @@
 				 𝐴(Z)=𝐴_0*𝑒^(−𝑧/𝛿)</p>
 
 				<p><strong>Noise:</strong> 
-				 𝐴(Z)/𝐴_0</p>
+				 The threshold relative amplitude (𝐴(𝑧)/𝐴_0) below which the signal becomes indistinguishable from noise and is no longer detectable.</p>
 
 				<p><strong>Depth of Investigation (DOI):</strong> 
 					Z_DOI = − 𝛿ln⁡(noise)</p>
@@ -88,7 +83,7 @@
           the system can “see.”
         </p>
       </section>
-]
+
       <!-- Geometry Section -->
       <section style="margin-top: 40px;">
         <h2>Geometry and System Design</h2>
@@ -232,7 +227,6 @@
 				</div>
 
       </section>
-
 
       <!-- Link to Frequency Domain DOI -->
       <section style="margin-top: 40px;">
