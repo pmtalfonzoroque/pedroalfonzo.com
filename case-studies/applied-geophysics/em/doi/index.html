@@ -228,6 +228,16 @@
 
       </section>
 
+			<!-- Sensitivity Panel -->
+			<section id="doi-sensitivity" style="margin-top: 40px;">
+				<h3>Parameter Sensitivity</h3>
+				<p>
+					The depth of investigation depends on several parameters.  
+					The chart below shows which parameter currently has the strongest influence on DOI.
+				</p>
+				<div id="sensitivity-bars"></div>
+			</section>
+
       <!-- Link to Frequency Domain DOI -->
       <section style="margin-top: 40px;">
         <h2>Frequency‑Domain DOI</h2>
@@ -264,6 +274,73 @@
 	document.addEventListener("DOMContentLoaded", () => {
 
     // -------------------------------
+    // sensitive panel -  Physics helpers : computeSkinDepth(), computeDOI(),computeSensitivity()
+    // -------------------------------
+		function computeDOI(conductivity, permeability, spacing, height, noise) {
+				const delta = computeSkinDepth(conductivity, permeability);
+				const doi = -delta * Math.log(noise);
+				return height + doi;
+		}
+
+		function computeSensitivity() {
+				const spacing = Number(spacingSlider.value);
+				const conductivity = Number(conductivitySlider.value);
+				const permeability = Number(permeabilitySlider.value);
+				const noise = Number(noiseSlider.value);
+				const height = Number(heightSlider.value);
+
+				const base = computeDOI(conductivity, permeability, spacing, height, noise);
+
+				const d = {
+						spacing: (computeDOI(conductivity, permeability, spacing * 1.01, height, noise) - base) / (spacing * 0.01),
+						conductivity: (computeDOI(conductivity * 1.01, permeability, spacing, height, noise) - base) / (conductivity * 0.01),
+						permeability: (computeDOI(conductivity, permeability * 1.01, spacing, height, noise) - base) / (permeability * 0.01),
+						height: (computeDOI(conductivity, permeability, spacing, height + 0.1, noise) - base) / 0.1,
+						noise: (computeDOI(conductivity, permeability, spacing, height, noise * 1.01) - base) / (noise * 0.01)
+				};
+
+				return d;
+		}
+
+		function renderSensitivityBars() {
+				const sens = computeSensitivity();
+				const container = document.getElementById("sensitivity-bars");
+
+				const maxVal = Math.max(
+						Math.abs(sens.spacing),
+						Math.abs(sens.conductivity),
+						Math.abs(sens.permeability),
+						Math.abs(sens.height),
+						Math.abs(sens.noise)
+				);
+
+				const entries = [
+						["Spacing (L)", sens.spacing],
+						["Conductivity (σ)", sens.conductivity],
+						["Permeability (μ)", sens.permeability],
+						["Sensor height (h)", sens.height],
+						["Noise floor", sens.noise]
+				];
+
+				container.innerHTML = entries.map(([label, value]) => {
+						const width = (Math.abs(value) / maxVal) * 100;
+						return `
+								<div style="margin: 6px 0;">
+										<strong>${label}</strong>
+										<div style="background:#eee; height:10px; width:100%; border-radius:4px;">
+												<div style="
+														height:10px;
+														width:${width}%;
+														background:${value >= 0 ? '#2563eb' : '#e11d48'};
+														border-radius:4px;">
+												</div>
+										</div>
+								</div>
+						`;
+				}).join("");
+		}
+
+		// -------------------------------
     // Canvas Setup
     // -------------------------------
     const canvas = document.getElementById("doiCanvas");
@@ -290,6 +367,9 @@
     const presetSelect = document.getElementById("presetSelect");
 
     // -------------------------------
+		// Coordinate helpers : getCoords(),depthToY(),ampToX()
+		// -------------------------------
+		// -------------------------------
     // Centralized Coordinate System
     // -------------------------------
     function getCoords() {
@@ -332,6 +412,7 @@
         drawCurve();
         drawDOIMarker();
         updateExplanation();
+				renderSensitivityBars();
     }
 
     // -------------------------------
