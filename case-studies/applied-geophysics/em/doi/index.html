@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <body class="page page-background-sky">
 
     <!-- HEADER -->
     <div id="header"></div>
 
-    <main class="content">
+
+		<main class="content">
 
       <h1>Depth of Investigation (DOI)</h1>
 
@@ -217,10 +219,27 @@
 			<!-- Sensitivity Panel -->
 			<section id="doi-sensitivity" style="margin-top: 40px;">
 				<h3>Parameter Sensitivity</h3>
+				<p><em>We compute finite‑difference sensitivities:</em></p>
+
+				<p style="text-align:center; margin-top:10px;">
+
+				\[ S_x = \frac{\partial \text{DOI}}{\partial x} 
+					\approx \frac{\text{DOI}(x + \Delta x) - \text{DOI}(x)}{\Delta x} \]
+
+				</p>
+				<p style="font-size:0.9em; color:#444;">
+				<strong>Notes:</strong><br>
+				• Spacing (L) affects DOI only indirectly because the current model uses a pure skin‑depth + noise formulation (no geometric coupling yet).<br>
+				• Sensor height sensitivity is small because \( \partial DOI / \partial h = 1 \).<br>
+				• Noise sensitivity is large because DOI depends on \( -\delta \ln(\text{noise}) \).<br>
+				• A logarithmic scale is used to make small sensitivities visible without distorting the physics.<br>
+				• Sensitivity units are in meters per unit of parameter (not percentages).
+				</p>
 				<p>
 					The depth of investigation depends on several parameters.  
 					The chart below shows which parameter currently has the strongest influence on DOI.
 				</p>
+				
 				<div id="sensitivity-bars"></div>
 				
 				<div class="doi-note">
@@ -315,15 +334,15 @@
 				);
 
 				const entries = [
-						["Spacing (L)", sens.spacing],
-						["Conductivity (σ)", sens.conductivity],
+						["Spacing L (m)", sens.spacing],
+						["Conductivity σ (S/m)", sens.conductivity],
 						["Permeability (μ)", sens.permeability],
-						["Sensor height (h)", sens.height],
+						["Sensor height h (m)", sens.height],
 						["Noise floor", sens.noise]
 				];
 
 				container.innerHTML = entries.map(([label, value]) => {
-						const width = (Math.abs(value) / maxVal) * 100;
+						const width = (Math.log10(1 + Math.abs(value)) / Math.log10(1 + maxVal)) * 100;
 						return `
 								<div style="margin: 6px 0;">
 										<strong>${label}</strong>
@@ -338,6 +357,9 @@
 								</div>
 						`;
 				}).join("");
+				if (window.MathJax) {
+						MathJax.typeset();
+				}
 		}
 
 		// -------------------------------
