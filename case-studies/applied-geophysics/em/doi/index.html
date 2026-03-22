@@ -106,11 +106,11 @@
       <section id="interactive-physics" style="margin-top: 40px;">  
         <h2>Interactive Physics</h2>
         <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
-					<strong>Tip:</strong> Adjust the parameters to see how the depth of investigation changes.
+					<strong>Tip:</strong> Move the sliders to see how each parameter affects the depth of investigation.
 				</p>
 				<p>
-            Explore how transmitter–receiver spacing, ground conductivity, magnetic permeability, 
-            and signal amplitude influence the depth of investigation (DOI).
+          This interactive model shows how spacing, conductivity, magnetic permeability, 
+  				and noise control the skin depth and DOI
         </p>
 			
 			<div class="doi-assumptions">
@@ -261,20 +261,104 @@
 				</div>
 			</section>
 
-      <!-- Link to Frequency Domain DOI -->
-      <section style="margin-top: 40px;">
-        <h2>Frequency‑Domain DOI</h2>
-        <p>
-          Frequency‑domain EM systems have a well‑defined relationship between frequency and penetration depth.  
-          Explore this relationship using the interactive tool below.
-        </p>
+			<!-- Summary & Interpretation -->
+			<section id="summary" style="margin-top: 40px;">
+				<h2>Summary & Interpretation</h2>
 
-        <a href="/case-studies/applied-geophysics/em/doi/frequency-domain/" 
-           class="btn btn-secondary" 
-           style="display:inline-block; margin-top: 10px;">
-          Go to Frequency‑Domain DOI →
-        </a>
-      </section>
+				<p>
+					The depth of investigation (DOI) in time‑domain EM emerges from the balance between 
+					physical attenuation and measurement limitations. Skin depth governs how rapidly the 
+					electromagnetic field decays with depth, while the noise floor defines the smallest 
+					detectable amplitude. Together, these determine the practical limit beyond which the 
+					subsurface response becomes indistinguishable from noise.
+				</p>
+
+				<p>The interactive model illustrates several key behaviors:</p>
+
+				<ul>
+					<li><strong>Conductivity and permeability</strong> directly modify the skin depth, making them primary controls on DOI.</li>
+					<li><strong>Noise</strong> exerts a disproportionately strong influence because DOI depends logarithmically on the noise threshold.</li>
+					<li><strong>Sensor height</strong> shifts the DOI by a fixed amount, reflecting its linear contribution.</li>
+					<li><strong>Spacing</strong> affects geometric coupling but does not directly enter the simplified DOI expression; its influence becomes more pronounced when geometric attenuation is included.</li>
+				</ul>
+
+				<p>
+					These relationships show that DOI is not a fixed property of the Earth, but a dynamic quantity 
+					shaped by survey design, instrument performance, and subsurface physical properties. Understanding 
+					these dependencies is essential for interpreting EM data responsibly and for designing surveys 
+					that target specific depth ranges.
+				</p>
+			</section>
+
+			<!-- Limitations of the Simplified Model -->
+			
+			<section id="limitations" style="margin-top: 40px;">
+				<h2>Limitations of the Simplified Model</h2>
+
+				<p>
+					The expressions used in this module capture the essential physics of attenuation but omit several 
+					important factors that influence DOI in real surveys:
+				</p>
+
+				<ul>
+					<li><strong>Geometric attenuation</strong> — dipole–dipole and loop–loop coupling introduce distance‑dependent decay not captured by pure skin‑depth attenuation.</li>
+					<li><strong>Waveform frequency content</strong> — the effective skin depth depends on the dominant frequencies present in the transmitter pulse.</li>
+					<li><strong>Receiver bandwidth and filtering</strong> — instrument response shapes the detectable signal envelope and influences the noise threshold.</li>
+					<li><strong>Layered Earth effects</strong> — conductivity contrasts, anisotropy, and stratigraphy modify the decay curve and shift the DOI.</li>
+					<li><strong>Inversion‑dependent DOI</strong> — in practice, DOI is influenced by model regularization, data coverage, and inversion constraints.</li>
+				</ul>
+
+				<p>
+					This simplified model is therefore best viewed as a conceptual tool — a way to build intuition 
+					about how physical parameters influence detectability — rather than a substitute for full forward 
+					modeling or inversion.
+				</p>
+			</section>
+
+			<!--  Next Steps & Extensions -->
+		<section id="next-steps" style="margin-top: 40px;">
+				<h2>Next Steps & Extensions</h2>
+
+				<p>Several natural extensions build on this foundation:</p>
+
+				<ul>
+					<li><strong>Include geometric coupling</strong> to make spacing sensitivity physically meaningful.</li>
+					<li><strong>Introduce layered Earth models</strong> to show how DOI varies with conductivity contrasts.</li>
+					<li><strong>Add instrument noise models</strong> (white noise, 1/f noise, receiver drift).</li>
+					<li><strong>Visualize amplitude decay curves</strong> to connect the math directly to the physics.</li>
+					<li><strong>Extend to the frequency domain</strong> where amplitude and phase provide richer constraints on subsurface structure.</li>
+				</ul>
+
+				<p style="margin-top: 20px; font-size: 1.05em;">
+					To build on the concepts introduced here, the next module explores the 
+					<strong>frequency‑domain formulation</strong> of electromagnetic fields, where attenuation, 
+					phase shifts, and complex impedance offer deeper insight into subsurface conductivity structure.
+				</p>
+			</section>
+
+      <!-- Link to Frequency Domain DOI -->
+      <section id="frequency-domain" style="margin-top: 40px;">
+				<h2>Frequency‑Domain DOI</h2>
+
+				<p>
+					While the time‑domain formulation describes attenuation through skin depth and noise limits, 
+					the frequency domain provides a complementary view of subsurface conductivity. 
+					Amplitude and phase responses vary systematically with frequency, allowing deeper or 
+					shallower penetration depending on the chosen operating band.
+				</p>
+
+				<p>
+					The next module extends the concepts introduced here by exploring how frequency controls 
+					penetration depth, resolution, and sensitivity to subsurface structure.
+				</p>
+
+				<a href="/case-studies/applied-geophysics/em/doi/frequency-domain/" 
+					class="btn btn-secondary" 
+					style="display:inline-block; margin-top: 10px;">
+					Go to Frequency‑Domain DOI →
+				</a>
+			</section>	
+
 
     </main>
 
