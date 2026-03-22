@@ -83,7 +83,33 @@
             Explore how transmitter–receiver spacing, ground conductivity, magnetic permeability, 
             and signal amplitude influence the depth of investigation (DOI).
         </p>
-				
+			<div id="doi-theory" class="doi-assumptions">
+				<h3>Skin Depth and DOI</h3>
+
+				<p><strong>Skin depth:</strong> 
+				\( \delta = \sqrt{2 / (\omega \mu \sigma)} \)</p>
+
+				<p><strong>Amplitude decay:</strong> 
+				\( A(z) = A_0 e^{-z/\delta} \)</p>
+
+				<p><strong>Depth of Investigation (DOI):</strong> 
+				\( z_\text{DOI} = -\delta \ln(\text{noise}) \)</p>
+
+				<h4>Noise vs DOI multiplier</h4>
+				<table>
+					<tr><th>Noise</th><th>−ln(noise)</th><th>DOI / δ</th></tr>
+					<tr><td>0.01</td><td>4.6</td><td>4.6 δ</td></tr>
+					<tr><td>0.001</td><td>6.9</td><td>6.9 δ</td></tr>
+					<tr><td>0.0001</td><td>9.2</td><td>9.2 δ</td></tr>
+					<tr><td>0.00001</td><td>11.5</td><td>11.5 δ</td></tr>
+				</table>
+
+				<h4>Analogy</h4>
+				<p><em>Skin depth is like fog density — it tells you how quickly visibility drops.  
+				DOI is how far you can see before everything disappears.  
+				The fog didn’t change — your detection threshold did.</em></p>
+			</div>
+
 			<div class="doi-assumptions">
 				<h3>Model & Assumptions</h3>
 				<ul>
