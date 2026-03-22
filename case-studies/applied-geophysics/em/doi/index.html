@@ -53,16 +53,16 @@
 				<h3>Skin Depth and DOI</h3>
 
 				<p><strong>Skin depth:</strong> 
-				δ = √( 2 / ( ω μ σ ) )</p>
+					\( \delta = \sqrt{\frac{2}{\omega \mu \sigma}} \)</p>
 
 				<p><strong>Amplitude decay:</strong> 
-				 𝐴(Z)=𝐴_0*𝑒^(−𝑧/𝛿)</p>
+					\( A(z) = A_0 e^{-z / \delta} \)</p>
 
 				<p><strong>Noise:</strong> 
-				 The threshold relative amplitude (𝐴(𝑧)/𝐴_0) below which the signal becomes indistinguishable from noise and is no longer detectable.</p>
+				 The threshold relative amplitude \( A(z)/A_0 \)below which the signal becomes indistinguishable from noise and is no longer detectable.</p>
 
 				<p><strong>Depth of Investigation (DOI):</strong> 
-					Z_DOI = − 𝛿ln⁡(noise)</p>
+					\( z_{\text{DOI}} = - \delta \ln(\text{noise}) \)</p>
 
 				<h4>Noise vs DOI multiplier</h4>
 				<table>
@@ -210,9 +210,10 @@
         </div>
 
         <!-- Dynamic explanation -->
-        <div id="doi-explanation" style="margin-top: 20px;">
-            <p><strong>DOI:</strong> Adjust parameters to see how the depth of investigation changes.</p>
-        </div>
+        <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
+					<strong>Tip:</strong> Adjust the parameters to see how the depth of investigation changes.
+				</p>
+				<div id="doi-explanation" style="margin-top: 20px;"></div>
 
       </section>
 
@@ -228,20 +229,23 @@
 
 				</p>
 				<p style="font-size:0.9em; color:#444;">
-				<strong>Notes:</strong><br>
-				• Spacing (L) affects DOI only indirectly because the current model uses a pure skin‑depth + noise formulation (no geometric coupling yet).<br>
-				• Sensor height sensitivity is small because \( \partial DOI / \partial h = 1 \).<br>
-				• Noise sensitivity is large because DOI depends on \( -\delta \ln(\text{noise}) \).<br>
-				• A logarithmic scale is used to make small sensitivities visible without distorting the physics.<br>
-				• Sensitivity units are in meters per unit of parameter (not percentages).
+					<strong>Note:</strong> A logarithmic scale is used so that small sensitivities remain visible without distorting the physics.
 				</p>
+
+				<p style="font-size:0.9em; color:#444;">
 				<p>
 					The depth of investigation depends on several parameters.  
 					The chart below shows which parameter currently has the strongest influence on DOI.
 				</p>
 				
 				<div id="sensitivity-bars"></div>
-				
+					<strong>Notes:</strong><br>
+				• Spacing (L) affects DOI only indirectly because the current model uses a pure skin‑depth + noise formulation (no geometric coupling yet).<br>
+				• Sensor height sensitivity is small because \( \partial DOI / \partial h = 1 \).<br>
+				• Noise sensitivity is large because DOI depends on \( -\delta \ln(\text{noise}) \).<br>
+				• A logarithmic scale is used to make small sensitivities visible without distorting the physics.<br>
+				• Sensitivity units are in meters per unit of parameter (not percentages).
+				</p>
 				<div class="doi-note">
 					<p><strong>Depth of Investigation (DOI):</strong>  
 					The shaded red region represents depths where the received amplitude falls below the noise floor. In this zone:
@@ -710,12 +714,13 @@
 			else qualitative = "Resistive ground → deeper penetration.";
 
 			document.getElementById("doi-explanation").innerHTML =
-				`<p><strong>Skin depth:</strong> ${delta.toFixed(2)} m<br>
-				<strong>DOI below ground:</strong> ${doi.toFixed(2)} m<br>
-				<strong>DOI from sensor:</strong> ${doiFromSensor.toFixed(2)} m<br>
-				<strong>Amplitude at DOI:</strong> ${(ampAtDOI * 100).toFixed(2)}%<br>
-				<strong>Relative to spacing:</strong> ${spacingInterpretation}<br>
-				<strong>Interpretation:</strong> ${qualitative}</p>`;
+				`<div style="margin-top:15px; font-size:0.95em;">
+				<strong>Skin depth:</strong> ${delta.toFixed(2)} m &nbsp; | &nbsp;
+				<strong>DOI below ground:</strong> ${doi.toFixed(2)} m &nbsp; | &nbsp;
+				<strong>DOI from sensor:</strong> ${doiFromSensor.toFixed(2)} m &nbsp; | &nbsp;
+				<strong>Amplitude at DOI:</strong> ${(ampAtDOI * 100).toFixed(2)}% &nbsp; | &nbsp;
+				<strong>Relative to spacing:</strong> ${spacingInterpretation} &nbsp; | &nbsp;
+				<strong>Interpretation:</strong> ${qualitative}</div>`;
 		}
 
 		// -------------------------------
