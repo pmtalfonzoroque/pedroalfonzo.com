@@ -571,7 +571,6 @@
   <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.27.0/plotly.min.js"></script>
 
   <script>
-  console.log("Plotly loaded?", typeof Plotly);
   window.onload = function() {
     function computeAttenuation(freq, cond, height) {
       const mu0 = 4 * Math.PI * 1e-7;
@@ -603,16 +602,23 @@
       const data = computeAttenuation(freq, cond, height);
 
       Plotly.react("attenuationPlot", [{
-        x: data.depths,
-        y: data.amps,
+        x: data.amps,
+        y: data.depths,
         mode: "lines",
         line: { color: "#0077cc", width: 3 }
+      }, {
+        x: [0.1, 0.1],
+        y: [0, 50],
+        mode: "lines",
+        line: { color: "red", width: 2, dash: "dash" },
+        name: "DOI threshold"
       }], {
         title: "Normalized Amplitude vs Depth",
-        xaxis: { title: "Depth (m)" },
-        yaxis: { title: "A(z) / A₀", type: "log", range: [-4, 0] },
+        xaxis: { title: "A(z) / A₀", type: "log", range: [-4, 0] },
+        yaxis: { title: "Depth (m)", autorange: "reversed" },
         margin: { t: 40 }
       });
+
     }
 
     document.getElementById("freqSlider").oninput = updatePlot;
