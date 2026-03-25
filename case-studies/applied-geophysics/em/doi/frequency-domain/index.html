@@ -142,11 +142,106 @@
       <!-- ========================= -->
       <section id="doi-image" style="margin-top: 40px;">
         <h2>Depth of Investigation (Conceptual)</h2>
-        <p>
-          A conceptual illustration of frequency‑dependent penetration depth will appear here.
+
+        <p style="font-size:0.95em; color:#555; margin-bottom:20px;">
+          These static illustrations show how electromagnetic attenuation varies with depth and how
+          sensor height influences the observed amplitude decay. Together, they provide a conceptual
+          view of the depth of investigation (DOI) for different acquisition geometries.
         </p>
-        <!-- Add your image later -->
+
+        <!-- First image: frequency attenuation -->
+        <div style="display:flex; justify-content:center; margin-bottom:10px;">
+          <img src="assets/images/frequency_attenuation.png"
+              alt="Frequency attenuation curve"
+              style="max-width:100%; width:600px; border-radius:6px;">
+        </div>
+        <p style="text-align:center; font-size:0.9em; color:#666; margin-top:-10px;">
+          Normalized amplitude attenuation with depth for a representative frequency.
+        </p>
+
+        <!-- Second image: sensor height effect -->
+        <div style="display:flex; justify-content:center; margin-bottom:10px; margin-top:40px;">
+          <img src="assets/images/frequency_attenuation_sensorHeight.png"
+              alt="Sensor height attenuation curve"
+              style="max-width:100%; width:600px; border-radius:6px;">
+        </div>
+        <p style="text-align:center; font-size:0.9em; color:#666; margin-top:-10px;">
+          Effect of sensor height on the measured attenuation profile.
+        </p>
       </section>
+       <!-- ========================= -->
+      <!-- DOI Q&A Collapsible Section -->
+      <!-- ========================= -->
+      <div class="info-box-collapsible" style="margin-top: 40px;">
+
+        <button class="collapsible-btn" onclick="toggleSection('doiQAContent')">
+          <span class="icon">📘</span> Depth of Investigation — Common Questions
+          <span class="arrow">▼</span>
+        </button>
+
+        <div id="doiQAContent" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
+
+          <h3>❓ What is \(A_0\)? Where is it measured?</h3>
+          <p>
+            \(A_0\) is the reference amplitude measured at the <strong>sensor height</strong>.  
+            This means:
+            <ul>
+              <li>If the sensor is at <strong>1 m</strong>, then \(A_0\) is the amplitude at <strong>1 m</strong>.</li>
+              <li>If the sensor is at <strong>0 m</strong> (ground level), then \(A_0\) is the amplitude at <strong>0 m</strong>.</li>
+            </ul>
+            Because the EM field is strongest near the surface, a sensor placed at 1 m sees a <strong>larger</strong> \(A_0\).
+          </p>
+
+          <h3>❓ Why do the curves shift left or right on a log scale?</h3>
+          <p>
+            The plotted quantity is the <strong>normalized amplitude</strong>:
+            
+
+      \[
+            A_{\text{norm}}(z) = \frac{A(z)}{A_0}
+            \]
+
+
+            If the sensor height increases, \(A_0\) becomes larger.  
+            As a result, the ratio \(A(z)/A_0\) becomes <strong>smaller</strong>, and the curve shifts <strong>left</strong> on a logarithmic x‑axis.  
+            This left‑shift does <em>not</em> mean the signal is weaker — it only reflects the larger reference amplitude.
+          </p>
+
+          <h3>❓ Does a higher sensor height increase or decrease attenuation?</h3>
+          <p>
+            In <strong>absolute terms</strong>, attenuation decreases — the signal is stronger because the sensor is closer to the less‑attenuated region of the field.  
+            In <strong>normalized terms</strong>, the curve may appear more attenuated (shifted left) because \(A_0\) is larger.  
+            Both statements are correct because they refer to different reference points.
+          </p>
+
+          <h3>❓ Does a higher sensor height improve DOI?</h3>
+          <p>
+            Yes. A higher sensor height results in:
+            <ul>
+              <li>Higher absolute amplitude</li>
+              <li>Lower absolute attenuation</li>
+              <li>Better signal‑to‑noise ratio (SNR)</li>
+            </ul>
+            Since DOI is fundamentally <strong>SNR‑limited</strong>, a stronger signal remains above the noise floor for a greater depth range.  
+            Therefore, the <strong>effective DOI increases</strong>.
+          </p>
+
+          <h3>❓ Does the physical attenuation in the ground change?</h3>
+          <p>
+            No. The subsurface physics is unchanged.  
+            What changes is:
+            <ul>
+              <li>The <strong>measured</strong> amplitude</li>
+              <li>The <strong>reference</strong> amplitude \(A_0\)</li>
+              <li>The <strong>SNR</strong></li>
+              <li>The <strong>effective DOI</strong></li>
+            </ul>
+            The ground behaves the same — the measurement geometry changes the observed attenuation.
+          </p>
+
+        </div>
+      </div>
+
 
       <!-- ========================= -->
       <!-- Frequency Sweep Animations -->
