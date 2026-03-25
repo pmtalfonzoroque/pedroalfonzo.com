@@ -390,6 +390,15 @@
         <p>
           This interactive model will visualize amplitude and phase as functions of frequency.
         </p>
+        <div id="frequency-controls" style="margin-bottom: 20px;">
+          <label>Frequency (Hz):</label>
+          <input type="range" id="freqSlider" min="1" max="10000" value="100">
+        </div>
+
+        <div id="interactive-plot" style="height: 300px; border: 1px solid #ccc;">
+          <!-- Plot will be inserted here -->
+        </div>
+
 
         <!-- Graph container -->
         <div id="frequency-graph" style="margin-top: 20px;">
