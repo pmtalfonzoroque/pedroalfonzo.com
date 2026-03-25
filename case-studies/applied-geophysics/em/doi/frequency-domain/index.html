@@ -374,9 +374,78 @@
         <h2>Survey Geometry</h2>
         <p>
           The transmitter–receiver configuration, separation, and orientation influence 
-          the measured amplitude and phase. This section will describe the geometric factors 
-          relevant to frequency‑domain DOI.
+          the measured amplitude and phase. To keep the main flow focused on the 
+          conceptual diagram and interactive model, the detailed theory is provided 
+          in the collapsible section below.
         </p>
+        <div class="info-box-collapsible" style="margin-top: 40px;">
+
+          <button class="collapsible-btn" onclick="toggleSection('geometryContent')">
+            <span class="icon">📐</span> Survey Geometry — Theory & Sensitivity
+            <span class="arrow">▼</span>
+          </button>
+
+          <div id="geometryContent" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
+            
+            <h3>Transmitter–Receiver Spacing</h3>
+            <p>
+              The separation between transmitter (Tx) and receiver (Rx) determines the volume of ground that contributes
+              to the measured signal:
+            </p>
+            <ul>
+              <li><strong>Small spacing</strong> → strong coupling to shallow volumes, high resolution, shallow DOI.</li>
+              <li><strong>Larger spacing</strong> → broader sensitivity footprint, improved response from deeper volumes, but reduced amplitude.</li>
+            </ul>
+            <p>
+              Geometry can optimize sensitivity, but it cannot overcome the fundamental attenuation limits imposed by
+              frequency, conductivity, and noise.
+            </p>
+
+            <h3>Sensor Height</h3>
+            <p>
+              Sensor height controls both the reference amplitude \(A_0\) and the signal-to-noise ratio (SNR):
+            </p>
+            <ul>
+              <li>Raising the sensor slightly increases \(A_0\) and improves SNR → deeper DOI.</li>
+              <li>Raising it too high increases air-path attenuation → weaker ground signal → shallower DOI.</li>
+            </ul>
+
+            <h3>Dipole Orientation & Field Components</h3>
+            <p>
+              The orientation of the transmitter and receiver dipoles (horizontal vs vertical) and the measured field
+              components (e.g., \(H_x, H_z\)) shape the sensitivity pattern:
+            </p>
+            <ul>
+              <li><strong>Vertical dipoles</strong> → deeper sensitivity, broader footprint.</li>
+              <li><strong>Horizontal dipoles</strong> → shallow sensitivity, strong lateral resolution.</li>
+            </ul>
+            
+          </div>
+        </div>
+        <!-- Conceptual Diagram -->
+        <div style="margin-top: 20px; text-align:center;">
+          <div style="
+            display:inline-block;
+            width: 90%;
+            max-width: 600px;
+            height: 220px;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9em;
+          ">
+            <p><strong>Conceptual Geometry Diagram</strong></p>
+            <p>
+              A schematic illustration of Tx–Rx spacing, dipole orientation, sensor height, 
+              and the resulting sensitivity footprint will be added here.
+            </p>
+            <p style="font-size:0.85em; color:#999;">
+              An interactive version is planned for a future update.
+            </p>
+          </div>
+        </div>
+
       </section>
 
       <!-- ========================= -->
