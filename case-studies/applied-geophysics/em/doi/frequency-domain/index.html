@@ -436,9 +436,10 @@
           ">
             <p><strong>Conceptual Geometry Diagram</strong></p>
             <p>
-              A schematic illustration of Tx–Rx spacing, dipole orientation, sensor height, 
-              and the resulting sensitivity footprint will be added here.
+              Below there is a schematic illustration of Tx–Rx spacing, dipole orientation, sensor height, 
+              and the resulting sensitivity footprint in light blue.
             </p>
+            
             <svg viewBox="0 0 600 180" style="width:100%; max-width:580px;">
               <!-- Ground -->
               <line x1="40" y1="120" x2="560" y2="120" stroke="#999" stroke-width="2" />
@@ -568,8 +569,11 @@
   </script>
 
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  
+
 
   <script>
+  console.log("Plotly loaded?", typeof Plotly);
   window.onload = function() {
     function computeAttenuation(freq, cond, height) {
       const mu0 = 4 * Math.PI * 1e-7;
