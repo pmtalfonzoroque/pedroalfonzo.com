@@ -415,7 +415,17 @@
 
       loadComponent("header", "/components/header.html");
       loadComponent("footer", "/components/footer.html");
-    </script>
+  </script>
+
+  <script>
+    function toggleSection(id) { 
+      const box = document.getElementById(id); 
+      const btn = event.target.closest("button"); 
+      
+      box.classList.toggle("open"); 
+      btn.classList.toggle("active"); 
+    }
+  </script>
 
 </body>
 </html>            
