@@ -168,6 +168,14 @@
         <p style="text-align:center; font-size:0.9em; color:#666; margin-top:-10px;">
           Effect of sensor height on the measured attenuation profile.
         </p>
+
+        <div class="demo-banner" style="margin-top: 20px;">
+          <strong>Analogy:</strong> Raising the EM sensor is similar to lifting a flashlight above the ground. 
+          When the light is too close, it illuminates only a tiny area. Lifting it slightly spreads the light 
+          more effectively, improving visibility. But if you raise it too high, the light becomes too weak to 
+          illuminate anything useful. Sensor height behaves the same way: it improves depth of investigation 
+          (DOI) up to a point, but excessive height reduces the ground signal and decreases DOI.
+        </div>
       </section>
        <!-- ========================= -->
       <!-- DOI Q&A Collapsible Section -->
@@ -225,6 +233,20 @@
             Since DOI is fundamentally <strong>SNR‑limited</strong>, a stronger signal remains above the noise floor for a greater depth range.  
             Therefore, the <strong>effective DOI increases</strong>.
           </p>
+          <h3>❓ Does raising the sensor always improve DOI?</h3>
+          <p>
+            No — the improvement only holds up to a point.  
+            Raising the sensor too high causes the field to weaken due to geometric spreading and air‑path attenuation.  
+            Beyond a certain height, the ground contribution becomes too small and DOI <strong>decreases</strong>.
+            <br><br>
+            A useful analogy is a <strong>flashlight</strong>:  
+            <ul>
+              <li>Too close to the ground → tiny illuminated area.</li>
+              <li>Raised slightly → larger, clearer illumination.</li>
+              <li>Raised too high → light becomes too weak to be useful.</li>
+            </ul>
+            Drone‑based EM systems exploit this by flying at an altitude that balances field strength and noise reduction.
+          </p>
 
           <h3>❓ Does the physical attenuation in the ground change?</h3>
           <p>
@@ -241,6 +263,8 @@
 
         </div>
       </div>
+      
+
 
 
       <!-- ========================= -->
