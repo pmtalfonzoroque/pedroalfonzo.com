@@ -586,53 +586,55 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   <script>
-  function computeAttenuation(freq, cond, height) {
-    const mu0 = 4 * Math.PI * 1e-7;
-    const omega = 2 * Math.PI * freq;
-    const delta = Math.sqrt(2 / (omega * mu0 * cond));
+  window.onload = function() {
+    function computeAttenuation(freq, cond, height) {
+      const mu0 = 4 * Math.PI * 1e-7;
+      const omega = 2 * Math.PI * freq;
+      const delta = Math.sqrt(2 / (omega * mu0 * cond));
 
-    const depths = [];
-    const amps = [];
+      const depths = [];
+      const amps = [];
 
-    for (let z = 0; z <= 50; z += 0.5) {
-      const A0 = Math.exp(-height / delta);
-      const A = Math.exp(-(z + height) / delta);
-      depths.push(z);
-      amps.push(A / A0);
+      for (let z = 0; z <= 50; z += 0.5) {
+        const A0 = Math.exp(-height / delta);
+        const A = Math.exp(-(z + height) / delta);
+        depths.push(z);
+        amps.push(A / A0);
+      }
+
+      return { depths, amps };
     }
 
-    return { depths, amps };
-  }
+    function updatePlot() {
+      const freq = parseFloat(document.getElementById("freqSlider").value);
+      const cond = parseFloat(document.getElementById("condSlider").value);
+      const height = parseFloat(document.getElementById("heightSlider").value);
 
-  function updatePlot() {
-    const freq = parseFloat(document.getElementById("freqSlider").value);
-    const cond = parseFloat(document.getElementById("condSlider").value);
-    const height = parseFloat(document.getElementById("heightSlider").value);
+      document.getElementById("freqValue").textContent = freq;
+      document.getElementById("condValue").textContent = cond.toFixed(3);
+      document.getElementById("heightValue").textContent = height.toFixed(1);
 
-    document.getElementById("freqValue").textContent = freq;
-    document.getElementById("condValue").textContent = cond.toFixed(3);
-    document.getElementById("heightValue").textContent = height.toFixed(1);
+      const data = computeAttenuation(freq, cond, height);
 
-    const data = computeAttenuation(freq, cond, height);
+      Plotly.react("attenuationPlot", [{
+        x: data.depths,
+        y: data.amps,
+        mode: "lines",
+        line: { color: "#0077cc", width: 3 }
+      }], {
+        title: "Normalized Amplitude vs Depth",
+        xaxis: { title: "Depth (m)" },
+        yaxis: { title: "A(z) / A₀", type: "log", range: [-4, 0] },
+        margin: { t: 40 }
+      });
+    }
 
-    Plotly.react("attenuationPlot", [{
-      x: data.depths,
-      y: data.amps,
-      mode: "lines",
-      line: { color: "#0077cc", width: 3 }
-    }], {
-      title: "Normalized Amplitude vs Depth",
-      xaxis: { title: "Depth (m)" },
-      yaxis: { title: "A(z) / A₀", type: "log", range: [-4, 0] },
-      margin: { t: 40 }
-    });
-  }
+    document.getElementById("freqSlider").oninput = updatePlot;
+    document.getElementById("condSlider").oninput = updatePlot;
+    document.getElementById("heightSlider").oninput = updatePlot;
 
-  document.getElementById("freqSlider").oninput = updatePlot;
-  document.getElementById("condSlider").oninput = updatePlot;
-  document.getElementById("heightSlider").oninput = updatePlot;
-
-  updatePlot();
+    updatePlot();
+  };
   </script>
 
 </body>
