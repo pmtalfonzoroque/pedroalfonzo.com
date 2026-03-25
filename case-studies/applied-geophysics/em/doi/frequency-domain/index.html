@@ -157,18 +157,29 @@
         <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
           These animations illustrate how electromagnetic attenuation changes as frequency increases
           from 1 Hz to 10,000 Hz. The first animation uses a dynamic x‑axis (auto‑scaled), while the
-          second uses a fixed x‑axis to highlight the collapse of penetration depth.
+          second uses a fixed x‑axis to highlight the collapse of penetration depth.Both animations
+          were generated in Python using 200 frame‑by‑frame plots.
         </p>
 
         <h3>Dynamic x‑axis (auto‑scaled)</h3>
-        <video controls width="600" style="border-radius: 6px; margin-bottom: 30px;">
-          <source src="/assets/videos/frequency_sweep_0.mp4" type="video/mp4">
-        </video>
+        <div style="display:flex; justify-content:center; margin-bottom:20px;">
+          <video controls style="max-width:100%; width:600px; border-radius:6px;">
+            <source src="/assets/videos/frequency_sweep_0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p style="text-align:center; font-size:0.9em; color:#666; margin-top:-10px;">
+          Auto‑scaling highlights the relative shape of the attenuation curve at each frequency.
+        </p>
 
         <h3>Fixed x‑axis (recommended for interpretation)</h3>
-        <video controls width="600" style="border-radius: 6px;">
-          <source src="/assets/videos/frequency_sweep.mp4" type="video/mp4">
-        </video>
+        <div style="display:flex; justify-content:center; margin-bottom:20px;">
+          <video controls style="max-width:100%; width:600px; border-radius:6px;">
+            <source src="/assets/videos/frequency_sweep.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p style="text-align:center; font-size:0.9em; color:#666; margin-top:-10px;">
+          With fixed scaling, the collapse of penetration depth becomes visually clear as frequency increases.
+        </p>
       </section>
 
 
