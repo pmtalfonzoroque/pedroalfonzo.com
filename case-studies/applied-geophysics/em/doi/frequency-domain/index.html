@@ -435,14 +435,74 @@
             color: #777;
             font-size: 0.9em;
           ">
-            <p><strong>Conceptual Geometry Diagram</strong></p>
-            <p>
-              A schematic illustration of Tx–Rx spacing, dipole orientation, sensor height, 
-              and the resulting sensitivity footprint will be added here.
-            </p>
-            <p style="font-size:0.85em; color:#999;">
-              An interactive version is planned for a future update.
-            </p>
+            <div style="margin-top: 20px; text-align:center;">
+              <div style="
+                display:inline-block;
+                width: 90%;
+                max-width: 600px;
+                border: 2px dashed #ccc;
+                border-radius: 6px;
+                padding: 10px 10px 20px 10px;
+                color: #777;
+                font-size: 0.9em;
+              ">
+                <p><strong>Conceptual Geometry Diagram</strong></p>
+
+                <svg viewBox="0 0 600 220" style="width:100%; max-width:580px;">
+
+                  <!-- Ground line -->
+                  <line x1="40" y1="140" x2="560" y2="140" stroke="#999" stroke-width="2" />
+                  <text x="50" y="135" font-size="11" fill="#666">Ground surface</text>
+
+                  <!-- Tx symbol -->
+                  <circle cx="150" cy="120" r="12" fill="none" stroke="#0077cc" stroke-width="2" />
+                  <path d="M 142 120 A 8 8 0 0 1 158 120" fill="none" stroke="#0077cc" stroke-width="2" />
+                  <text x="135" y="110" font-size="11" fill="#0077cc">Tx</text>
+
+                  <!-- Rx symbol -->
+                  <rect x="380" y="110" width="24" height="20" fill="none" stroke="#cc3300" stroke-width="2" />
+                  <text x="383" y="106" font-size="11" fill="#cc3300">Rx</text>
+
+                  <!-- Sensor height arrows -->
+                  <line x1="150" y1="120" x2="150" y2="140" stroke="#555" stroke-width="1.5" />
+                  <line x1="380+12" y1="120" x2="392" y2="140" stroke="#555" stroke-width="1.5" />
+                  <line x1="150" y1="140" x2="150" y2="170" stroke="#555" stroke-width="1" stroke-dasharray="3,3" />
+                  <polygon points="147,168 153,168 150,175" fill="#555" />
+                  <text x="158" y="170" font-size="11" fill="#555">Sensor height</text>
+
+                  <!-- Tx–Rx spacing arrow -->
+                  <line x1="150" y1="155" x2="392" y2="155" stroke="#555" stroke-width="1.5" />
+                  <polygon points="150,152 150,158 143,155" fill="#555" />
+                  <polygon points="392,152 392,158 399,155" fill="#555" />
+                  <text x="240" y="170" font-size="11" fill="#555">Tx–Rx spacing</text>
+
+                  <!-- Sensitivity footprint (simple lobe) -->
+                  <path d="M 180 140 Q 270 100 360 140" fill="rgba(0,119,204,0.08)" stroke="rgba(0,119,204,0.4)" stroke-width="1.5" />
+                  <text x="250" y="100" font-size="11" fill="#666">Sensitivity footprint</text>
+
+                  <!-- Dipole orientation hints -->
+                  <line x1="150" y1="120" x2="150" y2="95" stroke="#0077cc" stroke-width="2" marker-end="url(#arrowHead)" />
+                  <text x="90" y="90" font-size="11" fill="#0077cc">Vertical dipole</text>
+
+                  <line x1="392" y1="120" x2="420" y2="120" stroke="#cc3300" stroke-width="2" marker-end="url(#arrowHead)" />
+                  <text x="425" y="125" font-size="11" fill="#cc3300">Horizontal component</text>
+
+                  <!-- Arrowhead marker -->
+                  <defs>
+                    <marker id="arrowHead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                      <polygon points="0,0 6,3 0,6" fill="#555" />
+                    </marker>
+                  </defs>
+
+                </svg>
+
+                <p style="font-size:0.85em; color:#999; margin-top:8px;">
+                  A future update will allow interactive adjustment of Tx–Rx spacing, sensor height, 
+                  and dipole orientation to visualize changes in the sensitivity footprint.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -454,25 +514,32 @@
       <section id="interactive-physics" style="margin-top: 40px;">
         <h2>Interactive Frequency Response</h2>
         <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
-          <strong>Tip:</strong> Adjust the parameters to see how frequency controls penetration depth.
+          <strong>Tip:</strong> Move the sliders to see how frequency, conductivity, and sensor height 
+          shape attenuation and depth of investigation (DOI).
         </p>
-        <p>
-          This interactive model will visualize amplitude and phase as functions of frequency.
-        </p>
-        <div id="frequency-controls" style="margin-bottom: 20px;">
-          <label>Frequency (Hz):</label>
-          <input type="range" id="freqSlider" min="1" max="10000" value="100">
+
+        <!-- Controls -->
+        <div style="margin-bottom: 20px;">
+
+          <label>Frequency (Hz): 
+            <span id="freqValue" style="font-weight:bold;">100</span>
+          </label>
+          <input type="range" id="freqSlider" min="1" max="5000" value="100" step="1" style="width:100%;">
+
+          <label>Conductivity (S/m): 
+            <span id="condValue" style="font-weight:bold;">0.01</span>
+          </label>
+          <input type="range" id="condSlider" min="0.001" max="1" value="0.01" step="0.001" style="width:100%;">
+
+          <label>Sensor Height (m): 
+            <span id="heightValue" style="font-weight:bold;">1</span>
+          </label>
+          <input type="range" id="heightSlider" min="0" max="5" value="1" step="0.1" style="width:100%;">
+
         </div>
 
-        <div id="interactive-plot" style="height: 300px; border: 1px solid #ccc;">
-          <!-- Plot will be inserted here -->
-        </div>
-
-
-        <!-- Graph container -->
-        <div id="frequency-graph" style="margin-top: 20px;">
-          <!-- You will add the canvas or SVG tomorrow -->
-        </div>
+        <!-- Plot Container -->
+        <div id="attenuationPlot" style="width:100%; height:400px;"></div>
       </section>
 
 
@@ -528,6 +595,58 @@
       box.classList.toggle("open"); 
       btn.classList.toggle("active"); 
     }
+  </script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <script>
+  function computeAttenuation(freq, cond, height) {
+    const mu0 = 4 * Math.PI * 1e-7;
+    const omega = 2 * Math.PI * freq;
+    const delta = Math.sqrt(2 / (omega * mu0 * cond));
+
+    const depths = [];
+    const amps = [];
+
+    for (let z = 0; z <= 50; z += 0.5) {
+      const A0 = Math.exp(-height / delta);
+      const A = Math.exp(-(z + height) / delta);
+      depths.push(z);
+      amps.push(A / A0);
+    }
+
+    return { depths, amps };
+  }
+
+  function updatePlot() {
+    const freq = parseFloat(document.getElementById("freqSlider").value);
+    const cond = parseFloat(document.getElementById("condSlider").value);
+    const height = parseFloat(document.getElementById("heightSlider").value);
+
+    document.getElementById("freqValue").textContent = freq;
+    document.getElementById("condValue").textContent = cond.toFixed(3);
+    document.getElementById("heightValue").textContent = height.toFixed(1);
+
+    const data = computeAttenuation(freq, cond, height);
+
+    Plotly.react("attenuationPlot", [{
+      x: data.depths,
+      y: data.amps,
+      mode: "lines",
+      line: { color: "#0077cc", width: 3 }
+    }], {
+      title: "Normalized Amplitude vs Depth",
+      xaxis: { title: "Depth (m)" },
+      yaxis: { title: "A(z) / A₀", type: "log", range: [-4, 0] },
+      margin: { t: 40 }
+    });
+  }
+
+  document.getElementById("freqSlider").oninput = updatePlot;
+  document.getElementById("condSlider").oninput = updatePlot;
+  document.getElementById("heightSlider").oninput = updatePlot;
+
+  updatePlot();
   </script>
 
 </body>
