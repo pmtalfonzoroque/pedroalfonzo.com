@@ -665,6 +665,50 @@ footer {
 .collapsible-btn.active .arrow {
   transform: rotate(180deg);
 }
+/* Make collapsibles more obviously clickable */
+.collapsible-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  background: #eef2f7;          /* light blue/grey tint */
+  border: 1px solid #d0d7e2;    /* subtle border */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+/* Hover effect */
+.collapsible-btn:hover {
+  background: #e3e9f2;
+}
+
+/* Icon spacing */
+.collapsible-btn .icon {
+  margin-right: 10px;
+}
+
+/* Arrow animation */
+.collapsible-btn .arrow {
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when open */
+.collapsible-btn.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* Optional: hint text */
+.expand-hint {
+  font-size: 0.85em;
+  color: #666;
+  margin-left: 8px;
+}
+
 /* #endregion icon + arrow */
 
 /* #region info Boxes & collapsible section */
