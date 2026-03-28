@@ -70,77 +70,85 @@
       <section id="theory" style="margin-top: 40px;">
         <h2>Background Theory: Skin Depth, Frequency, and DOI</h2>
 
-        <h3>Skin Depth</h3>
-        <p>
-          Electromagnetic fields in conductive ground decay exponentially with depth. 
-          The characteristic decay length is the <strong>skin depth</strong>:
-        </p>
+        <button class="collapsible-btn" onclick="toggleSection('BackgroundTheory')">
+          <span class="icon">📘</span> Skin Depth, Frequency, DOI, low/high δ , Interpreting the Attenuation Curves
+          <span class="expand-hint">— click to expand</span>
+          <span class="arrow"> ▼</span>
+        </button>
+        <div id="BackgroundTheory" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
+          <h3>Skin Depth</h3>
+          <p>
+            Electromagnetic fields in conductive ground decay exponentially with depth. 
+            The characteristic decay length is the <strong>skin depth</strong>:
+          </p>
 
-        <p style="text-align:center;">
-          \( \delta = \sqrt{\frac{2}{\omega \mu \sigma}} \)
-        </p>
+          <p style="text-align:center;">
+            \( \delta = \sqrt{\frac{2}{\omega \mu \sigma}} \)
+          </p>
 
-        <p>
-          Skin depth controls how deeply a signal can penetrate:
-        </p>
+          <p>
+            Skin depth controls how deeply a signal can penetrate:
+          </p>
 
-        <ul>
-          <li><strong>Large δ</strong> → slow attenuation → deep penetration</li>
-          <li><strong>Small δ</strong> → fast attenuation → shallow penetration</li>
-        </ul>
+          <ul>
+            <li><strong>Large δ</strong> → slow attenuation → deep penetration</li>
+            <li><strong>Small δ</strong> → fast attenuation → shallow penetration</li>
+          </ul>
 
-        <h3>Frequency Relationship</h3>
-        <p>
-          Frequency directly controls skin depth:
-        </p>
+          <h3>Frequency Relationship</h3>
+          <p>
+            Frequency directly controls skin depth:
+          </p>
 
-        <ul>
-          <li><strong>High frequency</strong> → large ω → small δ → fast attenuation → shallow DOI</li>
-          <li><strong>Low frequency</strong> → small ω → large δ → slow attenuation → deep DOI</li>
-        </ul>
+          <ul>
+            <li><strong>High frequency</strong> → large ω → small δ → fast attenuation → shallow DOI</li>
+            <li><strong>Low frequency</strong> → small ω → large δ → slow attenuation → deep DOI</li>
+          </ul>
 
-        <p>In practical terms:</p>
-        <ul>
-          <li><strong>10 Hz</strong> penetrates deepest</li>
-          <li><strong>1000 Hz</strong> penetrates shallowest</li>
-        </ul>
+          <p>In practical terms:</p>
+          <ul>
+            <li><strong>10 Hz</strong> penetrates deepest</li>
+            <li><strong>1000 Hz</strong> penetrates shallowest</li>
+          </ul>
 
-        <h3>What δ Means for Survey Design</h3>
-        <p>Different applications require different skin depths:</p>
+          <h3>What δ Means for Survey Design</h3>
+          <p>Different applications require different skin depths:</p>
 
-        <ul>
-          <li>
-            <strong>Small δ (high frequency)</strong>
-            <ul>
-              <li>shallow DOI</li>
-              <li>high resolution</li>
-              <li>sensitive to near‑surface features</li>
-              <li>used for UXO, archaeology, environmental mapping</li>
-            </ul>
-          </li>
+          <ul>
+            <li>
+              <strong>Small δ (high frequency)</strong>
+              <ul>
+                <li>shallow DOI</li>
+                <li>high resolution</li>
+                <li>sensitive to near‑surface features</li>
+                <li>used for UXO, archaeology, environmental mapping</li>
+              </ul>
+            </li>
 
-          <li>
-            <strong>Large δ (low frequency)</strong>
-            <ul>
-              <li>deep DOI</li>
-              <li>lower resolution</li>
-              <li>used for groundwater, mineral exploration, deep structure</li>
-            </ul>
-          </li>
-        </ul>
+            <li>
+              <strong>Large δ (low frequency)</strong>
+              <ul>
+                <li>deep DOI</li>
+                <li>lower resolution</li>
+                <li>used for groundwater, mineral exploration, deep structure</li>
+              </ul>
+            </li>
+          </ul>
 
-        <h3>Interpreting the Attenuation Curves</h3>
-        <ul>
-          <li>The <strong>10 Hz curve</strong> decays slowly → deep penetration</li>
-          <li>The <strong>1000 Hz curve</strong> decays rapidly → shallow penetration</li>
-          <li>The legend shows δ for each frequency, confirming the relationship</li>
-        </ul>
+          <h3>Interpreting the Attenuation Curves</h3>
+          <ul>
+            <li>The <strong>10 Hz curve</strong> decays slowly → deep penetration</li>
+            <li>The <strong>1000 Hz curve</strong> decays rapidly → shallow penetration</li>
+            <li>The legend shows δ for each frequency, confirming the relationship</li>
+          </ul>
 
-        <p>
-          These curves provide a clear visual demonstration of how frequency controls 
-          depth of investigation (DOI), and why geometric tricks (like small Tx–Rx 
-          spacing) cannot overcome physical attenuation limits.
-        </p>
+          <p>
+            These curves provide a clear visual demonstration of how frequency controls 
+            depth of investigation (DOI), and why geometric tricks (like small Tx–Rx 
+            spacing) cannot overcome physical attenuation limits.
+          </p>
+        </div>
+        
       </section>
 
       <!-- ========================= -->
@@ -315,62 +323,70 @@
       <section id="physics" style="margin-top: 40px;">
         <h2>Physics of Frequency‑Domain Attenuation</h2>
 
-        <p><strong>Complex wavenumber:</strong></p>
-        <p>
-          \( k = \alpha + i \beta \), where \( \alpha \) is the attenuation constant 
-          and \( \beta \) is the phase constant.
-        </p>
+        <button class="collapsible-btn" onclick="toggleSection('physicsofFrequency')">
+          <span class="icon">📘</span> Concepts of Complex wavenumber, angular frequency \( \omega \), Amplitude vs depth
+          <span class="expand-hint">— click to expand</span>
+          <span class="arrow"> ▼</span>
+        </button>
+        <div id="physicsofFrequency" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
+          <p><strong>Complex wavenumber:</strong></p>
+          <p>
+            \( k = \alpha + i \beta \), where \( \alpha \) is the attenuation constant 
+            and \( \beta \) is the phase constant.
+          </p>
 
-        <p><strong>Skin depth:</strong></p>
-        <p>
-          For a good conductor at angular frequency \( \omega \),
-          
+          <p><strong>Skin depth:</strong></p>
+          <p>
+            For a good conductor at angular frequency \( \omega \),
+            
 
-      \[
-            \delta = \sqrt{\frac{2}{\omega \mu \sigma}}.
-          \]
-
-
-        </p>
-
-        <p><strong>Amplitude decay with depth:</strong></p>
-        <p>
-          
-
-      \[
-            A(z) = A_0 e^{-z / \delta},
-          \]
+        \[
+              \delta = \sqrt{\frac{2}{\omega \mu \sigma}}.
+            \]
 
 
-          where \( A_0 \) is the amplitude at the surface and \( z \) is depth.
-        </p>
+          </p>
 
-        <p><strong>Phase shift with depth:</strong></p>
-        <p>
-          
+          <p><strong>Amplitude decay with depth:</strong></p>
+          <p>
+            
 
-      \[
-            \phi(z) \propto \frac{z}{\delta},
-          \]
-
-
-          indicating that both amplitude and phase carry information about 
-          subsurface conductivity.
-        </p>
-
-        <p><strong>Frequency‑dependent DOI (conceptual):</strong></p>
-        <p>
-          For a given noise threshold on relative amplitude \( A(z)/A_0 \),
-          
-
-      \[
-            z_{\text{DOI}}(\omega) \approx - \delta(\omega) \, \ln(\text{noise}),
-          \]
+        \[
+              A(z) = A_0 e^{-z / \delta},
+            \]
 
 
-          where \( \delta(\omega) \) decreases with increasing frequency, 
-          leading to shallower DOI at higher frequencies.
-        </p>
+            where \( A_0 \) is the amplitude at the surface and \( z \) is depth.
+          </p>
+
+          <p><strong>Phase shift with depth:</strong></p>
+          <p>
+            
+
+        \[
+              \phi(z) \propto \frac{z}{\delta},
+            \]
+
+
+            indicating that both amplitude and phase carry information about 
+            subsurface conductivity.
+          </p>
+
+          <p><strong>Frequency‑dependent DOI (conceptual):</strong></p>
+          <p>
+            For a given noise threshold on relative amplitude \( A(z)/A_0 \),
+            
+
+        \[
+              z_{\text{DOI}}(\omega) \approx - \delta(\omega) \, \ln(\text{noise}),
+            \]
+
+
+            where \( \delta(\omega) \) decreases with increasing frequency, 
+            leading to shallower DOI at higher frequencies.
+          </p>
+        </div>
+        
       </section>
 
       <!-- ========================= -->
