@@ -454,14 +454,50 @@
             </div>
                      
           </div>
-
+        </div>
+          
+        <div class="info-box-collapsible" style="margin-top: 40px;">
           <button class="collapsible-btn" onclick="toggleSection('txrxModel')">
             <span class="icon">📐</span> 
             Level 2: Quantitative Geometry Model (Tx–Rx & Height)
             <span class="expand-hint">— click to expand</span>
             <span class="arrow">▼</span>
           </button>
-        </div>
+          <div id="txrxModel" class="info-content" style="display:none; font-size:0.95em; color:#444; line-height:1.55; margin-top:10px;">
+
+            <h3>Geometric Coupling Model</h3>
+            <p>
+              In the quasi-static regime, the transmitter–receiver coupling decreases with distance as:
+            </p>
+
+            <p style="text-align:center;">
+              \( A_{\text{geom}} = \frac{1}{r^3} \)
+            </p>
+
+            <p>
+              where \( r = \sqrt{(\text{spacing})^2 + (\text{height})^2} \).
+              This term captures how spacing and sensor elevation reduce the measured amplitude.
+            </p>
+
+            <h3>Combined Attenuation</h3>
+            <p>
+              The full model becomes:
+            </p>
+
+            <p style="text-align:center;">
+              \( A(z) = A_{\text{geom}} \, e^{-z/\delta} \)
+            </p>
+
+            <div style="margin-top:20px; text-align:center;">
+              <img src="/assets/images/spacing_sensitivity.png" style="max-width:100%; width:600px;">
+              <p style="font-size:0.85em; color:#666;">
+                Vertical sensitivity for three Tx–Rx separations. Increasing spacing broadens the sensitivity footprint but reduces amplitude.
+              </p>
+            </div>
+
+          </div>
+        </div>  
+        
         <!-- Conceptual Diagram -->
         <div style="margin-top: 20px; text-align:center;">
           <div style="
