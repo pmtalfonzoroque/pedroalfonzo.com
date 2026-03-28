@@ -425,6 +425,15 @@
               <li><strong>Vertical dipoles</strong> → deeper sensitivity, broader footprint.</li>
               <li><strong>Horizontal dipoles</strong> → shallow sensitivity, strong lateral resolution.</li>
             </ul>
+
+            <div id="spacing-demo" style="margin-top:20px; text-align:center;">
+              <img src="/assets/images/spacing_sensitivity.png" style="max-width:100%; width:600px;">
+              <p style="font-size:0.85em; color:#666;">
+                Vertical sensitivity for three Tx–Rx separations. Increasing spacing broadens the sensitivity footprint but reduces amplitude.
+              </p>
+
+            </div>
+
             
           </div>
         </div>
@@ -530,6 +539,15 @@
           </label>
           <input type="range" id="heightSlider" min="0" max="5" value="1" step="0.1" style="width:100%;">
 
+          <label>Tx–Rx Spacing (m)
+            <span style="font-size:0.85em; color:#666;">
+              — Larger spacing → deeper sensitivity footprint but lower amplitude
+            </span>
+            <span id="spacingValue" style="font-weight:bold;">5</span>
+          </label>
+          <input type="range" id="spacingSlider" min="1" max="30" value="5" step="1" style="width:100%;">
+
+
         </div>
 
         <!-- Plot Container -->
@@ -548,7 +566,23 @@
         </p>
 
         <div id="sensitivity-bars" style="margin-top: 20px;">
-          <!-- Sensitivity bars will be inserted here -->
+          <div class="sensitivity-bar">
+            <span>Frequency</span>
+            <div class="bar" style="width: 85%;"></div>
+          </div>
+          <div class="sensitivity-bar">
+            <span>Conductivity</span>
+            <div class="bar" style="width: 90%;"></div>
+          </div>
+          <div class="sensitivity-bar">
+            <span>Tx–Rx Spacing</span>
+            <div class="bar" style="width: 60%;"></div>
+          </div>
+          <div class="sensitivity-bar">
+            <span>Sensor Height</span>
+            <div class="bar" style="width: 40%;"></div>
+          </div>
+
         </div>
       </section>
 
