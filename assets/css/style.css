@@ -996,12 +996,12 @@ section {
 }
 
 /* Main layout: 2-column grid */
-  .doi-interactive-container {
-    display: grid;
+.doi-interactive-container {
+  display: grid;
     grid-template-columns: 340px 1fr;   /* left = controls, right = graph */
     gap: 20px;
     align-items: start;                 /* align both columns at the top */
-  }
+}
 
   /* Controls column */
   .doi-controls {
@@ -1054,9 +1054,8 @@ section {
     #attenuationPlot {
       height: 260px;
     }
-  }
-
-
+  
+    
 
 .caption {
   font-size: 0.85rem;
