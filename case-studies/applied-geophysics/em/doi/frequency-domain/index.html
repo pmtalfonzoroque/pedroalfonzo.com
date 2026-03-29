@@ -568,13 +568,13 @@
 
         <!-- LEVEL 1 — Pure Skin Depth -->
         <div class="info-box-collapsible" style="margin-top: 40px;">
-          <button class="collapsible-btn" onclick="toggleSection('Level1Model')">
+          <button class="collapsible-btn" onclick="openLevel(1, 'Level1Model', 'Level2Model')">
             <span class="icon">📐</span> 
              Model & Assumptions — Level 1 (Pure Skin Depth)
             <span class="expand-hint">— click to expand</span>
             <span class="arrow">▼</span>
           </button>
-          <div id="Level1Model" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55; margin-top:10px;">
+          <div id="Level1Model" class="info-content" style="display:none; font-size:0.95em; color:#444; line-height:1.55;">
             
               <h3>Model & AssumptionsLevel 1: 1D Vertical Attenuation</h3>
               <ul>
@@ -626,14 +626,14 @@
         </div>
         <!-- LEVEL 2 — Geometry Model -->  
         <div class="info-box-collapsible" style="margin-top: 40px;">
-          <button class="collapsible-btn" onclick="toggleSection('Level2Model')">
+          <button class="collapsible-btn" onclick="openLevel(2, 'Level2Model', 'Level1Model')">
             <span class="icon">📐</span> 
             Model & Assumptions — Level 2 (Geometry Included)
             <span class="expand-hint">— click to expand</span>
             <span class="arrow">▼</span>
           </button>
 
-          <div id="Level2Model" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
+          <div id="Level2Model" class="info-content" style="display:none;font-size:0.95em; color:#444; line-height:1.55;">
             <h3>Level 2: Geometry-Aware Model</h3>
             <ul>
               <li>Includes Tx–Rx spacing.</li>
@@ -763,6 +763,19 @@
       modelLevel = level;
       updatePlot();
     };
+
+    function openLevel(level, openId, closeId) {
+      modelLevel = level;
+
+      // open selected
+      document.getElementById(openId).style.display = "block";
+
+      // close the other
+      document.getElementById(closeId).style.display = "none";
+
+      // update the plot
+      updatePlot();
+    }
 
     // -----------------------------
     // SKIN DEPTH
