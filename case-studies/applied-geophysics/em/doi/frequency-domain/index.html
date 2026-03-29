@@ -623,80 +623,54 @@
               </div>
             
           </div>
-        </div>  
-        <!-- Plot Container -->
-        <div id="attenuationPlot" style="width:100%; height:400px;"></div>
-
+        </div>
+        <!-- LEVEL 2 — Geometry Model -->  
         <div class="info-box-collapsible" style="margin-top: 40px;">
-          <button class="collapsible-btn" onclick="toggleSection('Assumptions2')">
+          <button class="collapsible-btn" onclick="toggleSection('Level2Model')">
             <span class="icon">📐</span> 
-             Model & Assumptions - Level 1:
+            Model & Assumptions — Level 2 (Geometry Included)
             <span class="expand-hint">— click to expand</span>
             <span class="arrow">▼</span>
           </button>
-        <div id="Assumptions2" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55; margin-top:10px;">
-          <div class="doi-assumptions">
-            <h3>Model & Assumptions</h3>
+
+          <div id="Level2Model" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
+            <h3>Level 2: Geometry-Aware Model</h3>
             <ul>
-              <li>Geometirc factor depending on geometry</li>
-              <li>A0 depend on the sensor height 𝐴
-0
-=
-𝐴
-(
-𝑧
-=
-height
-)</li>
-              <li>Tx-RX height not considered.</li>					
+              <li>Includes Tx–Rx spacing.</li>
+              <li>Includes sensor height.</li>
+              <li>Uses geometric coupling factor.</li>
             </ul>
+
+            <h4>Equations</h4>
+            <p style="text-align:center;">
+              \( r = \sqrt{(\text{spacing})^2 + (\text{height})^2} \)
+            </p>
+            <p style="text-align:center;">
+              \( A_{\text{geom}} = \frac{1}{r^3} \)
+            </p>
+            <p style="text-align:center;">
+              \( A(z) = A_{\text{geom}} \, e^{-z/\delta} \)
+            </p>
+            <p style="text-align:center;">
+              \( A_0 = A(z = \text{height}) \)
+            </p>
+            <p style="text-align:center;">
+              \( A_{\text{norm}}(z) = \frac{A(z)}{A_0} \)
+            </p>
+
+            <!-- Level 2 Controls -->
+            <div style="margin-top:20px;">
+              <label>Sensor Height (m)
+                <span id="heightValue" style="font-weight:bold;">1</span>
+              </label>
+              <input type="range" id="heightSlider" min="0" max="5" value="1" step="0.1" style="width:100%;">
+
+              <label>Tx–Rx Spacing (m)
+                <span id="spacingValue" style="font-weight:bold;">5</span>
+              </label>
+              <input type="range" id="spacingSlider" min="1" max="30" value="5" step="1" style="width:100%;">
+            </div>
           </div>
-        </div> 
-
-        <!-- Controls -->
-        <div style="margin-bottom: 20px;">
-
-          <label>Frequency (Hz) 
-            <span style="font-size:0.85em; color:#666;">
-              — Higher frequency → curve decays faster → intersection moves upward → shallower DOI
-            </span>
-            <span id="freqValue" style="font-weight:bold; margin-left:6px;">100</span>
-          </label>
-          <input type="range" id="freqSlider" min="1" max="5000" value="100" step="1" style="width:100%;">
-
-          <label>Conductivity (S/m)
-            <span style="font-size:0.85em; color:#666;"> 
-              — Higher conductivity → stronger attenuation → shallower DOI
-            </span>
-            <span id="condValue" style="font-weight:bold;">0.01</span>
-          </label>
-          <input type="range" id="condSlider" min="0.001" max="1" value="0.01" step="0.001" style="width:100%;">
-          
-          <label> DOI Threshold (A/A₀) 
-            <span style="font-size:0.85em; color:#666;">
-              — try 0.37 (1/e), 0.1 (practical), or 0.01 (deep/noisy)
-            </span>
-            <span id="doiValue" style="font-weight:bold; margin-left:6px;">0.1</span>
-          </label>
-          <input type="range" id="doiSlider" min="0.001" max="0.5" value="0.1" step="0.001" style="width:100%;">
-
-          <label>Sensor Height (m)
-            <span style="font-size:0.85em; color:#666;">
-              —  Higher sensor height → weaker coupling → shallower DOI
-            </span>
-            <span id="heightValue" style="font-weight:bold;">1</span>
-          </label>
-          <input type="range" id="heightSlider" min="0" max="5" value="1" step="0.1" style="width:100%;">
-
-          <label>Tx–Rx Spacing (m)
-            <span style="font-size:0.85em; color:#666;">
-              — Larger spacing → deeper sensitivity footprint but lower amplitude
-            </span>
-            <span id="spacingValue" style="font-weight:bold;">5</span>
-          </label>
-          <input type="range" id="spacingSlider" min="1" max="30" value="5" step="1" style="width:100%;">
-
-
         </div>
 
         <!-- Plot Container -->
@@ -777,18 +751,62 @@ height
   <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.27.0/plotly.min.js"></script>
 
   <script>
-  window.onload = function() {
-    function computeAttenuation(freq, cond, height) {
+  window.onload = function () {
+
+    // -----------------------------
+    // MODEL SWITCH
+    // -----------------------------
+    let modelLevel = 1; // default = Level 1
+
+    // Called by collapsible buttons
+    window.setModel = function(level) {
+      modelLevel = level;
+      updatePlot();
+    };
+
+    // -----------------------------
+    // SKIN DEPTH
+    // -----------------------------
+    function skinDepth(freq, cond) {
       const mu0 = 4 * Math.PI * 1e-7;
       const omega = 2 * Math.PI * freq;
-      const delta = Math.sqrt(2 / (omega * mu0 * cond));
+      return Math.sqrt(2 / (omega * mu0 * cond));
+    }
+
+    // -----------------------------
+    // LEVEL 1 MODEL (Pure Skin Depth)
+    // -----------------------------
+    function computeAttenuationLevel1(freq, cond) {
+      const delta = skinDepth(freq, cond);
 
       const depths = [];
       const amps = [];
 
       for (let z = 0; z <= 50; z += 0.5) {
-        const A0 = Math.exp(-height / delta);
-        const A = Math.exp(-(z + height) / delta);
+        const A = Math.exp(-z / delta); // A0 = 1
+        depths.push(z);
+        amps.push(A);
+      }
+
+      return { depths, amps };
+    }
+
+    // -----------------------------
+    // LEVEL 2 MODEL (Geometry Included)
+    // -----------------------------
+    function computeAttenuationLevel2(freq, cond, height, spacing) {
+      const delta = skinDepth(freq, cond);
+
+      // geometric coupling
+      const r = Math.sqrt(spacing * spacing + height * height);
+      const A_geom = 1 / Math.pow(r, 3);
+
+      const depths = [];
+      const amps = [];
+
+      for (let z = 0; z <= 50; z += 0.5) {
+        const A = A_geom * Math.exp(-z / delta);
+        const A0 = A_geom * Math.exp(-height / delta);
         depths.push(z);
         amps.push(A / A0);
       }
@@ -796,48 +814,70 @@ height
       return { depths, amps };
     }
 
+    // -----------------------------
+    // UPDATE PLOT
+    // -----------------------------
     function updatePlot() {
-      const freq = parseFloat(document.getElementById("freqSlider").value);
-      const cond = parseFloat(document.getElementById("condSlider").value);
-      const height = parseFloat(document.getElementById("heightSlider").value);
-      const doi = parseFloat(document.getElementById("doiSlider").value);
-      
-      document.getElementById("doiValue").textContent = doi.toFixed(3);
-      document.getElementById("freqValue").textContent = freq;
-      document.getElementById("condValue").textContent = cond.toFixed(3);
-      document.getElementById("heightValue").textContent = height.toFixed(1);
+      const freq = parseFloat(freqSlider.value);
+      const cond = parseFloat(condSlider.value);
+      const doi = parseFloat(doiSlider.value);
+      const height = parseFloat(heightSlider.value);
+      const spacing = parseFloat(spacingSlider.value);
 
-      const data = computeAttenuation(freq, cond, height);
+      // Update labels
+      freqValue.textContent = freq;
+      condValue.textContent = cond.toFixed(3);
+      doiValue.textContent = doi.toFixed(3);
+      heightValue.textContent = height.toFixed(1);
+      spacingValue.textContent = spacing.toFixed(1);
 
-      Plotly.react("attenuationPlot", [{
-        x: data.amps,
-        y: data.depths,
-        mode: "lines",
-        line: { color: "#0077cc", width: 3 }
-      }, {
-        x: [doi,doi],
-        y: [0, 50],
-        mode: "lines",
-        line: { color: "red", width: 2, dash: "dash" },
-        name: "DOI threshold"
-      }], {
+      // Choose model
+      let data;
+      if (modelLevel === 1) {
+        data = computeAttenuationLevel1(freq, cond);
+      } else {
+        data = computeAttenuationLevel2(freq, cond, height, spacing);
+      }
+
+      // Plot
+      Plotly.react("attenuationPlot", [
+        {
+          x: data.amps,
+          y: data.depths,
+          mode: "lines",
+          line: { color: "#0077cc", width: 3 }
+        },
+        {
+          x: [doi, doi],
+          y: [0, 50],
+          mode: "lines",
+          line: { color: "red", width: 2, dash: "dash" },
+          name: "DOI threshold"
+        }
+      ], {
         title: "Normalized Amplitude vs Depth",
         xaxis: { title: "A(z) / A₀", type: "log" },
         yaxis: { title: "Depth (m)", autorange: "reversed" },
         margin: { t: 40 }
       });
-
     }
 
-    document.getElementById("freqSlider").oninput = updatePlot;
-    document.getElementById("condSlider").oninput = updatePlot;
-    document.getElementById("heightSlider").oninput = updatePlot;
-    document.getElementById("doiSlider").oninput = updatePlot;
+    // -----------------------------
+    // EVENT LISTENERS
+    // -----------------------------
+    freqSlider.oninput = updatePlot;
+    condSlider.oninput = updatePlot;
+    doiSlider.oninput = updatePlot;
+    heightSlider.oninput = updatePlot;
+    spacingSlider.oninput = updatePlot;
 
-
+    // -----------------------------
+    // INITIALIZE
+    // -----------------------------
     updatePlot();
   };
   </script>
+
 
 </body>
 </html>            
