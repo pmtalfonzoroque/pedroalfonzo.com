@@ -1057,22 +1057,30 @@ section {
 
 
   /* Canvas */
-  #doiCanvas {
+  /* Desktop default */
+  #doiCanvas,
+  #attenuationPlot {
     width: 100%;
-    height: 600px;                      /* actual visible graph height */
+    height: 600px;
     display: block;
   }
 
-  /* Desktop layout (optional, grid already handles it) */
-  @media (max-width: 800px) {
-    .doi-interactive-container {
-      grid-template-columns: 1fr;   /* collapse to one column */
-    }
-
-    .doi-plot {
-      min-height: 500px;            /* reasonable height on mobile */
+  /* Tablet */
+  @media (max-width: 900px) {
+    #doiCanvas,
+    #attenuationPlot {
+      height: 380px;
     }
   }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    #doiCanvas,
+    #attenuationPlot {
+      height: 260px;
+    }
+  }
+
 
 
 .caption {

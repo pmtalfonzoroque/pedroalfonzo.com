@@ -559,123 +559,176 @@
       <!-- Interactive Graph -->
       <!-- ========================= -->
       <section id="interactive-physics" style="margin-top: 40px;">
+
         <h2>Interactive Frequency Response</h2>
         <p style="font-size:0.95em; color:#555; margin-bottom:10px;">
           Explore how frequency, conductivity, geometry, and sensor height shape attenuation and depth of investigation (DOI).
-          <strong>Tip:</strong> Move the sliders to see how frequency, conductivity, and sensor height 
-          shape attenuation and depth of investigation (DOI).
         </p>
 
-        <!-- LEVEL 1 — Pure Skin Depth -->
-        <div class="info-box-collapsible" style="margin-top: 40px;">
-          <button class="collapsible-btn" onclick="openLevel(1, 'Level1Model', 'Level2Model')">
-            <span class="icon">📐</span> 
-             Model & Assumptions — Level 1 (Pure Skin Depth)
-            <span class="expand-hint">— click to expand</span>
-            <span class="arrow">▼</span>
-          </button>
-          <div id="Level1Model" class="model-content" style="display:none; font-size:0.95em; color:#444; line-height:1.55;">
-            
-              <h3>Model & AssumptionsLevel 1: 1D Vertical Attenuation</h3>
-              <ul>
-                <li>No transmitter–receiver geometry.</li>
-                <li>No spacing or height effects.</li>
-                <li>Only vertical attenuation controlled by skin depth.</li>					
-              </ul>
-
-              <h4>Equations</h4>
-              <p style="text-align:center;">
-                \( \delta = \sqrt{\frac{2}{\omega \mu \sigma}} \)
-              </p>
-              <p style="text-align:center;">
-                \( A(z) = A_0 e^{-z/\delta} \)
-              </p>
-              <p style="text-align:center;">
-                \( A_{\text{norm}}(z) = \frac{A(z)}{A_0} \)
-              </p>
-
-              <!-- Level 1 Controls -->
-              <div style="margin-bottom: 20px;">
-
-                <label>Frequency (Hz) 
-                  <span style="font-size:0.85em; color:#666;">
-                    — Higher frequency → curve decays faster → intersection moves upward → shallower DOI
-                  </span>
-                  <span id="freqValue" style="font-weight:bold; margin-left:6px;">  100</span>
-                </label>
-                <input type="range" id="freqSlider" min="1" max="5000" value="100" step="1" style="width:100%;">
-
-                <label>Conductivity (S/m)
-                  <span style="font-size:0.85em; color:#666;"> 
-                    — Higher conductivity → stronger attenuation → shallower DOI
-                  </span>
-                  <span id="condValue" style="font-weight:bold;">  0.01</span>
-                </label>
-                <input type="range" id="condSlider" min="0.001" max="1" value="0.01" step="0.001" style="width:100%;">
-                
-                <label> DOI Threshold (A/A₀) 
-                  <span style="font-size:0.85em; color:#666;">
-                    — try 0.37 (1/e), 0.1 (practical), or 0.01 (deep/noisy)
-                  </span>
-                  <span id="doiValue" style="font-weight:bold; margin-left:6px;">  0.1</span>
-                </label>
-                <input type="range" id="doiSlider" min="0.001" max="0.5" value="0.1" step="0.001" style="width:100%;">
-              </div>
-            
-          </div>
-        </div>
-        <!-- LEVEL 2 — Geometry Model -->  
-        <div class="info-box-collapsible" style="margin-top: 40px;">
-          <button class="collapsible-btn" onclick="openLevel(2, 'Level2Model', 'Level1Model')">
-            <span class="icon">📐</span> 
-            Model & Assumptions — Level 2 (Geometry Included)
+        <!-- THEORY COLLAPSIBLE -->
+        <div class="info-box-collapsible" style="margin-top: 20px;">
+          <button class="collapsible-btn" onclick="toggleSection(this)">
+            <span class="icon">📐</span> Model & Assumptions
             <span class="expand-hint">— click to expand</span>
             <span class="arrow">▼</span>
           </button>
 
-          <div id="Level2Model" class="model-content" style="display:none;font-size:0.95em; color:#444; line-height:1.55;">
-            <h3>Level 2: Geometry-Aware Model</h3>
+          <div class="info-content">
+            <h3>Geometry-Aware Attenuation Model</h3>
             <ul>
               <li>Includes Tx–Rx spacing.</li>
               <li>Includes sensor height.</li>
-              <li>Uses geometric coupling factor.</li>
+              <li>Includes skin-depth attenuation.</li>
             </ul>
 
             <h4>Equations</h4>
+
             <p style="text-align:center;">
-              \( r = \sqrt{(\text{spacing})^2 + (\text{height})^2} \)
+              \( \delta = \sqrt{\frac{2}{\omega \mu \sigma}} \)
             </p>
+            <p style="font-size:0.9em; color:#555;">
+              <strong>Skin depth δ</strong> controls how quickly EM fields attenuate with depth.  
+              Higher frequency or higher conductivity → smaller δ → faster decay.
+            </p>
+
+            <p style="text-align:center;">
+              \( r = \sqrt{L^2 + h^2} \)
+            </p>
+            <p style="font-size:0.9em; color:#555;">
+              <strong>Source–receiver distance r</strong> combines transmitter–receiver spacing \(L\)  
+              and sensor height \(h\). This determines geometric coupling.
+            </p>
+
             <p style="text-align:center;">
               \( A_{\text{geom}} = \frac{1}{r^3} \)
             </p>
+            <p style="font-size:0.9em; color:#555;">
+              <strong>Geometric factor \(A_{\text{geom}}\)</strong> describes how EM fields weaken  
+              simply due to distance and dipole geometry.  
+              Larger spacing or height → weaker coupling → lower amplitude.
+            </p>
+
             <p style="text-align:center;">
               \( A(z) = A_{\text{geom}} \, e^{-z/\delta} \)
             </p>
-            <p style="text-align:center;">
-              \( A_0 = A(z = \text{height}) \)
+            <p style="font-size:0.9em; color:#555;">
+              <strong>Absolute amplitude \(A(z)\)</strong> combines geometry and attenuation.  
+              This is the physically measured field strength in real surveys.
             </p>
+
+            <p style="text-align:center;">
+              \( A_0 = A(h) \)
+            </p>
+            <p style="font-size:0.9em; color:#555;">
+              <strong>Reference amplitude \(A_0\)</strong> is the field at the receiver height.  
+              It is used to normalize the curve when comparing shapes.
+            </p>
+
             <p style="text-align:center;">
               \( A_{\text{norm}}(z) = \frac{A(z)}{A_0} \)
             </p>
+            <p style="font-size:0.9em; color:#555;">
+              <strong>Normalized amplitude</strong> removes geometric effects.  
+              This highlights the <em>shape</em> of attenuation, independent of spacing or height.
+            </p>
 
-            <!-- Level 2 Controls -->
-            <div style="margin-top:20px;">
-              <label>Sensor Height (m)
-                <span id="heightValue" style="font-weight:bold;">1</span>
-              </label>
-              <input type="range" id="heightSlider" min="0" max="5" value="1" step="0.1" style="width:100%;">
+            <h4>Normalized vs Absolute (Why both matter)</h4>
+            <ul style="font-size:0.9em; color:#555; line-height:1.5;">
+              <li>
+                <strong>Absolute amplitude</strong> is what instruments measure.  
+                It shows the impact of geometry (spacing, height) and is essential for  
+                <em>survey design, sensitivity analysis, and real‑world feasibility</em>.
+              </li>
+              <li>
+                <strong>Normalized amplitude</strong> removes geometry and focuses only on  
+                <em>attenuation with depth</em>.  
+                This is useful for comparing materials, frequencies, and skin‑depth behavior.
+              </li>
+              <li>
+                In practice, both are used:
+                <ul>
+                  <li>Absolute → “Can we detect this target at all?”</li>
+                  <li>Normalized → “How deep does the field penetrate?”</li>
+                </ul>
+              </li>
+            </ul>
 
-              <label>Tx–Rx Spacing (m)
-                <span id="spacingValue" style="font-weight:bold;">5</span>
-              </label>
-              <input type="range" id="spacingSlider" min="1" max="30" value="5" step="1" style="width:100%;">
-            </div>
           </div>
         </div>
 
-        <!-- Plot Container -->
-        <div id="attenuationPlot" style="width:100%; height:400px;"></div>
+        <!-- RESPONSIVE CONTAINER -->
+        <div class="doi-interactive-container">
+
+          <!-- LEFT: CONTROLS -->
+          <div class="doi-controls">
+            <h3>Parameters</h3>
+
+            <label>Frequency (Hz)
+              <span style="font-size:0.85em; color:#666;">
+                — Higher frequency → faster decay → shallower DOI
+              </span>
+              <span id="freqValue" style="font-weight:bold; margin-left:6px;">100</span>
+            </label>
+            <input type="range" id="freqSlider" min="1" max="5000" value="100" step="1" style="width:100%;">
+
+
+            <label>Conductivity (S/m)
+              <span style="font-size:0.85em; color:#666;">
+                — Higher conductivity → stronger attenuation → shallower DOI
+              </span>
+              <span id="condValue" style="font-weight:bold; margin-left:6px;">0.01</span>
+            </label>
+            <input type="range" id="condSlider" min="0.001" max="1" value="0.01" step="0.001" style="width:100%;">
+
+
+            <label>Sensor Height (m)
+              <span style="font-size:0.85em; color:#666;">
+                — Higher sensor → weaker coupling → lower amplitude
+              </span>
+              <span id="heightValue" style="font-weight:bold; margin-left:6px;">1</span>
+            </label>
+            <input type="range" id="heightSlider" min="0" max="20" value="1" step="0.1" style="width:100%;">
+
+
+            <label>Tx–Rx Spacing (m)
+              <span style="font-size:0.85em; color:#666;">
+                — Larger spacing → weaker geometric coupling → lower amplitude
+              </span>
+              <span id="spacingValue" style="font-weight:bold; margin-left:6px;">5</span>
+            </label>
+            <input type="range" id="spacingSlider" min="0" max="30" value="5" step="1" style="width:100%;">
+
+
+            <label>Amplitude Mode
+              <span style="font-size:0.85em; color:#666;">
+                — Normalized removes geometry; Absolute shows spacing/height effects
+              </span>
+            </label>
+            <select id="ampMode" onchange="updatePlot()" style="width:100%; margin-bottom:10px;">
+              <option value="normalized">Normalized</option>
+              <option value="absolute">Absolute</option>
+            </select>
+
+
+            <label>DOI Threshold (A/A₀)
+              <span style="font-size:0.85em; color:#666;">
+                — try 0.37 (1/e), 0.1 (practical), or 0.01 (deep/noisy)
+              </span>
+              <span id="doiValue" style="font-weight:bold; margin-left:6px;">0.1</span>
+            </label>
+            <input type="range" id="doiSlider" min="0.001" max="0.5" value="0.1" step="0.001" style="width:100%;">
+
+          </div>
+
+          <!-- RIGHT: PLOT -->
+          <div class="doi-plot">
+            <h3>Attenuation Curve</h3>
+            <div id="attenuationPlot"></div>
+          </div>
+
+        </div>
       </section>
+
 
 
       <!-- ========================= -->
