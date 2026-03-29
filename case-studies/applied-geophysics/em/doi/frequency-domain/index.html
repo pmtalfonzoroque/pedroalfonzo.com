@@ -567,13 +567,13 @@
 
         <!-- THEORY COLLAPSIBLE -->
         <div class="info-box-collapsible" style="margin-top: 20px;">
-          <button class="collapsible-btn" onclick="toggleSection(this)">
-            <span class="icon">📐</span> Model & Assumptions
+          <button class="collapsible-btn" onclick="toggleSection('theory')">
+            <span class="icon">📘</span> Theory, Model & Assumptions
             <span class="expand-hint">— click to expand</span>
-            <span class="arrow">▼</span>
+            <span class="arrow"> -> ▼</span>
           </button>
 
-          <div class="info-content">
+          <div id="theory" class="info-content" style="font-size:0.95em; color:#444; line-height:1.55;">
             <h3>Geometry-Aware Attenuation Model</h3>
             <ul>
               <li>Includes Tx–Rx spacing.</li>
@@ -945,7 +945,12 @@
     updatePlot();
   };
   </script>
-
+  
+  <script> 
+    window.addEventListener('resize', () => {
+    Plotly.Plots.resize('attenuationPlot');
+  });
+  </script>
 
 </body>
 </html>            
