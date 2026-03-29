@@ -764,14 +764,16 @@
       updatePlot();
     };
 
-    function openLevel(level, openId, closeId) {
+    window.openLevel = function (level, openId, closeId) {
       modelLevel = level;
 
       // open selected
-      document.getElementById(openId).style.display = "block";
+      const openEl = document.getElementById(openId)
+      openEl.style.display = "block";
 
       // close the other
-      document.getElementById(closeId).style.display = "none";
+      const closeEl = document.getElementById(closeId)
+      closeEl.style.display = "none";
 
       // update the plot
       updatePlot();
