@@ -804,146 +804,113 @@
   <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.27.0/plotly.min.js"></script>
 
   <script>
-  window.onload = function () {
+   window.onload = function () {
 
-    // -----------------------------
-    // MODEL SWITCH
-    // -----------------------------
-    let modelLevel = 1; // default = Level 1
+      // -----------------------------
+      // SKIN DEPTH
+      // -----------------------------
+      function skinDepth(freq, cond) {
+        const mu0 = 4 * Math.PI * 1e-7;
+        const omega = 2 * Math.PI * freq;
+        return Math.sqrt(2 / (omega * mu0 * cond));
+      }
 
-    // Called by collapsible buttons
-    window.setModel = function(level) {
-      modelLevel = level;
+      // -----------------------------
+      // UNIFIED MODEL (Geometry + Skin Depth)
+      // -----------------------------
+      function computeAttenuation(freq, cond, height, spacing, mode) {
+        const delta = skinDepth(freq, cond);
+
+        const r = Math.sqrt(spacing * spacing + height * height);
+        const A_geom = 1 / Math.pow(r, 3);
+
+        const depths = [];
+        const amps = [];
+
+        for (let z = 0; z <= 50; z += 0.5) {
+          const A = A_geom * Math.exp(-z / delta);
+          const A0 = A_geom * Math.exp(-height / delta);
+
+          depths.push(z);
+
+          if (mode === "normalized") {
+            amps.push(A / A0);
+          } else {
+            amps.push(A);
+          }
+        }
+
+        return { depths, amps };
+      }
+
+      // -----------------------------
+      // UPDATE PLOT
+      // -----------------------------
+      function updatePlot() {
+        const freq = parseFloat(freqSlider.value);
+        const cond = parseFloat(condSlider.value);
+        const doi = parseFloat(doiSlider.value);
+        const height = parseFloat(heightSlider.value);
+        const spacing = parseFloat(spacingSlider.value);
+        const mode = ampMode.value;
+
+        // Update labels
+        freqValue.textContent = freq;
+        condValue.textContent = cond.toFixed(3);
+        doiValue.textContent = doi.toFixed(3);
+        heightValue.textContent = height.toFixed(1);
+        spacingValue.textContent = spacing.toFixed(1);
+
+        // Compute attenuation
+        const data = computeAttenuation(freq, cond, height, spacing, mode);
+
+        const xLabel = (mode === "normalized") ? "A(z) / A₀" : "Absolute Amplitude A(z)";
+
+        Plotly.react("attenuationPlot", [
+          {
+            x: data.amps,
+            y: data.depths,
+            mode: "lines",
+            line: { color: "#0077cc", width: 3 }
+          },
+          {
+            x: [doi, doi],
+            y: [0, 50],
+            mode: "lines",
+            line: { color: "red", width: 2, dash: "dash" },
+            name: "DOI threshold"
+          }
+        ], {
+          title: "Attenuation vs Depth",
+          xaxis: { title: xLabel, type: "log" },
+          yaxis: { title: "Depth (m)", autorange: "reversed" },
+          margin: { t: 40 }
+        });
+      }
+
+      // -----------------------------
+      // EVENT LISTENERS
+      // -----------------------------
+      freqSlider.oninput = updatePlot;
+      condSlider.oninput = updatePlot;
+      doiSlider.oninput = updatePlot;
+      heightSlider.oninput = updatePlot;
+      spacingSlider.oninput = updatePlot;
+      ampMode.onchange = updatePlot;
+
+      // -----------------------------
+      // INITIALIZE
+      // -----------------------------
       updatePlot();
     };
 
-    window.openLevel = function (level, openId, closeId) {
-      modelLevel = level;
-
-      // open selected
-      const openEl = document.getElementById(openId)
-      openEl.style.display = "block";
-
-      // close the other
-      const closeEl = document.getElementById(closeId)
-      closeEl.style.display = "none";
-
-      // update the plot
-      updatePlot();
-    }
-
     // -----------------------------
-    // SKIN DEPTH
+    // RESIZE HANDLER
     // -----------------------------
-    function skinDepth(freq, cond) {
-      const mu0 = 4 * Math.PI * 1e-7;
-      const omega = 2 * Math.PI * freq;
-      return Math.sqrt(2 / (omega * mu0 * cond));
-    }
-
-    // -----------------------------
-    // LEVEL 1 MODEL (Pure Skin Depth)
-    // -----------------------------
-    function computeAttenuationLevel1(freq, cond) {
-      const delta = skinDepth(freq, cond);
-
-      const depths = [];
-      const amps = [];
-
-      for (let z = 0; z <= 50; z += 0.5) {
-        const A = Math.exp(-z / delta); // A0 = 1
-        depths.push(z);
-        amps.push(A);
-      }
-
-      return { depths, amps };
-    }
-
-    // -----------------------------
-    // LEVEL 2 MODEL (Geometry Included)
-    // -----------------------------
-    function computeAttenuationLevel2(freq, cond, height, spacing) {
-      const delta = skinDepth(freq, cond);
-
-      // geometric coupling
-      const r = Math.sqrt(spacing * spacing + height * height);
-      const A_geom = 1 / Math.pow(r, 3);
-
-      const depths = [];
-      const amps = [];
-
-      for (let z = 0; z <= 50; z += 0.5) {
-        const A = A_geom * Math.exp(-z / delta);
-        const A0 = A_geom * Math.exp(-height / delta);
-        depths.push(z);
-        amps.push(A / A0);
-      }
-
-      return { depths, amps };
-    }
-
-    // -----------------------------
-    // UPDATE PLOT
-    // -----------------------------
-    function updatePlot() {
-      const freq = parseFloat(freqSlider.value);
-      const cond = parseFloat(condSlider.value);
-      const doi = parseFloat(doiSlider.value);
-      const height = parseFloat(heightSlider.value);
-      const spacing = parseFloat(spacingSlider.value);
-
-      // Update labels
-      freqValue.textContent = freq;
-      condValue.textContent = cond.toFixed(3);
-      doiValue.textContent = doi.toFixed(3);
-      heightValue.textContent = height.toFixed(1);
-      spacingValue.textContent = spacing.toFixed(1);
-
-      // Choose model
-      let data;
-      if (modelLevel === 1) {
-        data = computeAttenuationLevel1(freq, cond);
-      } else {
-        data = computeAttenuationLevel2(freq, cond, height, spacing);
-      }
-
-      // Plot
-      Plotly.react("attenuationPlot", [
-        {
-          x: data.amps,
-          y: data.depths,
-          mode: "lines",
-          line: { color: "#0077cc", width: 3 }
-        },
-        {
-          x: [doi, doi],
-          y: [0, 50],
-          mode: "lines",
-          line: { color: "red", width: 2, dash: "dash" },
-          name: "DOI threshold"
-        }
-      ], {
-        title: "Normalized Amplitude vs Depth",
-        xaxis: { title: "A(z) / A₀", type: "log" },
-        yaxis: { title: "Depth (m)", autorange: "reversed" },
-        margin: { t: 40 }
-      });
-    }
-
-    // -----------------------------
-    // EVENT LISTENERS
-    // -----------------------------
-    freqSlider.oninput = updatePlot;
-    condSlider.oninput = updatePlot;
-    doiSlider.oninput = updatePlot;
-    heightSlider.oninput = updatePlot;
-    spacingSlider.oninput = updatePlot;
-
-    // -----------------------------
-    // INITIALIZE
-    // -----------------------------
-    updatePlot();
-  };
+    window.addEventListener('resize', () => {
+      Plotly.Plots.resize('attenuationPlot');
+    });
+ 
   </script>
   
   <script> 
