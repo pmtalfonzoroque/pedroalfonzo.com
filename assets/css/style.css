@@ -1022,13 +1022,24 @@ section {
 
   /* Plot area (right column) */
   .doi-plot {
-    background: #f7f7f7;
-    padding: 15px;
-    border-radius: 6px;
-    /*min-height: 800px;*/
-    min-width: 0;
-    display: block;   /* important */
+      background: #f7f7f7;
+      padding: 15px;
+      border-radius: 6px;
+      min-height: 600px;
   }
+
+  @media (max-width: 900px) {
+      .doi-plot {
+          min-height: 400px;
+      }
+  }
+
+  @media (max-width: 600px) {
+      .doi-plot {
+          min-height: 260px;
+      }
+  }
+
 
 
   /* Canvas */
