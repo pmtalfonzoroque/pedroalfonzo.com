@@ -863,6 +863,52 @@
 
         // Compute attenuation
         const data = computeAttenuation(freq, cond, height, spacing, mode);
+        
+        // Geometry term (same as in computeAttenuation)
+        const r = Math.sqrt(spacing * spacing + height * height);
+        const A_geom = 1 / Math.pow(r, 3);
+
+        // Skin depth
+        const delta = skinDepth(freq, cond);
+
+        // Interpret DOI slider as amplitude threshold
+        const noiseAmp = doi;
+
+        // Compute DOI depending on mode
+        let doiDepth;
+
+        if (mode === "absolute") {
+            // A(z) = A_geom * exp(-z/delta)
+            doiDepth = -delta * Math.log(noiseAmp / A_geom);
+        } else {
+            // normalized mode: A_norm(z) = exp(-(z - height)/delta)
+            doiDepth = height - delta * Math.log(noiseAmp);
+        }
+
+        const ampsMin = Math.min(...data.amps);
+        const ampsMax = Math.max(...data.amps);
+
+        // DOI line
+        const doiLineTrace = {
+          x: [ampsMin, ampsMax],
+          y: [doiDepth, doiDepth],
+          mode: "lines",
+          line: { color: "#e11d48", width: 2, dash: "dash" },
+          name: "DOI"
+        };
+
+        // DOI point
+        const A_doi = (mode === "absolute")
+          ? A_geom * Math.exp(-doiDepth / delta)
+          : Math.exp(-(doiDepth - height) / delta);
+
+        const doiPointTrace = {
+          x: [A_doi],
+          y: [doiDepth],
+          mode: "markers",
+          marker: { size: 8, color: "#e11d48" },
+          name: "DOI point"
+        };
 
         const xLabel = (mode === "normalized") ? "A(z) / A₀" : "Absolute Amplitude A(z)";
 
@@ -873,19 +919,15 @@
             mode: "lines",
             line: { color: "#0077cc", width: 3 }
           },
-          {
-            x: [doi, doi],
-            y: [0, 50],
-            mode: "lines",
-            line: { color: "red", width: 2, dash: "dash" },
-            name: "DOI threshold"
-          }
+          doiLineTrace,
+          doiPointTrace
         ], {
           title: "Attenuation vs Depth",
           xaxis: { title: xLabel, type: "log" },
           yaxis: { title: "Depth (m)", autorange: "reversed" },
           margin: { t: 40 }
         });
+
       }
 
       // -----------------------------
