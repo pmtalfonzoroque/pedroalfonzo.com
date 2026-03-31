@@ -1025,7 +1025,7 @@ section {
     background: #f7f7f7;
     padding: 15px;
     border-radius: 6px;
-    min-height: 800px;
+    /*min-height: 800px;*/
     min-width: 0;
     display: block;   /* important */
   }
