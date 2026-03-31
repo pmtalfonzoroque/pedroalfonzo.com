@@ -885,6 +885,11 @@
             doiDepth = height - delta * Math.log(noiseAmp);
         }
 
+        const maxDepth = Math.max(...data.depths);
+
+        if (doiDepth < 0) doiDepth = 0;
+        if (doiDepth > maxDepth) doiDepth = maxDepth;
+
         const ampsMin = Math.min(...data.amps);
         const ampsMax = Math.max(...data.amps);
 
