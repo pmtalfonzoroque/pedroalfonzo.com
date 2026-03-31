@@ -1042,6 +1042,8 @@ section {
 
   /* Tablet */
   @media (max-width: 900px) {
+    .doi-interactive-container {
+    grid-template-columns: 1fr !important;  }
     #doiCanvas,
     #attenuationPlot {
       height: 380px;
@@ -1050,6 +1052,8 @@ section {
 
   /* Mobile */
   @media (max-width: 600px) {
+    .doi-interactive-container {
+    grid-template-columns: 1fr !important;  }
     #doiCanvas,
     #attenuationPlot {
       height: 260px;
