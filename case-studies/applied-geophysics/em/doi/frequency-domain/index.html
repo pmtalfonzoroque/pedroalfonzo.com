@@ -847,113 +847,92 @@
       // UPDATE PLOT
       // -----------------------------
       function updatePlot() {
-        const freq = parseFloat(freqSlider.value);
-        const cond = parseFloat(condSlider.value);
-        const doi = parseFloat(doiSlider.value);
-        const height = parseFloat(heightSlider.value);
-        const spacing = parseFloat(spacingSlider.value);
-        const mode = ampMode.value;
+          const freq = parseFloat(freqSlider.value);
+          const cond = parseFloat(condSlider.value);
+          const doi = parseFloat(doiSlider.value);
+          const height = parseFloat(heightSlider.value);
+          const spacing = parseFloat(spacingSlider.value);
+          const mode = ampMode.value;
 
-        // Update labels
-        freqValue.textContent = freq;
-        condValue.textContent = cond.toFixed(3);
-        doiValue.textContent = doi.toFixed(3);
-        heightValue.textContent = height.toFixed(1);
-        spacingValue.textContent = spacing.toFixed(1);
+          // Update labels
+          freqValue.textContent = freq;
+          condValue.textContent = cond.toFixed(3);
+          doiValue.textContent = doi.toFixed(3);
+          heightValue.textContent = height.toFixed(1);
+          spacingValue.textContent = spacing.toFixed(1);
 
-        // Compute attenuation
-        const data = computeAttenuation(freq, cond, height, spacing, mode);
-        
-        // Geometry term (same as in computeAttenuation)
-        const r = Math.sqrt(spacing * spacing + height * height);
-        const A_geom = 1 / Math.pow(r, 3);
+          // Compute attenuation curve
+          const data = computeAttenuation(freq, cond, height, spacing, mode);
 
-        // Skin depth
-        const delta = skinDepth(freq, cond);
+          // Geometry term
+          const r = Math.sqrt(spacing * spacing + height * height);
+          const A_geom = 1 / Math.pow(r, 3);
 
-        // Interpret DOI slider as amplitude threshold
-        const noiseAmp = doi;
+          // Skin depth
+          const delta = skinDepth(freq, cond);
 
-        // Compute DOI depending on mode
-        let doiDepth;
+          // DOI threshold
+          const noiseAmp = doi;
 
-        if (mode === "absolute") {
-            // A(z) = A_geom * exp(-z/delta)
-            doiDepth = -delta * Math.log(noiseAmp / A_geom);
-        } else {
-            // normalized mode: A_norm(z) = exp(-(z - height)/delta)
-            doiDepth = height - delta * Math.log(noiseAmp);
-        }
+          // Compute DOI
+          let doiDepth;
+          if (mode === "absolute") {
+              doiDepth = -delta * Math.log(noiseAmp / A_geom);
+          } else {
+              doiDepth = height - delta * Math.log(noiseAmp);
+          }
 
-        const maxDepth = Math.max(...data.depths);
+          // Clamp DOI to visible range
+          const maxDepth = Math.max(...data.depths);
+          if (doiDepth < 0) doiDepth = 0;
+          if (doiDepth > maxDepth) doiDepth = maxDepth;
 
-        if (doiDepth < 0) doiDepth = 0;
-        if (doiDepth > maxDepth) doiDepth = maxDepth;
+          // X‑axis range
+          const ampsMin = Math.min(...data.amps);
+          const ampsMax = Math.max(...data.amps);
 
-        const ampsMin = Math.min(...data.amps);
-        const ampsMax = Math.max(...data.amps);
+          // DOI line
+          const doiLineTrace = {
+              x: [ampsMin, ampsMax],
+              y: [doiDepth, doiDepth],
+              mode: "lines",
+              line: { color: "#e11d48", width: 2, dash: "dash" },
+              name: "DOI"
+          };
 
-        // Horizontal DOI line
-        const doiLineTrace = {
-            x: [ampsMin, ampsMax],
-            y: [doiDepth, doiDepth],
-            mode: "lines",
-            line: { color: "#e11d48", width: 2, dash: "dash" },
-            name: "DOI"
-        };
-          
-        // Shaded unusable zone (optional)
-        const shadingTrace = {
-            x: [ampsMin, ampsMax, ampsMax, ampsMin],
-            y: [doiDepth, doiDepth, Math.max(...data.depths), Math.max(...data.depths)],
-            fill: "toself",
-            fillcolor: "rgba(200,0,0,0.15)",
-            line: { width: 0 },
-            name: "Unusable zone",
-            showlegend: false
-        };
+          // Shaded unusable zone
+          const shadingTrace = {
+              x: [ampsMin, ampsMax, ampsMax, ampsMin],
+              y: [doiDepth, doiDepth, maxDepth, maxDepth],
+              fill: "toself",
+              fillcolor: "rgba(200,0,0,0.15)",
+              line: { width: 0 },
+              name: "Unusable zone",
+              showlegend: true
+          };
 
+          const xLabel = (mode === "normalized") ? "A(z) / A₀" : "Absolute Amplitude A(z)";
 
-        const xLabel = (mode === "normalized") ? "A(z) / A₀" : "Absolute Amplitude A(z)";
-
-        Plotly.react("attenuationPlot", [
-            {
-                x: data.amps,
-                y: data.depths,
-                mode: "lines",
-                line: { color: "#0077cc", width: 3 }
-            },
-            shadingTrace,
-            doiLineTrace
-        ], {
-            title: "Attenuation vs Depth",
-            height: 700,
-            xaxis: { title: xLabel, type: "log" },
-            yaxis: { title: "Depth (m)", autorange: "reversed" },
-            margin: { t: 40 },
-            annotations: [
-                {
-                    x: ampsMin,
-                    y: doiDepth - 2,
-                    xref: "x",
-                    yref: "y",
-                    text: "↑ Usable zone",
-                    showarrow: false,
-                    font: { color: "green", size: 12 }
-                },
-                {
-                    x: ampsMin,
-                    y: doiDepth + 2,
-                    xref: "x",
-                    yref: "y",
-                    text: "↓ Unusable zone",
-                    showarrow: false,
-                    font: { color: "red", size: 12 }
-                }
-            ]
-        });
-
+          // Plot
+          Plotly.react("attenuationPlot", [
+              {
+                  x: data.amps,
+                  y: data.depths,
+                  mode: "lines",
+                  line: { color: "#0077cc", width: 3 },
+                  name: "Attenuation"
+              },
+              shadingTrace,
+              doiLineTrace
+          ], {
+              title: "Attenuation vs Depth",
+              height: 700,
+              xaxis: { title: xLabel, type: "log" },
+              yaxis: { title: "Depth (m)", autorange: "reversed" },
+              margin: { t: 40 }
+          });
       }
+
 
       // -----------------------------
       // EVENT LISTENERS
