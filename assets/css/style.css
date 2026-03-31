@@ -1027,6 +1027,10 @@ section {
       border-radius: 6px;
       min-height: 900px;
   }
+  #attenuationPlot {
+    height: 800px;   
+}
+
 
   @media (max-width: 900px) {
       .doi-plot {
