@@ -888,45 +888,45 @@
         const ampsMin = Math.min(...data.amps);
         const ampsMax = Math.max(...data.amps);
 
-        // DOI line
+        // Horizontal DOI line
         const doiLineTrace = {
-          x: [ampsMin, ampsMax],
-          y: [doiDepth, doiDepth],
-          mode: "lines",
-          line: { color: "#e11d48", width: 2, dash: "dash" },
-          name: "DOI"
+            x: [ampsMin, ampsMax],
+            y: [doiDepth, doiDepth],
+            mode: "lines",
+            line: { color: "#e11d48", width: 2, dash: "dash" },
+            name: "DOI"
         };
 
-        // DOI point
-        const A_doi = (mode === "absolute")
-          ? A_geom * Math.exp(-doiDepth / delta)
-          : Math.exp(-(doiDepth - height) / delta);
-
-        const doiPointTrace = {
-          x: [A_doi],
-          y: [doiDepth],
-          mode: "markers",
-          marker: { size: 8, color: "#e11d48" },
-          name: "DOI point"
+        // Shaded unusable zone (optional)
+        const shadingTrace = {
+            x: [ampsMin, ampsMax, ampsMax, ampsMin],
+            y: [doiDepth, doiDepth, Math.max(...data.depths), Math.max(...data.depths)],
+            fill: "toself",
+            fillcolor: "rgba(200,0,0,0.15)",
+            line: { width: 0 },
+            name: "Unusable zone",
+            showlegend: false
         };
+
 
         const xLabel = (mode === "normalized") ? "A(z) / A₀" : "Absolute Amplitude A(z)";
 
         Plotly.react("attenuationPlot", [
-          {
-            x: data.amps,
-            y: data.depths,
-            mode: "lines",
-            line: { color: "#0077cc", width: 3 }
-          },
-          doiLineTrace,
-          doiPointTrace
+            {
+                x: data.amps,
+                y: data.depths,
+                mode: "lines",
+                line: { color: "#0077cc", width: 3 }
+            },
+            shadingTrace,
+            doiLineTrace
         ], {
-          title: "Attenuation vs Depth",
-          xaxis: { title: xLabel, type: "log" },
-          yaxis: { title: "Depth (m)", autorange: "reversed" },
-          margin: { t: 40 }
+            title: "Attenuation vs Depth",
+            xaxis: { title: xLabel, type: "log" },
+            yaxis: { title: "Depth (m)", autorange: "reversed" },
+            margin: { t: 40 }
         });
+
 
       }
 
