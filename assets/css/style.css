@@ -1025,7 +1025,7 @@ section {
       background: #f7f7f7;
       padding: 15px;
       border-radius: 6px;
-      min-height: 00px;
+      min-height: 900px;
   }
 
   @media (max-width: 900px) {
