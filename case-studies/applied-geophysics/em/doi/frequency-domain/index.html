@@ -901,7 +901,7 @@
             line: { color: "#e11d48", width: 2, dash: "dash" },
             name: "DOI"
         };
-
+      }    
         // Shaded unusable zone (optional)
         const shadingTrace = {
             x: [ampsMin, ampsMax, ampsMax, ampsMin],
@@ -927,14 +927,33 @@
             doiLineTrace
         ], {
             title: "Attenuation vs Depth",
-            height: 800,
+            height: 700,
             xaxis: { title: xLabel, type: "log" },
             yaxis: { title: "Depth (m)", autorange: "reversed" },
-            margin: { t: 40 }
+            margin: { t: 40 },
+            annotations: [
+                {
+                    x: ampsMin,
+                    y: doiDepth - 2,
+                    xref: "x",
+                    yref: "y",
+                    text: "↑ Usable zone",
+                    showarrow: false,
+                    font: { color: "green", size: 12 }
+                },
+                {
+                    x: ampsMin,
+                    y: doiDepth + 2,
+                    xref: "x",
+                    yref: "y",
+                    text: "↓ Unusable zone",
+                    showarrow: false,
+                    font: { color: "red", size: 12 }
+                }
+            ]
         });
 
 
-      }
 
       // -----------------------------
       // EVENT LISTENERS
