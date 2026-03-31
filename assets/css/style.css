@@ -1028,8 +1028,8 @@ section {
       min-height: 900px;
   }
   #attenuationPlot {
-    height: 800px;   
-}
+      height: 800px;   
+  }
 
 
   @media (max-width: 900px) {
