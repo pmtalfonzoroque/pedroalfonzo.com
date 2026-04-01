@@ -897,50 +897,121 @@
         <button class="collapsible-btn" onclick="toggleSection('forwardModel')">
           <span class="icon">⚙️</span> Forward Modeling (Synthetic Data)
         </button>
+
         <div id="forwardModel" class="info-content">
+
           <p style="font-size:0.9em; color:#555;">
-            We generate synthetic FDEM data using a simplified layered-earth forward model.
+            The synthetic FDEM response is generated using a simplified layered‑earth model.
             Each frequency produces a secondary field amplitude based on:
           </p>
 
-          <ul style="font-size:0.9em; color:#555;">
+          <ul style="font-size:0.9em; color:#555; margin-left:10px;">
             <li>Layer conductivities (σ₁, σ₂, σ₃)</li>
-            <li>Layer depths (h₁, h₂)</li>
-            <li>Skin depth attenuation</li>
-            <li>Survey geometry (spacing + height)</li>
+            <li>Layer thicknesses (h₁, h₂)</li>
+            <li>Skin‑depth attenuation</li>
+            <li>Survey geometry (Tx–Rx spacing + sensor height)</li>
           </ul>
 
+          <!-- Nested collapsible: Forward Model Equations -->
           <button class="collapsible-btn" onclick="toggleSection('forwardModelEquations')">
-          <span class="icon">⚙️</span> Forward Model Equations
+            <span class="icon">📘</span> Forward Model Equations (Details)
           </button>
+
           <div id="forwardModelEquations" class="info-content">
-            <h4>Forward Model Equations</h4>
+
+            <h4 style="margin-top:10px;">Forward Model Equations</h4>
 
             <p style="font-size:0.9em; color:#555;">
-              The synthetic secondary field is computed using a simplified layered-earth attenuation model:
+              The synthetic secondary field is computed using a simplified attenuation‑based formulation.
+              This captures the essential physics of FDEM depth sensitivity without requiring a full Maxwell solver.
             </p>
 
             <div style="background:#f8f9fc; padding:12px; border-left:3px solid #4a6fa5; margin-bottom:15px;">
-              <p><strong>Skin depth:</strong></p>
-              <p>\(\delta = \sqrt{\frac{2}{\omega \mu_0 \sigma}}\), &nbsp; \(\omega = 2\pi f\)</p>
 
-              <p><strong>Geometry factor:</strong></p>
-              <p>\(A_{\text{geom}} = \frac{1}{r^3}\), &nbsp; \(r = \sqrt{L^2 + h^2}\)</p>
+              <!-- Skin depth -->
+              <p><strong>1. Skin depth</strong></p>
+              <p>
 
-              <p><strong>Layer contribution:</strong></p>
-              <p>\(A_i = w_i \, e^{-z_i / \delta_i}\)</p>
+        \[
+                \delta = \sqrt{\frac{2}{\omega \mu_0 \sigma}}, \qquad 
+                \omega = 2\pi f
+              \]
 
-              <p><strong>Total secondary field:</strong></p>
-              <p>\(A_{\text{sec}} = A_{\text{geom}} \sum_i A_i\)</p>
+        </p>
+              <p style="font-size:0.85em; color:#666;">
+                Controls how quickly EM fields attenuate with depth. Higher conductivity → smaller δ → shallower penetration.
+              </p>
 
-              <p><strong>Primary field:</strong></p>
-              <p>\(A_{\text{prim}} = A_{\text{geom}}\)</p>
+              <!-- Geometry factor -->
+              <p><strong>2. Geometry factor</strong></p>
+              <p>
 
-              <p><strong>Normalized response:</strong></p>
-              <p>\(A_{\text{norm}} = \frac{A_{\text{sec}}}{A_{\text{prim}}}\)</p>
+        \[
+                A_{\text{geom}} = \frac{1}{r^3}, \qquad 
+                r = \sqrt{L^2 + h^2}
+              \]
+
+        </p>
+              <p style="font-size:0.85em; color:#666;">
+                Approximates the dipole–dipole primary field decay with distance. This sets the overall amplitude scale.
+              </p>
+
+              <!-- Layer contribution -->
+              <p><strong>3. Layer contribution</strong></p>
+              <p>
+
+        \[
+                A_i = w_i \, e^{-z_i / \delta_i}
+              \]
+
+        </p>
+
+              <div style="font-size:0.85em; color:#666; margin-left:10px;">
+                <p>Where:</p>
+                <ul style="margin-top:-5px;">
+                  <li><strong>zᵢ</strong> — representative depth of layer i (midpoint)</li>
+                  <li><strong>wᵢ</strong> — layer thickness (or effective thickness)</li>
+                  <li><strong>δᵢ</strong> — skin depth for that layer</li>
+                </ul>
+              </div>
+
+              <!-- Total secondary -->
+              <p><strong>4. Total secondary field</strong></p>
+              <p>
+
+        \[
+                A_{\text{sec}} = A_{\text{geom}} \sum_i A_i
+              \]
+
+        </p>
+
+              <!-- Primary -->
+              <p><strong>5. Primary field</strong></p>
+              <p>
+
+        \[
+                A_{\text{prim}} = A_{\text{geom}}
+              \]
+
+        </p>
+
+              <!-- Normalized -->
+              <p><strong>6. Normalized response</strong></p>
+              <p>
+
+        \[
+                A_{\text{norm}} = \frac{A_{\text{sec}}}{A_{\text{prim}}}
+              \]
+
+        </p>
+              <p style="font-size:0.85em; color:#666;">
+                This removes geometry effects and highlights the conductivity‑driven attenuation.
+              </p>
+
             </div>
           </div>
-          
+
+          <!-- Generate synthetic data -->
           <button onclick="generateSyntheticData()" 
                   style="margin-top:10px; padding:8px 12px; border-radius:6px; cursor:pointer;">
             Generate Synthetic Data
@@ -949,6 +1020,7 @@
           <div id="syntheticTable" style="margin-top:20px;"></div>
 
         </div>
+
 
         <!-- Collapsible: Processing Steps -->
         <button class="collapsible-btn" onclick="toggleSection('processingSteps')">
