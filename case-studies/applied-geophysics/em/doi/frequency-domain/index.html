@@ -887,12 +887,12 @@
           </button>
 
           <div id="forwardModelEquations" class="info-content">
-
             <h4 style="margin-top:10px;">Forward Model Equations</h4>
 
             <p style="font-size:0.9em; color:#555;">
               The synthetic response is computed using a simplified complex attenuation model.
-              This captures the essential behavior of real FDEM systems without requiring a full Maxwell solver.
+              This captures the essential behavior of real FDEM systems (in‑phase, quadrature,
+              amplitude, phase, and apparent conductivity) without requiring a full Maxwell solver.
             </p>
 
             <div style="background:#f8f9fc; padding:12px; border-left:3px solid #4a6fa5; margin-bottom:15px;">
@@ -902,7 +902,7 @@
               <p>
               
 
-        \[
+            \[
                 \delta = \sqrt{\frac{2}{\omega \mu_0 \sigma}}, \qquad 
                 \omega = 2\pi f
               \]
@@ -915,7 +915,7 @@
               <p>
               
 
-        \[
+            \[
                 A_{\text{geom}} = \frac{1}{r^3}, \qquad 
                 r = \sqrt{L^2 + h^2}
               \]
@@ -928,7 +928,7 @@
               <p>
               
 
-        \[
+            \[
                 A_i = w_i \, e^{-z_i / \delta_i}
               \]
 
@@ -940,7 +940,7 @@
               <p>
               
 
-        \[
+            \[
                 H_s = A_{\text{sec}} \, e^{-i z/\delta}
               \]
 
@@ -952,7 +952,7 @@
               <p>
               
 
-        \[
+            \[
                 H' = \Re(H_s), \qquad 
                 H'' = \Im(H_s)
               \]
@@ -965,7 +965,7 @@
               <p>
               
 
-        \[
+            \[
                 |H_s| = \sqrt{H'^2 + H''^2}
               \]
 
@@ -977,7 +977,7 @@
               <p>
               
 
-        \[
+            \[
                 \phi = \tan^{-1}\left(\frac{H''}{H'}\right)
               \]
 
@@ -989,14 +989,37 @@
               <p>
               
 
-        \[
+            \[
                 \sigma_a \approx \frac{4}{\mu_0 \omega s} H''
               \]
 
 
               </p>
 
+              <!-- Variable explanations -->
+              <div style="font-size:0.85em; color:#666; margin-left:10px; margin-top:10px;">
+                <p><strong>Where:</strong></p>
+                <ul style="margin-top:-5px;">
+                  <li><strong>f</strong> — frequency (Hz)</li>
+                  <li><strong>σ</strong> — layer conductivity (S/m)</li>
+                  <li><strong>μ₀</strong> — magnetic permeability of free space</li>
+                  <li><strong>L</strong> — Tx–Rx horizontal spacing (m)</li>
+                  <li><strong>h</strong> — sensor height above ground (m)</li>
+                  <li><strong>r</strong> — Tx–Rx separation distance</li>
+                  <li><strong>wᵢ</strong> — thickness of layer i</li>
+                  <li><strong>zᵢ</strong> — midpoint depth of layer i</li>
+                  <li><strong>δᵢ</strong> — skin depth for layer i</li>
+                  <li><strong>A<sub>sec</sub></strong> — total secondary amplitude (real)</li>
+                  <li><strong>H'</strong> — in‑phase component (real part)</li>
+                  <li><strong>H''</strong> — quadrature component (imaginary part)</li>
+                  <li><strong>|H<sub>s</sub>|</strong> — complex amplitude</li>
+                  <li><strong>φ</strong> — phase angle (degrees)</li>
+                  <li><strong>s</strong> — coil spacing (same as L)</li>
+                </ul>
+              </div>
+
             </div>
+
           </div>
 
           <!-- Generate synthetic data -->
@@ -1318,7 +1341,8 @@
 
   // FORWARD MODEL (GLOBAL)
   function generateSyntheticData() {
-    // True model
+
+    // True model (same as before)
     const h1 = 30;
     const h2 = 150;
     const sigma1 = 0.01;
@@ -1326,8 +1350,8 @@
     const sigma3 = 0.02;
 
     // Geometry
-    const L = 10;
-    const h = 30;
+    const L = 10;     // Tx-Rx spacing
+    const h = 30;     // height
     const r = Math.sqrt(L*L + h*h);
     const A_geom = 1 / Math.pow(r, 3);
 
@@ -1339,27 +1363,32 @@
         <thead>
           <tr style="background:#f2f2f2;">
             <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
-            <th style="padding:6px; border:1px solid #ccc;">Primary</th>
-            <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
-            <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
+            <th style="padding:6px; border:1px solid #ccc;">In‑phase (ppm)</th>
+            <th style="padding:6px; border:1px solid #ccc;">Quadrature (ppm)</th>
+            <th style="padding:6px; border:1px solid #ccc;">Amplitude</th>
+            <th style="padding:6px; border:1px solid #ccc;">Phase (deg)</th>
+            <th style="padding:6px; border:1px solid #ccc;">App. Cond (mS/m)</th>
           </tr>
         </thead>
         <tbody>
     `;
 
     freqs.forEach(f => {
+
+      // Skin depths
       const d1 = skinDepth(f, sigma1);
       const d2 = skinDepth(f, sigma2);
       const d3 = skinDepth(f, sigma3);
 
+      // Layer midpoints
       const z1 = h1 / 2;
       const z2 = h1 + h2 / 2;
       const z3 = h1 + h2 + 100;
 
-      const w1 = h1;
-      const w2 = h2;
-      const w3 = 100;
+      // Layer thicknesses
+      const w1 = h1, w2 = h2, w3 = 100;
 
+      // Real secondary amplitude (same as before)
       const A_sec =
         A_geom * (
           w1 * Math.exp(-z1 / d1) +
@@ -1367,15 +1396,45 @@
           w3 * Math.exp(-z3 / d3)
         );
 
-      const A_prim = A_geom;
-      const A_norm = A_sec / A_prim;
+      // ----------------------------------------------------
+      // COMPLEX FDEM RESPONSE (simple phase-lag model)
+      // ----------------------------------------------------
 
+      // Effective depth for phase lag (weighted midpoint)
+      const z_eff = (z1 + z2 + z3) / 3;
+
+      // Complex secondary field
+      const phaseLag = z_eff / d2;  // use middle layer for phase behavior
+      const H_real = A_sec * Math.cos(phaseLag);
+      const H_imag = A_sec * Math.sin(phaseLag);
+
+      // Convert to ppm of primary
+      const H_ppm_real = (H_real / A_geom) * 1e6;
+      const H_ppm_imag = (H_imag / A_geom) * 1e6;
+
+      // Amplitude
+      const amplitude = Math.sqrt(H_real*H_real + H_imag*H_imag);
+
+      // Phase angle (deg)
+      const phaseDeg = Math.atan2(H_imag, H_real) * (180 / Math.PI);
+
+      // Apparent conductivity (McNeill LIN)
+      const mu0 = 4 * Math.PI * 1e-7;
+      const omega = 2 * Math.PI * f;
+      const sigma_a = (4 / (mu0 * omega * L)) * H_imag;  // S/m
+      const sigma_mS = sigma_a * 1000; // convert to mS/m
+
+      // ----------------------------------------------------
+      // Add row to table
+      // ----------------------------------------------------
       html += `
         <tr>
           <td style="padding:6px; border:1px solid #ccc;">${f}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${A_prim.toExponential(3)}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${A_sec.toExponential(3)}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${A_norm.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${H_ppm_real.toFixed(2)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${H_ppm_imag.toFixed(2)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${amplitude.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${phaseDeg.toFixed(2)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${sigma_mS.toFixed(2)}</td>
         </tr>
       `;
     });
