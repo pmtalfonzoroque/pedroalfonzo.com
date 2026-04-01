@@ -846,39 +846,6 @@
         <h2>Synthetic FDEM Workflow</h2>
         <p>A theoretical workflow of a real‑life FDEM acquisition, from recording to processing to final results.</p>
 
-        <!-- Collapsible: True Earth Model -->
-        <button class="collapsible-btn" onclick="toggleSection('trueModel')">
-          <span class="icon">🌍</span> True Earth Model (Potash Example)
-        </button>
-        <div id="trueModel" class="info-content">
-            <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">
-              <thead>
-                <tr style="background:#f2f2f2;">
-                  <th style="padding:8px; border:1px solid #ccc;">Layer</th>
-                  <th style="padding:8px; border:1px solid #ccc;">Thickness (m)</th>
-                  <th style="padding:8px; border:1px solid #ccc;">Conductivity (S/m)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="padding:8px; border:1px solid #ccc;">Layer 1 — Overburden</td>
-                  <td style="padding:8px; border:1px solid #ccc;">30</td>
-                  <td style="padding:8px; border:1px solid #ccc;">0.01</td>
-                </tr>
-                <tr>
-                  <td style="padding:8px; border:1px solid #ccc;">Layer 2 — Potash / Evaporites</td>
-                  <td style="padding:8px; border:1px solid #ccc;">150</td>
-                  <td style="padding:8px; border:1px solid #ccc;">0.10</td>
-                </tr>
-                <tr>
-                  <td style="padding:8px; border:1px solid #ccc;">Layer 3 — Basement (Half‑space)</td>
-                  <td style="padding:8px; border:1px solid #ccc;">∞</td>
-                  <td style="padding:8px; border:1px solid #ccc;">0.02</td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-
         <!-- Collapsible: Survey Geometry -->
         <button class="collapsible-btn" onclick="toggleSection('surveyGeom')">
           <span class="icon">📡</span> Survey Geometry
@@ -902,13 +869,15 @@
 
           <p style="font-size:0.9em; color:#555;">
             The synthetic FDEM response is generated using a simplified layered‑earth model.
-            Each frequency produces a secondary field amplitude based on:
+            Unlike the earlier amplitude‑only version, this forward model produces
+            <strong>complex EM responses</strong> similar to real instruments:
           </p>
 
           <ul style="font-size:0.9em; color:#555; margin-left:10px;">
-            <li>Layer conductivities (σ₁, σ₂, σ₃)</li>
-            <li>Layer thicknesses (h₁, h₂)</li>
-            <li>Skin‑depth attenuation</li>
+            <li>In‑phase and quadrature components (ppm)</li>
+            <li>Amplitude and phase angle</li>
+            <li>Apparent conductivity (mS/m)</li>
+            <li>Skin‑depth controlled attenuation</li>
             <li>Survey geometry (Tx–Rx spacing + sensor height)</li>
           </ul>
 
@@ -922,8 +891,8 @@
             <h4 style="margin-top:10px;">Forward Model Equations</h4>
 
             <p style="font-size:0.9em; color:#555;">
-              The synthetic secondary field is computed using a simplified attenuation‑based formulation.
-              This captures the essential physics of FDEM depth sensitivity without requiring a full Maxwell solver.
+              The synthetic response is computed using a simplified complex attenuation model.
+              This captures the essential behavior of real FDEM systems without requiring a full Maxwell solver.
             </p>
 
             <div style="background:#f8f9fc; padding:12px; border-left:3px solid #4a6fa5; margin-bottom:15px;">
@@ -931,81 +900,100 @@
               <!-- Skin depth -->
               <p><strong>1. Skin depth</strong></p>
               <p>
+              
 
         \[
                 \delta = \sqrt{\frac{2}{\omega \mu_0 \sigma}}, \qquad 
                 \omega = 2\pi f
               \]
 
-        </p>
-              <p style="font-size:0.85em; color:#666;">
-                Controls how quickly EM fields attenuate with depth. Higher conductivity → smaller δ → shallower penetration.
+
               </p>
 
-              <!-- Geometry factor -->
+              <!-- Geometry -->
               <p><strong>2. Geometry factor</strong></p>
               <p>
+              
 
         \[
                 A_{\text{geom}} = \frac{1}{r^3}, \qquad 
                 r = \sqrt{L^2 + h^2}
               \]
 
-        </p>
-              <p style="font-size:0.85em; color:#666;">
-                Approximates the dipole–dipole primary field decay with distance. This sets the overall amplitude scale.
+
               </p>
 
               <!-- Layer contribution -->
-              <p><strong>3. Layer contribution</strong></p>
+              <p><strong>3. Layer contribution (real amplitude)</strong></p>
               <p>
+              
 
         \[
                 A_i = w_i \, e^{-z_i / \delta_i}
               \]
 
-        </p>
 
-              <div style="font-size:0.85em; color:#666; margin-left:10px;">
-                <p>Where:</p>
-                <ul style="margin-top:-5px;">
-                  <li><strong>zᵢ</strong> — representative depth of layer i (midpoint)</li>
-                  <li><strong>wᵢ</strong> — layer thickness (or effective thickness)</li>
-                  <li><strong>δᵢ</strong> — skin depth for that layer</li>
-                </ul>
-              </div>
+              </p>
 
-              <!-- Total secondary -->
-              <p><strong>4. Total secondary field</strong></p>
+              <!-- Complex field -->
+              <p><strong>4. Complex secondary field</strong></p>
               <p>
+              
 
         \[
-                A_{\text{sec}} = A_{\text{geom}} \sum_i A_i
+                H_s = A_{\text{sec}} \, e^{-i z/\delta}
               \]
 
-        </p>
 
-              <!-- Primary -->
-              <p><strong>5. Primary field</strong></p>
+              </p>
+
+              <!-- Components -->
+              <p><strong>5. In‑phase and quadrature</strong></p>
               <p>
+              
 
         \[
-                A_{\text{prim}} = A_{\text{geom}}
+                H' = \Re(H_s), \qquad 
+                H'' = \Im(H_s)
               \]
 
-        </p>
 
-              <!-- Normalized -->
-              <p><strong>6. Normalized response</strong></p>
+              </p>
+
+              <!-- Amplitude -->
+              <p><strong>6. Amplitude</strong></p>
               <p>
+              
 
         \[
-                A_{\text{norm}} = \frac{A_{\text{sec}}}{A_{\text{prim}}}
+                |H_s| = \sqrt{H'^2 + H''^2}
               \]
 
-        </p>
-              <p style="font-size:0.85em; color:#666;">
-                This removes geometry effects and highlights the conductivity‑driven attenuation.
+
+              </p>
+
+              <!-- Phase -->
+              <p><strong>7. Phase angle</strong></p>
+              <p>
+              
+
+        \[
+                \phi = \tan^{-1}\left(\frac{H''}{H'}\right)
+              \]
+
+
+              </p>
+
+              <!-- Apparent conductivity -->
+              <p><strong>8. Apparent conductivity (McNeill LIN)</strong></p>
+              <p>
+              
+
+        \[
+                \sigma_a \approx \frac{4}{\mu_0 \omega s} H''
+              \]
+
+
               </p>
 
             </div>
@@ -1020,7 +1008,6 @@
           <div id="syntheticTable" style="margin-top:20px;"></div>
 
         </div>
-
 
         <!-- Collapsible: Processing Steps -->
         <button class="collapsible-btn" onclick="toggleSection('processingSteps')">
@@ -1098,6 +1085,43 @@
         </button>
         <div id="doiBlock" class="info-content">
           <!-- DOI explanation + shaded plot -->
+        </div>
+
+        <!-- Collapsible: True Earth Model -->
+        <button class="collapsible-btn" onclick="toggleSection('trueModel')">
+          <span class="icon">🌍</span> True Earth Model (Potash Example)
+        </button>
+        <div id="trueModel" class="info-content">
+          <p style="font-size:0.9em; color:#555;">
+            Now that we have inverted the synthetic data and examined the DOI,
+            we can finally reveal the true layered-earth model used to generate the data.
+          </p>
+            <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">
+              <thead>
+                <tr style="background:#f2f2f2;">
+                  <th style="padding:8px; border:1px solid #ccc;">Layer</th>
+                  <th style="padding:8px; border:1px solid #ccc;">Thickness (m)</th>
+                  <th style="padding:8px; border:1px solid #ccc;">Conductivity (S/m)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:8px; border:1px solid #ccc;">Layer 1 — Overburden</td>
+                  <td style="padding:8px; border:1px solid #ccc;">30</td>
+                  <td style="padding:8px; border:1px solid #ccc;">0.01</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px; border:1px solid #ccc;">Layer 2 — Potash / Evaporites</td>
+                  <td style="padding:8px; border:1px solid #ccc;">150</td>
+                  <td style="padding:8px; border:1px solid #ccc;">0.10</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px; border:1px solid #ccc;">Layer 3 — Basement (Half‑space)</td>
+                  <td style="padding:8px; border:1px solid #ccc;">∞</td>
+                  <td style="padding:8px; border:1px solid #ccc;">0.02</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
 
       </section>
@@ -1292,7 +1316,7 @@
   return Math.sqrt(2 / (omega * mu0 * sigma));
 }
 
-  // Forward modeling
+  // FORWARD MODEL (GLOBAL)
   function generateSyntheticData() {
     // True model
     const h1 = 30;
@@ -1361,7 +1385,7 @@
     document.getElementById("syntheticTable").innerHTML = html;
   }
 
-  // Processing
+  // PROCESSING STEPS (GLOBAL)
   function applyProcessing() {
     // Get synthetic data from the table (already generated)
     const table = document.getElementById("syntheticTable");
