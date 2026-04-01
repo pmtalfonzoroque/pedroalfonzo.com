@@ -1042,6 +1042,68 @@
             similar to those used in real instruments (GEM‑2, EM31, EM38, DualEM).
           </p>
 
+          <!--📘 Processing Theory (Q&A) -->
+          <button class="collapsible-btn" onclick="toggleSection('processingTheory')">
+            <span class="icon">❓</span> Processing Theory (Common Questions)
+          </button>
+
+          <div id="processingTheory" class="info-content">
+
+            <p style="font-size:0.9em; color:#555;">
+              Before applying processing steps, it's useful to understand why real FDEM systems
+              perform these corrections. Below are common questions that arise when working with
+              frequency‑domain EM data.
+            </p>
+
+            <h4>Why am I clicking these toggles?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              Each toggle represents a real processing step used by instruments like GEM‑2, EM31,
+              EM38, and DualEM. These steps clean, normalize, or correct the raw complex EM field
+              so it can be interpreted or inverted. You're essentially walking through the same
+              workflow a geophysicist uses in practice.
+            </p>
+
+            <h4>What does geometry correction actually mean?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              The primary EM field decays with distance as <strong>1/r³</strong>. This geometric decay
+              dominates the raw signal and hides the conductivity response. Geometry correction
+              removes this decay so the remaining signal reflects only the subsurface, not the
+              transmitter–receiver spacing.
+            </p>
+
+            <h4>Why normalize to ppm?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              FDEM instruments report the secondary field as <strong>parts per million of the primary</strong>.
+              This makes data comparable across frequencies, coil spacings, and instruments.
+              Normalization also stabilizes the dynamic range and highlights subtle conductivity
+              variations.
+            </p>
+
+            <h4>What does phase correction do?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              Real instruments experience small phase shifts due to electronics, drift, and motion.
+              A phase correction rotates the complex field so the quadrature component aligns with
+              conductivity and the in‑phase aligns with susceptibility or cultural noise. Without
+              this correction, apparent conductivity can be biased.
+            </p>
+
+            <h4>What is noise in EM data?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              Noise comes from many sources: instrument electronics, powerlines, fences, vehicles,
+              motion, and even the operator. Adding synthetic noise helps illustrate how processing
+              stabilizes the signal and prepares it for inversion.
+            </p>
+
+            <h4>Why smooth the data?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              EM data is often spiky or jittery. A smoothing filter (or stacking) reduces
+              high‑frequency noise and makes trends clearer. Real systems apply smoothing
+              continuously during acquisition.
+            </p>
+
+          </div>
+
+          <!--🔧 Processing Controls-->
           <div style="margin-top:15px;">
 
             <!-- Geometry Correction -->
@@ -1076,11 +1138,13 @@
 
           </div>
 
+          <!--Apply Processing-->
           <button onclick="applyProcessing()" 
                   style="margin-top:15px; padding:8px 12px; border-radius:6px; cursor:pointer;">
             Apply Processing
           </button>
 
+          <!--Processed Table-->
           <div id="processedTable" style="margin-top:20px;"></div>
 
         </div>
