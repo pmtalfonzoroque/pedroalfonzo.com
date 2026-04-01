@@ -1027,7 +1027,61 @@
           <span class="icon">🔧</span> Processing Steps (Interactive)
         </button>
         <div id="processingSteps" class="info-content">
-          <!-- Toggles will go here -->
+          <p style="font-size:0.9em; color:#555;">
+            After generating the synthetic secondary field, we can apply simple processing steps
+            to illustrate how real FDEM data is corrected and prepared before inversion.
+          </p>
+
+          <!-- Processing Toggles -->
+          <div style="margin-top:15px;">
+
+            <!-- Geometry Correction -->
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="toggleGeom" style="margin-right:8px;">
+              <strong>Apply Geometry Correction</strong>
+            </label>
+            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
+              Removes the 1/r³ geometric decay to isolate conductivity effects.
+            </div>
+
+            <!-- Normalization -->
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="toggleNorm" style="margin-right:8px;">
+              <strong>Normalize (A<sub>sec</sub> / A<sub>prim</sub>)</strong>
+            </label>
+            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
+              Produces a dimensionless response that highlights attenuation with depth.
+            </div>
+
+            <!-- Add Noise -->
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="toggleNoise" style="margin-right:8px;">
+              <strong>Add Random Noise</strong>
+            </label>
+            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
+              Adds small Gaussian noise to simulate measurement uncertainty.
+            </div>
+
+            <!-- Smoothing -->
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="toggleSmooth" style="margin-right:8px;">
+              <strong>Apply Smoothing Filter</strong>
+            </label>
+            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
+              Applies a simple moving average to reduce high‑frequency noise.
+            </div>
+
+          </div>
+
+          <!-- Apply Processing Button -->
+          <button onclick="applyProcessing()" 
+                  style="margin-top:15px; padding:8px 12px; border-radius:6px; cursor:pointer;">
+            Apply Processing
+          </button>
+
+          <!-- Output Table -->
+          <div id="processedTable" style="margin-top:20px;"></div>
+
         </div>
 
         <!-- Collapsible: Inversion -->
@@ -1238,74 +1292,167 @@
   return Math.sqrt(2 / (omega * mu0 * sigma));
 }
 
-// Forward modeling
-function generateSyntheticData() {
-  // True model
-  const h1 = 30;
-  const h2 = 150;
-  const sigma1 = 0.01;
-  const sigma2 = 0.10;
-  const sigma3 = 0.02;
+  // Forward modeling
+  function generateSyntheticData() {
+    // True model
+    const h1 = 30;
+    const h2 = 150;
+    const sigma1 = 0.01;
+    const sigma2 = 0.10;
+    const sigma3 = 0.02;
 
-  // Geometry
-  const L = 10;
-  const h = 30;
-  const r = Math.sqrt(L*L + h*h);
-  const A_geom = 1 / Math.pow(r, 3);
+    // Geometry
+    const L = 10;
+    const h = 30;
+    const r = Math.sqrt(L*L + h*h);
+    const A_geom = 1 / Math.pow(r, 3);
 
-  // Frequencies
-  const freqs = [900, 3600, 7200];
+    // Frequencies
+    const freqs = [900, 3600, 7200];
 
-  let html = `
-    <table style="width:100%; border-collapse:collapse; font-size:14px;">
-      <thead>
-        <tr style="background:#f2f2f2;">
-          <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
-          <th style="padding:6px; border:1px solid #ccc;">Primary</th>
-          <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
-          <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  freqs.forEach(f => {
-    const d1 = skinDepth(f, sigma1);
-    const d2 = skinDepth(f, sigma2);
-    const d3 = skinDepth(f, sigma3);
-
-    const z1 = h1 / 2;
-    const z2 = h1 + h2 / 2;
-    const z3 = h1 + h2 + 100;
-
-    const w1 = h1;
-    const w2 = h2;
-    const w3 = 100;
-
-    const A_sec =
-      A_geom * (
-        w1 * Math.exp(-z1 / d1) +
-        w2 * Math.exp(-z2 / d2) +
-        w3 * Math.exp(-z3 / d3)
-      );
-
-    const A_prim = A_geom;
-    const A_norm = A_sec / A_prim;
-
-    html += `
-      <tr>
-        <td style="padding:6px; border:1px solid #ccc;">${f}</td>
-        <td style="padding:6px; border:1px solid #ccc;">${A_prim.toExponential(3)}</td>
-        <td style="padding:6px; border:1px solid #ccc;">${A_sec.toExponential(3)}</td>
-        <td style="padding:6px; border:1px solid #ccc;">${A_norm.toExponential(3)}</td>
-      </tr>
+    let html = `
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
+            <th style="padding:6px; border:1px solid #ccc;">Primary</th>
+            <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
+            <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
+          </tr>
+        </thead>
+        <tbody>
     `;
-  });
 
-  html += "</tbody></table>";
+    freqs.forEach(f => {
+      const d1 = skinDepth(f, sigma1);
+      const d2 = skinDepth(f, sigma2);
+      const d3 = skinDepth(f, sigma3);
 
-  document.getElementById("syntheticTable").innerHTML = html;
-}
+      const z1 = h1 / 2;
+      const z2 = h1 + h2 / 2;
+      const z3 = h1 + h2 + 100;
+
+      const w1 = h1;
+      const w2 = h2;
+      const w3 = 100;
+
+      const A_sec =
+        A_geom * (
+          w1 * Math.exp(-z1 / d1) +
+          w2 * Math.exp(-z2 / d2) +
+          w3 * Math.exp(-z3 / d3)
+        );
+
+      const A_prim = A_geom;
+      const A_norm = A_sec / A_prim;
+
+      html += `
+        <tr>
+          <td style="padding:6px; border:1px solid #ccc;">${f}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${A_prim.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${A_sec.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${A_norm.toExponential(3)}</td>
+        </tr>
+      `;
+    });
+
+    html += "</tbody></table>";
+
+    document.getElementById("syntheticTable").innerHTML = html;
+  }
+
+  // Processing
+  function applyProcessing() {
+    // Get synthetic data from the table (already generated)
+    const table = document.getElementById("syntheticTable");
+    if (!table.innerHTML.trim()) {
+      alert("Please generate synthetic data first.");
+      return;
+    }
+
+    // Recompute synthetic data internally (cleaner than parsing HTML)
+    const h1 = 30, h2 = 150;
+    const sigma1 = 0.01, sigma2 = 0.10, sigma3 = 0.02;
+    const L = 10, h = 30;
+    const r = Math.sqrt(L*L + h*h);
+    const A_geom = 1 / Math.pow(r, 3);
+    const freqs = [900, 3600, 7200];
+
+    let processed = [];
+
+    freqs.forEach(f => {
+      const d1 = skinDepth(f, sigma1);
+      const d2 = skinDepth(f, sigma2);
+      const d3 = skinDepth(f, sigma3);
+
+      const z1 = h1 / 2;
+      const z2 = h1 + h2 / 2;
+      const z3 = h1 + h2 + 100;
+
+      const w1 = h1, w2 = h2, w3 = 100;
+
+      let A_sec =
+        A_geom * (
+          w1 * Math.exp(-z1 / d1) +
+          w2 * Math.exp(-z2 / d2) +
+          w3 * Math.exp(-z3 / d3)
+        );
+
+      let A_prim = A_geom;
+      let A_norm = A_sec / A_prim;
+
+      // Apply toggles
+      if (document.getElementById("toggleGeom").checked) {
+        A_sec /= A_geom;
+        A_prim = 1;
+        A_norm = A_sec;
+      }
+
+      if (document.getElementById("toggleNorm").checked) {
+        A_norm = A_sec / A_prim;
+      }
+
+      if (document.getElementById("toggleNoise").checked) {
+        A_norm += (Math.random() - 0.5) * 0.05 * A_norm;
+      }
+
+      processed.push({
+        f,
+        A_prim,
+        A_sec,
+        A_norm
+      });
+    });
+
+    // Build output table
+    let html = `
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
+            <th style="padding:6px; border:1px solid #ccc;">Primary</th>
+            <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
+            <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    processed.forEach(row => {
+      html += `
+        <tr>
+          <td style="padding:6px; border:1px solid #ccc;">${row.f}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${row.A_prim.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${row.A_sec.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${row.A_norm.toExponential(3)}</td>
+        </tr>
+      `;
+    });
+
+    html += "</tbody></table>";
+
+    document.getElementById("processedTable").innerHTML = html;
+  }
 
     // -----------------------------
     // RESIZE HANDLER
