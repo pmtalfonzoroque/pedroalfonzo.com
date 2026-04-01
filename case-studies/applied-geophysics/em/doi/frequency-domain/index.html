@@ -1038,58 +1038,49 @@
         </button>
         <div id="processingSteps" class="info-content">
           <p style="font-size:0.9em; color:#555;">
-            After generating the synthetic secondary field, we can apply simple processing steps
-            to illustrate how real FDEM data is corrected and prepared before inversion.
+            After generating the synthetic FDEM response, we can apply simple processing steps
+            similar to those used in real instruments (GEM‑2, EM31, EM38, DualEM).
           </p>
 
-          <!-- Processing Toggles -->
           <div style="margin-top:15px;">
 
             <!-- Geometry Correction -->
             <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
-              <input type="checkbox" id="toggleGeom" style="margin-right:8px;">
-              <strong>Apply Geometry Correction</strong>
+              <input type="checkbox" id="proc_geom" style="margin-right:8px;">
+              <strong>Geometry Correction (remove 1/r³)</strong>
             </label>
-            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
-              Removes the 1/r³ geometric decay to isolate conductivity effects.
-            </div>
 
-            <!-- Normalization -->
+            <!-- Normalize to ppm -->
             <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
-              <input type="checkbox" id="toggleNorm" style="margin-right:8px;">
-              <strong>Normalize (A<sub>sec</sub> / A<sub>prim</sub>)</strong>
+              <input type="checkbox" id="proc_ppm" style="margin-right:8px;">
+              <strong>Normalize to ppm (H / Hₚ × 10⁶)</strong>
             </label>
-            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
-              Produces a dimensionless response that highlights attenuation with depth.
-            </div>
 
-            <!-- Add Noise -->
+            <!-- Noise -->
             <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
-              <input type="checkbox" id="toggleNoise" style="margin-right:8px;">
-              <strong>Add Random Noise</strong>
+              <input type="checkbox" id="proc_noise" style="margin-right:8px;">
+              <strong>Add Gaussian Noise</strong>
             </label>
-            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
-              Adds small Gaussian noise to simulate measurement uncertainty.
-            </div>
 
             <!-- Smoothing -->
             <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
-              <input type="checkbox" id="toggleSmooth" style="margin-right:8px;">
+              <input type="checkbox" id="proc_smooth" style="margin-right:8px;">
               <strong>Apply Smoothing Filter</strong>
             </label>
-            <div style="font-size:0.85em; color:#666; margin-left:20px; margin-bottom:10px;">
-              Applies a simple moving average to reduce high‑frequency noise.
-            </div>
+
+            <!-- Phase correction -->
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="proc_phase" style="margin-right:8px;">
+              <strong>Phase Correction (rotate complex field)</strong>
+            </label>
 
           </div>
 
-          <!-- Apply Processing Button -->
           <button onclick="applyProcessing()" 
                   style="margin-top:15px; padding:8px 12px; border-radius:6px; cursor:pointer;">
             Apply Processing
           </button>
 
-          <!-- Output Table -->
           <div id="processedTable" style="margin-top:20px;"></div>
 
         </div>
@@ -1446,88 +1437,129 @@
 
   // PROCESSING STEPS (GLOBAL)
   function applyProcessing() {
-    // Get synthetic data from the table (already generated)
-    const table = document.getElementById("syntheticTable");
-    if (!table.innerHTML.trim()) {
-      alert("Please generate synthetic data first.");
-      return;
-    }
 
-    // Recompute synthetic data internally (cleaner than parsing HTML)
+    // True model
     const h1 = 30, h2 = 150;
     const sigma1 = 0.01, sigma2 = 0.10, sigma3 = 0.02;
-    const L = 10, h = 30;
+
+    // Geometry
+    const L = 10;
+    const h = 30;
     const r = Math.sqrt(L*L + h*h);
     const A_geom = 1 / Math.pow(r, 3);
-    const freqs = [900, 3600, 7200];
 
-    let processed = [];
+    const freqs = [900, 3600, 7200];
+    const mu0 = 4 * Math.PI * 1e-7;
+
+    let rows = [];
 
     freqs.forEach(f => {
+
+      // Skin depths
       const d1 = skinDepth(f, sigma1);
       const d2 = skinDepth(f, sigma2);
       const d3 = skinDepth(f, sigma3);
 
+      // Layer midpoints
       const z1 = h1 / 2;
       const z2 = h1 + h2 / 2;
       const z3 = h1 + h2 + 100;
 
+      // Layer thicknesses
       const w1 = h1, w2 = h2, w3 = 100;
 
-      let A_sec =
+      // Real secondary amplitude
+      const A_sec =
         A_geom * (
           w1 * Math.exp(-z1 / d1) +
           w2 * Math.exp(-z2 / d2) +
           w3 * Math.exp(-z3 / d3)
         );
 
-      let A_prim = A_geom;
-      let A_norm = A_sec / A_prim;
+      // Complex phase lag
+      const z_eff = (z1 + z2 + z3) / 3;
+      const phaseLag = z_eff / d2;
 
-      // Apply toggles
-      if (document.getElementById("toggleGeom").checked) {
-        A_sec /= A_geom;
-        A_prim = 1;
-        A_norm = A_sec;
+      let H_real = A_sec * Math.cos(phaseLag);
+      let H_imag = A_sec * Math.sin(phaseLag);
+
+      // -----------------------------
+      // PROCESSING STEPS
+      // -----------------------------
+
+      // 1. Geometry correction
+      if (document.getElementById("proc_geom").checked) {
+        H_real /= A_geom;
+        H_imag /= A_geom;
       }
 
-      if (document.getElementById("toggleNorm").checked) {
-        A_norm = A_sec / A_prim;
+      // 2. Normalize to ppm
+      if (document.getElementById("proc_ppm").checked) {
+        H_real *= 1e6;
+        H_imag *= 1e6;
       }
 
-      if (document.getElementById("toggleNoise").checked) {
-        A_norm += (Math.random() - 0.5) * 0.05 * A_norm;
+      // 3. Add noise
+      if (document.getElementById("proc_noise").checked) {
+        H_real *= (1 + 0.05 * (Math.random() - 0.5));
+        H_imag *= (1 + 0.05 * (Math.random() - 0.5));
       }
 
-      processed.push({
+      // 4. Phase correction (simple rotation)
+      if (document.getElementById("proc_phase").checked) {
+        const phi = -5 * Math.PI / 180; // rotate by -5°
+        const Hr = H_real * Math.cos(phi) - H_imag * Math.sin(phi);
+        const Hi = H_real * Math.sin(phi) + H_imag * Math.cos(phi);
+        H_real = Hr;
+        H_imag = Hi;
+      }
+
+      // 5. Smoothing (placeholder: no neighbors)
+      // Real smoothing will be added when you have multiple stations.
+
+      // Derived quantities
+      const amplitude = Math.sqrt(H_real*H_real + H_imag*H_imag);
+      const phaseDeg = Math.atan2(H_imag, H_real) * (180 / Math.PI);
+
+      const omega = 2 * Math.PI * f;
+      const sigma_a = (4 / (mu0 * omega * L)) * H_imag;
+      const sigma_mS = sigma_a * 1000;
+
+      rows.push({
         f,
-        A_prim,
-        A_sec,
-        A_norm
+        H_real,
+        H_imag,
+        amplitude,
+        phaseDeg,
+        sigma_mS
       });
     });
 
-    // Build output table
+    // Build table
     let html = `
       <table style="width:100%; border-collapse:collapse; font-size:14px;">
         <thead>
           <tr style="background:#f2f2f2;">
             <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
-            <th style="padding:6px; border:1px solid #ccc;">Primary</th>
-            <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
-            <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
+            <th style="padding:6px; border:1px solid #ccc;">In‑phase</th>
+            <th style="padding:6px; border:1px solid #ccc;">Quadrature</th>
+            <th style="padding:6px; border:1px solid #ccc;">Amplitude</th>
+            <th style="padding:6px; border:1px solid #ccc;">Phase (deg)</th>
+            <th style="padding:6px; border:1px solid #ccc;">App. Cond (mS/m)</th>
           </tr>
         </thead>
         <tbody>
     `;
 
-    processed.forEach(row => {
+    rows.forEach(r => {
       html += `
         <tr>
-          <td style="padding:6px; border:1px solid #ccc;">${row.f}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${row.A_prim.toExponential(3)}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${row.A_sec.toExponential(3)}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${row.A_norm.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${r.f}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${r.H_real.toFixed(2)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${r.H_imag.toFixed(2)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${r.amplitude.toExponential(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${r.phaseDeg.toFixed(2)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${r.sigma_mS.toFixed(2)}</td>
         </tr>
       `;
     });
