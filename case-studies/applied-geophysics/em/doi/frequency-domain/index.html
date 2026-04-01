@@ -1112,78 +1112,7 @@
         return Math.sqrt(2 / (omega * mu0 * sigma));
       }
 
-      // -----------------------------
-      // forward model
-      // -----------------------------
-      function generateSyntheticData() {
-        // True model
-        const h1 = 30;
-        const h2 = 150;
-        const sigma1 = 0.01;
-        const sigma2 = 0.10;
-        const sigma3 = 0.02;
-
-        // Geometry
-        const L = 10;
-        const h = 30;
-        const r = Math.sqrt(L*L + h*h);
-        const A_geom = 1 / Math.pow(r, 3);
-
-        // Frequencies
-        const freqs = [900, 3600, 7200];
-
-        let html = `
-          <table style="width:100%; border-collapse:collapse; font-size:14px;">
-            <thead>
-              <tr style="background:#f2f2f2;">
-                <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
-                <th style="padding:6px; border:1px solid #ccc;">Primary</th>
-                <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
-                <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-
-        freqs.forEach(f => {
-          const d1 = skinDepth(f, sigma1);
-          const d2 = skinDepth(f, sigma2);
-          const d3 = skinDepth(f, sigma3);
-
-          const z1 = h1 / 2;
-          const z2 = h1 + h2 / 2;
-          const z3 = h1 + h2 + 100;
-
-          const w1 = h1;
-          const w2 = h2;
-          const w3 = 100;
-
-          const A_sec =
-            A_geom * (
-              w1 * Math.exp(-z1 / d1) +
-              w2 * Math.exp(-z2 / d2) +
-              w3 * Math.exp(-z3 / d3)
-            );
-
-          const A_prim = A_geom;
-          const A_norm = A_sec / A_prim;
-
-          html += `
-            <tr>
-              <td style="padding:6px; border:1px solid #ccc;">${f}</td>
-              <td style="padding:6px; border:1px solid #ccc;">${A_prim.toExponential(3)}</td>
-              <td style="padding:6px; border:1px solid #ccc;">${A_sec.toExponential(3)}</td>
-              <td style="padding:6px; border:1px solid #ccc;">${A_norm.toExponential(3)}</td>
-            </tr>
-          `;
-        });
-
-        html += "</tbody></table>";
-
-        document.getElementById("syntheticTable").innerHTML = html;
-      }
-
-
+      
       // -----------------------------
       // EVENT LISTENERS
       // -----------------------------
@@ -1199,6 +1128,81 @@
       // -----------------------------
       updatePlot();
     };
+
+   function skinDepth(f, sigma) {
+  const mu0 = 4 * Math.PI * 1e-7;
+  const omega = 2 * Math.PI * f;
+  return Math.sqrt(2 / (omega * mu0 * sigma));
+}
+
+// Forward modeling
+function generateSyntheticData() {
+  // True model
+  const h1 = 30;
+  const h2 = 150;
+  const sigma1 = 0.01;
+  const sigma2 = 0.10;
+  const sigma3 = 0.02;
+
+  // Geometry
+  const L = 10;
+  const h = 30;
+  const r = Math.sqrt(L*L + h*h);
+  const A_geom = 1 / Math.pow(r, 3);
+
+  // Frequencies
+  const freqs = [900, 3600, 7200];
+
+  let html = `
+    <table style="width:100%; border-collapse:collapse; font-size:14px;">
+      <thead>
+        <tr style="background:#f2f2f2;">
+          <th style="padding:6px; border:1px solid #ccc;">Freq (Hz)</th>
+          <th style="padding:6px; border:1px solid #ccc;">Primary</th>
+          <th style="padding:6px; border:1px solid #ccc;">Secondary</th>
+          <th style="padding:6px; border:1px solid #ccc;">Normalized</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  freqs.forEach(f => {
+    const d1 = skinDepth(f, sigma1);
+    const d2 = skinDepth(f, sigma2);
+    const d3 = skinDepth(f, sigma3);
+
+    const z1 = h1 / 2;
+    const z2 = h1 + h2 / 2;
+    const z3 = h1 + h2 + 100;
+
+    const w1 = h1;
+    const w2 = h2;
+    const w3 = 100;
+
+    const A_sec =
+      A_geom * (
+        w1 * Math.exp(-z1 / d1) +
+        w2 * Math.exp(-z2 / d2) +
+        w3 * Math.exp(-z3 / d3)
+      );
+
+    const A_prim = A_geom;
+    const A_norm = A_sec / A_prim;
+
+    html += `
+      <tr>
+        <td style="padding:6px; border:1px solid #ccc;">${f}</td>
+        <td style="padding:6px; border:1px solid #ccc;">${A_prim.toExponential(3)}</td>
+        <td style="padding:6px; border:1px solid #ccc;">${A_sec.toExponential(3)}</td>
+        <td style="padding:6px; border:1px solid #ccc;">${A_norm.toExponential(3)}</td>
+      </tr>
+    `;
+  });
+
+  html += "</tbody></table>";
+
+  document.getElementById("syntheticTable").innerHTML = html;
+}
 
     // -----------------------------
     // RESIZE HANDLER
