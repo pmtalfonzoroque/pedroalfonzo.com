@@ -151,6 +151,8 @@
         
       </section>
 
+      <a href="#synthetic-section">Jump to Synthetic FDEM Workflow ↓</a>
+
       <!-- ========================= -->
       <!-- DOI Image Placeholder -->
       <!-- ========================= -->
@@ -581,6 +583,54 @@
               <li>Includes skin-depth attenuation.</li>
             </ul>
 
+            <h4>What is A(z)?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              In frequency‑domain EM (FDEM), the receiver does <em>not</em> measure depth slices.  
+              It measures a single complex response (in‑phase and quadrature) for each frequency.
+              To understand how different depths contribute to that response, we use a conceptual
+              function:
+            </p>
+
+            <p style="text-align:center;">
+              \( A(z) = A_{\text{geom}} \, e^{-z/\delta} \)
+            </p>
+
+            <p style="font-size:0.9em; color:#555;">
+              <strong>A(z)</strong> is the <em>modeled</em> amplitude of the contribution from depth \(z\) to the
+              total FDEM response. It is not measured directly in the field. Instead, it is a
+              physics‑based tool that helps us visualize:
+            </p>
+
+            <ul style="font-size:0.9em; color:#555; line-height:1.5;">
+              <li>how EM fields attenuate with depth,</li>
+              <li>how conductivity and frequency control penetration,</li>
+              <li>how geometry affects coupling,</li>
+              <li>and how to define a depth of investigation (DOI).</li>
+            </ul>
+
+            <h4>What is A₀?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              \(A_0 = A(h)\) is the modeled amplitude at the receiver height.  
+              In real FDEM systems, this corresponds to the <strong>primary field</strong> or the
+              <strong>geometric coupling factor</strong> between the transmitter and receiver.
+              It depends on coil spacing, altitude, dipole moment, and calibration constants.
+            </p>
+
+            <h4>Why Normalize?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              Normalization divides the modeled response by the reference amplitude:
+            </p>
+
+            <p style="text-align:center;">
+              \( A_{\text{norm}}(z) = \frac{A(z)}{A_0} \)
+            </p>
+
+            <p style="font-size:0.9em; color:#555;">
+              This removes geometric effects and isolates the <em>shape</em> of attenuation.  
+              In real FDEM processing, this is equivalent to dividing the secondary field by the
+              primary field to remove altitude, spacing, and coil‑coupling effects.
+            </p>
+
             <h4>Equations</h4>
 
             <p style="text-align:center;">
@@ -729,8 +779,6 @@
         </div>
       </section>
 
-
-
       <!-- ========================= -->
       <!-- Parameter Sensitivity -->
       <!-- ========================= -->
@@ -762,17 +810,56 @@
         </div>
       </section>
 
-
       <!-- ========================= -->
       <!-- DOI Explanation -->
       <!-- ========================= -->
       <section id="doi-explanation" style="margin-top: 40px;">
         <h2>DOI Interpretation</h2>
         <p>
-          A dynamic explanation of frequency‑domain DOI will appear here once the model is implemented.
+          A theoretical workflow of a real‑life FDEM acquisition, from recording to processing to final results.
         </p>
+        
+        <h3>True Earth Model (Potash Example)</h3>
+
+        <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">
+          <thead>
+            <tr style="background:#f2f2f2;">
+              <th style="padding:8px; border:1px solid #ccc;">Layer</th>
+              <th style="padding:8px; border:1px solid #ccc;">Thickness (m)</th>
+              <th style="padding:8px; border:1px solid #ccc;">Conductivity (S/m)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:8px; border:1px solid #ccc;">Layer 1 — Overburden</td>
+              <td style="padding:8px; border:1px solid #ccc;">30</td>
+              <td style="padding:8px; border:1px solid #ccc;">0.01</td>
+            </tr>
+            <tr>
+              <td style="padding:8px; border:1px solid #ccc;">Layer 2 — Potash / Evaporites</td>
+              <td style="padding:8px; border:1px solid #ccc;">150</td>
+              <td style="padding:8px; border:1px solid #ccc;">0.10</td>
+            </tr>
+            <tr>
+              <td style="padding:8px; border:1px solid #ccc;">Layer 3 — Basement (Half‑space)</td>
+              <td style="padding:8px; border:1px solid #ccc;">∞</td>
+              <td style="padding:8px; border:1px solid #ccc;">0.02</td>
+            </tr>
+          </tbody>
+        </table>
+
+
       </section>
 
+      <!-- ========================= -->
+      <!-- Synthetic FDEM Workflow -->
+      <!-- ========================= -->
+      <section id="synthetic-section" style="margin-top: 40px;">
+        <h2>Synthetic FDEM Workflow </h2>
+        <p>
+          A dtheoretical workflow of a real life FDE acquisition, from recording  to processing to final results
+        </p>
+      </section>
     </main>
 
 
