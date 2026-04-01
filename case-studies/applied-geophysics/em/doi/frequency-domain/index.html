@@ -789,25 +789,44 @@
           the frequency‑domain DOI.
         </p>
 
-        <div id="sensitivity-bars" style="margin-top: 20px;">
-          <div class="sensitivity-bar">
-            <span>Frequency</span>
-            <div class="bar" style="width: 85%;"></div>
-          </div>
-          <div class="sensitivity-bar">
-            <span>Conductivity</span>
-            <div class="bar" style="width: 90%;"></div>
-          </div>
-          <div class="sensitivity-bar">
-            <span>Tx–Rx Spacing</span>
-            <div class="bar" style="width: 60%;"></div>
-          </div>
-          <div class="sensitivity-bar">
-            <span>Sensor Height</span>
-            <div class="bar" style="width: 40%;"></div>
-          </div>
+        <p style="margin-top: 20px; font-size:0.95em; color:#555;">
+          In frequency‑domain EM, the depth of investigation (DOI) is controlled by how quickly
+          the modeled amplitude \(A(z)\) falls below the detectability threshold. Each survey
+          parameter influences this decay differently:
+        </p>
 
-        </div>
+        <ul style="font-size:0.9em; color:#555; line-height:1.55; margin-left: 10px;">
+          <li>
+            <strong>Frequency</strong> — Higher frequencies produce shallower skin depths
+            (\(\delta \propto 1/\sqrt{\omega}\)), causing faster attenuation and a smaller DOI.
+            Lower frequencies penetrate deeper.
+          </li>
+
+          <li>
+            <strong>Conductivity</strong> — Conductive ground attenuates EM fields more strongly
+            (\(\delta \propto 1/\sqrt{\sigma}\)).  
+            High conductivity → shallow DOI.  
+            Low conductivity → deeper DOI.
+          </li>
+
+          <li>
+            <strong>Tx–Rx Spacing</strong> — Larger spacing increases the geometric distance
+            \(r = \sqrt{L^2 + h^2}\), reducing the geometric factor \(A_{\text{geom}} = 1/r^3\).
+            Weaker coupling means the signal reaches the noise floor sooner → reduced DOI.
+          </li>
+
+          <li>
+            <strong>Sensor Height</strong> — Flying higher increases \(r\) and weakens coupling,
+            reducing the absolute amplitude. This lowers the usable depth range and shrinks the DOI.
+          </li>
+        </ul>
+
+        <p style="font-size:0.9em; color:#555;">
+          These sensitivities explain why airborne FDEM systems fly low, use moderate coil spacing,
+          and operate at multiple frequencies: each parameter shapes how deeply the EM field can
+          probe the subsurface.
+        </p>
+
       </section>
 
       <!-- ========================= -->
@@ -815,51 +834,101 @@
       <!-- ========================= -->
       <section id="doi-explanation" style="margin-top: 40px;">
         <h2>DOI Interpretation</h2>
-        <p>
-          A theoretical workflow of a real‑life FDEM acquisition, from recording to processing to final results.
-        </p>
-        
-        <h3>True Earth Model (Potash Example)</h3>
 
-        <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">
-          <thead>
-            <tr style="background:#f2f2f2;">
-              <th style="padding:8px; border:1px solid #ccc;">Layer</th>
-              <th style="padding:8px; border:1px solid #ccc;">Thickness (m)</th>
-              <th style="padding:8px; border:1px solid #ccc;">Conductivity (S/m)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:8px; border:1px solid #ccc;">Layer 1 — Overburden</td>
-              <td style="padding:8px; border:1px solid #ccc;">30</td>
-              <td style="padding:8px; border:1px solid #ccc;">0.01</td>
-            </tr>
-            <tr>
-              <td style="padding:8px; border:1px solid #ccc;">Layer 2 — Potash / Evaporites</td>
-              <td style="padding:8px; border:1px solid #ccc;">150</td>
-              <td style="padding:8px; border:1px solid #ccc;">0.10</td>
-            </tr>
-            <tr>
-              <td style="padding:8px; border:1px solid #ccc;">Layer 3 — Basement (Half‑space)</td>
-              <td style="padding:8px; border:1px solid #ccc;">∞</td>
-              <td style="padding:8px; border:1px solid #ccc;">0.02</td>
-            </tr>
-          </tbody>
-        </table>
-
-
+        <!-- Dynamic placeholder (JS writes here) -->
+        <div id="doi-explanation" style="margin-top: 10px;"></div>
       </section>
 
       <!-- ========================= -->
       <!-- Synthetic FDEM Workflow -->
       <!-- ========================= -->
       <section id="synthetic-section" style="margin-top: 40px;">
-        <h2>Synthetic FDEM Workflow </h2>
-        <p>
-          A dtheoretical workflow of a real life FDE acquisition, from recording  to processing to final results
-        </p>
+        <h2>Synthetic FDEM Workflow</h2>
+        <p>A theoretical workflow of a real‑life FDEM acquisition, from recording to processing to final results.</p>
+
+        <!-- Collapsible: True Earth Model -->
+        <button class="collapsible-btn" onclick="toggleSection('trueModel')">
+          <span class="icon">🌍</span> True Earth Model (Potash Example)
+        </button>
+        <div id="trueModel" class="info-content">
+          <div id="trueModel" class="info-content">
+            <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">
+              <thead>
+                <tr style="background:#f2f2f2;">
+                  <th style="padding:8px; border:1px solid #ccc;">Layer</th>
+                  <th style="padding:8px; border:1px solid #ccc;">Thickness (m)</th>
+                  <th style="padding:8px; border:1px solid #ccc;">Conductivity (S/m)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:8px; border:1px solid #ccc;">Layer 1 — Overburden</td>
+                  <td style="padding:8px; border:1px solid #ccc;">30</td>
+                  <td style="padding:8px; border:1px solid #ccc;">0.01</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px; border:1px solid #ccc;">Layer 2 — Potash / Evaporites</td>
+                  <td style="padding:8px; border:1px solid #ccc;">150</td>
+                  <td style="padding:8px; border:1px solid #ccc;">0.10</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px; border:1px solid #ccc;">Layer 3 — Basement (Half‑space)</td>
+                  <td style="padding:8px; border:1px solid #ccc;">∞</td>
+                  <td style="padding:8px; border:1px solid #ccc;">0.02</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- Collapsible: Survey Geometry -->
+        <button class="collapsible-btn" onclick="toggleSection('surveyGeom')">
+          <span class="icon">📡</span> Survey Geometry
+        </button>
+        <div id="surveyGeom" class="info-content">
+          <ul style="font-size:0.9em; color:#555;">
+            <li>Tx–Rx spacing: <strong>10 m</strong></li>
+            <li>Sensor height: <strong>30 m</strong></li>
+            <li>Frequencies: <strong>900, 3600, 7200 Hz</strong></li>
+            <li>Magnetic permeability: <strong>μ₀</strong></li>
+          </ul>
+        </div>
+
+        <!-- Collapsible: Forward Model -->
+        <button class="collapsible-btn" onclick="toggleSection('forwardModel')">
+          <span class="icon">⚙️</span> Forward Modeling (Synthetic Data)
+        </button>
+        <div id="forwardModel" class="info-content">
+          <!-- Forward model explanation + generated table -->
+        </div>
+
+        <!-- Collapsible: Processing Steps -->
+        <button class="collapsible-btn" onclick="toggleSection('processingSteps')">
+          <span class="icon">🔧</span> Processing Steps (Interactive)
+        </button>
+        <div id="processingSteps" class="info-content">
+          <!-- Toggles will go here -->
+        </div>
+
+        <!-- Collapsible: Inversion -->
+        <button class="collapsible-btn" onclick="toggleSection('inversionBlock')">
+          <span class="icon">📉</span> Inversion (Recover σ₁, σ₂, σ₃)
+        </button>
+        <div id="inversionBlock" class="info-content">
+          <!-- Inversion results + plots -->
+        </div>
+
+        <!-- Collapsible: DOI -->
+        <button class="collapsible-btn" onclick="toggleSection('doiBlock')">
+          <span class="icon">📘</span> DOI from Sensitivity
+        </button>
+        <div id="doiBlock" class="info-content">
+          <!-- DOI explanation + shaded plot -->
+        </div>
+
       </section>
+
     </main>
 
 
@@ -878,10 +947,11 @@
       loadComponent("footer", "/components/footer.html");
   </script>
 
+  <!-- const btn = event.target.currentTarget; -->
   <script>
     function toggleSection(id) { 
       const box = document.getElementById(id); 
-      const btn = event.target.currentTarget; 
+      const btn = event.currentTarget;  
       
       box.classList.toggle("open"); 
       btn.classList.toggle("active"); 
