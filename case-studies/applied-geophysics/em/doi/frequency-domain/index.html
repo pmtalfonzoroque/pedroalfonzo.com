@@ -910,6 +910,37 @@
             <li>Survey geometry (spacing + height)</li>
           </ul>
 
+          <button class="collapsible-btn" onclick="toggleSection('forwardModelEquations')">
+          <span class="icon">⚙️</span> Forward Model Equations
+          </button>
+          <div id="forwardModelEquations" class="info-content">
+            <h4>Forward Model Equations</h4>
+
+            <p style="font-size:0.9em; color:#555;">
+              The synthetic secondary field is computed using a simplified layered-earth attenuation model:
+            </p>
+
+            <div style="background:#f8f9fc; padding:12px; border-left:3px solid #4a6fa5; margin-bottom:15px;">
+              <p><strong>Skin depth:</strong></p>
+              <p>\(\delta = \sqrt{\frac{2}{\omega \mu_0 \sigma}}\), &nbsp; \(\omega = 2\pi f\)</p>
+
+              <p><strong>Geometry factor:</strong></p>
+              <p>\(A_{\text{geom}} = \frac{1}{r^3}\), &nbsp; \(r = \sqrt{L^2 + h^2}\)</p>
+
+              <p><strong>Layer contribution:</strong></p>
+              <p>\(A_i = w_i \, e^{-z_i / \delta_i}\)</p>
+
+              <p><strong>Total secondary field:</strong></p>
+              <p>\(A_{\text{sec}} = A_{\text{geom}} \sum_i A_i\)</p>
+
+              <p><strong>Primary field:</strong></p>
+              <p>\(A_{\text{prim}} = A_{\text{geom}}\)</p>
+
+              <p><strong>Normalized response:</strong></p>
+              <p>\(A_{\text{norm}} = \frac{A_{\text{sec}}}{A_{\text{prim}}}\)</p>
+            </div>
+          </div>
+          
           <button onclick="generateSyntheticData()" 
                   style="margin-top:10px; padding:8px 12px; border-radius:6px; cursor:pointer;">
             Generate Synthetic Data
