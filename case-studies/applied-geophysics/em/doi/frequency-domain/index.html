@@ -1752,7 +1752,7 @@
     return { freqs, q_vals };
   }
 
-  function runInversionGD() {
+  function runInversionGN() {
 
     // 1. Read processed quadrature
     const processed = getProcessedQuadrature();
@@ -1765,20 +1765,20 @@
     const freqs = processed.freqs;
     const q_obs = processed.q_vals;
 
-    // 2. Initial guesses (continuous)
+    // 2. Initial model
     let sigma1 = 0.02;
     let sigma2 = 0.05;
     let sigma3 = 0.02;
 
-    const alpha = 0.001;   // smaller step size
-    const delta = 0.0005;    // smaller finite difference step
-    const iterations = 20;
-
+    const iterations = 6;
+    const delta = 0.005; // finite difference step
     const misfitHistory = [];
 
-    // Helper: compute misfit
-    function computeMisfit(s1, s2, s3) {
-      const q_model = forwardQuadrature(freqs, s1, s2, s3);
+    function forwardVec(s1, s2, s3) {
+      return forwardQuadrature(freqs, s1, s2, s3);
+    }
+
+    function computeMisfit(q_model) {
       let misfit = 0;
       for (let i = 0; i < q_obs.length; i++) {
         const diff = q_obs[i] - q_model[i];
@@ -1787,37 +1787,79 @@
       return misfit;
     }
 
-    // 3. Gradient descent loop
     for (let k = 0; k < iterations; k++) {
 
-      const baseMisfit = computeMisfit(sigma1, sigma2, sigma3);
+      // Forward at current model
+      const q_model = forwardVec(sigma1, sigma2, sigma3);
+      const misfit = computeMisfit(q_model);
+      misfitHistory.push({ iter: k + 1, misfit });
 
-      // Numerical gradients
-      const dPhi_dS1 = (computeMisfit(sigma1 + delta, sigma2, sigma3) -
-                        computeMisfit(sigma1 - delta, sigma2, sigma3)) / (2 * delta);
+      // Residual r = d - F(m)
+      const r = [];
+      for (let i = 0; i < q_obs.length; i++) {
+        r.push(q_obs[i] - q_model[i]);
+      }
 
-      const dPhi_dS2 = (computeMisfit(sigma1, sigma2 + delta, sigma3) -
-                        computeMisfit(sigma1, sigma2 - delta, sigma3)) / (2 * delta);
+      // Build Jacobian J (3x3) by finite differences
+      const J = [ [0,0,0], [0,0,0], [0,0,0] ];
 
-      const dPhi_dS3 = (computeMisfit(sigma1, sigma2, sigma3 + delta) -
-                        computeMisfit(sigma1, sigma2, sigma3 - delta)) / (2 * delta);
+      // Perturb sigma1
+      let q_p = forwardVec(sigma1 + delta, sigma2, sigma3);
+      let q_m = forwardVec(sigma1 - delta, sigma2, sigma3);
+      for (let i = 0; i < 3; i++) {
+        J[i][0] = (q_p[i] - q_m[i]) / (2 * delta);
+      }
 
-      // Update conductivities
-      sigma1 -= alpha * dPhi_dS1;
-      sigma2 -= alpha * dPhi_dS2;
-      sigma3 -= alpha * dPhi_dS3;
+      // Perturb sigma2
+      q_p = forwardVec(sigma1, sigma2 + delta, sigma3);
+      q_m = forwardVec(sigma1, sigma2 - delta, sigma3);
+      for (let i = 0; i < 3; i++) {
+        J[i][1] = (q_p[i] - q_m[i]) / (2 * delta);
+      }
 
-      // ⭐ CRITICAL: Clamp to physical range to avoid NaN
+      // Perturb sigma3
+      q_p = forwardVec(sigma1, sigma2, sigma3 + delta);
+      q_m = forwardVec(sigma1, sigma2, sigma3 - delta);
+      for (let i = 0; i < 3; i++) {
+        J[i][2] = (q_p[i] - q_m[i]) / (2 * delta);
+      }
+
+      // Compute JTJ and JTr (3x3 and 3x1)
+      const JTJ = [ [0,0,0], [0,0,0], [0,0,0] ];
+      const JTr = [0,0,0];
+
+      for (let i = 0; i < 3; i++) {      // rows of J
+        for (let j = 0; j < 3; j++) {    // cols of J
+          JTJ[0][j] += J[i][0] * J[i][j];
+          JTJ[1][j] += J[i][1] * J[i][j];
+          JTJ[2][j] += J[i][2] * J[i][j];
+        }
+        JTr[0] += J[i][0] * r[i];
+        JTr[1] += J[i][1] * r[i];
+        JTr[2] += J[i][2] * r[i];
+      }
+
+      // Solve (JTJ) * dm = JTr  (3x3 system)
+      const dm = solve3x3(JTJ, JTr);
+
+      if (!dm || dm.some(v => !isFinite(v))) {
+        break; // numerical issue, stop updating
+      }
+
+      // Update model
+      sigma1 += dm[0];
+      sigma2 += dm[1];
+      sigma3 += dm[2];
+
+      // Clamp to physical range
       sigma1 = Math.max(0.0001, Math.min(1.0, sigma1));
       sigma2 = Math.max(0.0001, Math.min(1.0, sigma2));
       sigma3 = Math.max(0.0001, Math.min(1.0, sigma3));
-
-      misfitHistory.push({ iter: k + 1, misfit: baseMisfit });
     }
 
-    // 4. Display final model
+    // 3. Display final model
     let html = `
-      <h4>Recovered 3‑Layer Conductivity Model (Gradient Descent)</h4>
+      <h4>Recovered 3‑Layer Conductivity Model (Gauss–Newton)</h4>
       <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;">
         <thead>
           <tr style="background:#f2f2f2;">
@@ -1832,10 +1874,9 @@
         </tbody>
       </table>
     `;
-
     document.getElementById("inversionResults").innerHTML = html;
 
-    // 5. Convergence table
+    // 4. Convergence table
     let conv = `
       <h4>Misfit Convergence</h4>
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
@@ -1847,7 +1888,6 @@
         </thead>
         <tbody>
     `;
-
     misfitHistory.forEach(row => {
       conv += `
         <tr>
@@ -1856,9 +1896,37 @@
         </tr>
       `;
     });
-
     conv += "</tbody></table>";
     document.getElementById("convergenceTable").innerHTML = conv;
+  }
+
+  function solve3x3(A, b) {
+    const a = A.map(row => row.slice());
+    const x = [0,0,0];
+
+    // Manual 3x3 solver via Cramer's rule or Gaussian elimination
+    const detA =
+      a[0][0]*(a[1][1]*a[2][2] - a[1][2]*a[2][1]) -
+      a[0][1]*(a[1][0]*a[2][2] - a[1][2]*a[2][0]) +
+      a[0][2]*(a[1][0]*a[2][1] - a[1][1]*a[2][0]);
+
+    if (Math.abs(detA) < 1e-20) return null;
+
+    function det3(m00,m01,m02,m10,m11,m12,m20,m21,m22) {
+      return m00*(m11*m22 - m12*m21) -
+            m01*(m10*m22 - m12*m20) +
+            m02*(m10*m21 - m11*m20);
+    }
+
+    const detX0 = det3(b[0],a[0][1],a[0][2], b[1],a[1][1],a[1][2], b[2],a[2][1],a[2][2]);
+    const detX1 = det3(a[0][0],b[0],a[0][2], a[1][0],b[1],a[1][2], a[2][0],b[2],a[2][2]);
+    const detX2 = det3(a[0][0],a[0][1],b[0], a[1][0],a[1][1],b[1], a[2][0],a[2][1],b[2]);
+
+    x[0] = detX0 / detA;
+    x[1] = detX1 / detA;
+    x[2] = detX2 / detA;
+
+    return x;
   }
 
     // -----------------------------
