@@ -1348,7 +1348,7 @@
 
         <!-- Collapsible: DOI -->
         <button class="collapsible-btn" onclick="toggleSection('doiBlock')">
-          <span class="icon">📘</span> DOI from Sensitivity
+          <span class="icon">📘</span> Inversion Sensitivity & DOI
         </button>
         <div id="doiBlock" class="info-content">
           <!-- DOI From Sensitivity -->
@@ -1417,6 +1417,31 @@
             </p>
 
           </div>
+
+          <!-- Inversion Sensitivity UI -->
+          <button class="collapsible-btn" onclick="toggleSection('invSensitivityUI')">
+            <span class="icon">📊</span> Inversion Sensitivity (σ₁, σ₂, σ₃)
+          </button>
+
+          <div id="invSensitivityUI" class="info-content">
+
+            <p style="font-size:0.9em; color:#555;">
+              This section computes the inversion sensitivity for each conductivity parameter
+              \( \sigma_1, \sigma_2, \sigma_3 \). Sensitivity indicates how strongly the data
+              responds to changes in each layer, and therefore which layers the inversion can
+              reliably recover.
+            </p>
+
+            <canvas id="sensitivityPlot" width="400" height="250"></canvas>
+
+            <p id="doiOutput" style="font-size:0.9em; color:#333; margin-top:10px;"></p>
+
+            <button onclick="computeInversionSensitivity()" class="run-btn">
+              Compute Inversion Sensitivity & DOI
+            </button>
+
+          </div>
+
 
         </div>
 
@@ -2152,12 +2177,86 @@
     return x;
   }
 
-    // -----------------------------
-    // RESIZE HANDLER
-    // -----------------------------
-    window.addEventListener('resize', () => {
-      Plotly.Plots.resize('attenuationPlot');
+  function computeInversionSensitivity() { // This computes the inversion sensitivity using finite differences:
+    // Use the current model from your inversion: your existing forwardModelProcessed(),your existing frequencies, finite differences to compute ∂q/∂σ
+    const sigma = [
+        parseFloat(document.getElementById("sigma1").value),
+        parseFloat(document.getElementById("sigma2").value),
+        parseFloat(document.getElementById("sigma3").value)
+    ];
+
+    const freqs = [f1, f2, f3]; // use your actual frequency variables
+    const delta = 0.001; // small perturbation
+
+    let sensitivities = [0, 0, 0];
+
+    for (let j = 0; j < 3; j++) {
+        let sigmaPerturbed = [...sigma];
+        sigmaPerturbed[j] += delta;
+
+        let qBase = forwardModelProcessed(sigma, freqs);
+        let qPert = forwardModelProcessed(sigmaPerturbed, freqs);
+
+        let layerSensitivity = 0;
+        for (let i = 0; i < freqs.length; i++) {
+            layerSensitivity += Math.abs(qPert[i] - qBase[i]) / delta;
+        }
+
+        sensitivities[j] = layerSensitivity;
+    }
+
+    plotSensitivity(sensitivities);
+    computeDOI(sensitivities);
+  }
+
+  function plotSensitivity(S) { // This gives you a clean bar chart.
+    const ctx = document.getElementById("sensitivityPlot").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["σ₁ (shallow)", "σ₂ (middle)", "σ₃ (deep)"],
+            datasets: [{
+                label: "Inversion Sensitivity",
+                data: S,
+                backgroundColor: ["#4e79a7", "#f28e2b", "#e15759"]
+            }]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
     });
+  } 
+
+  function computeDOI(S) { // This is the simplest, industry‑standard DOI definition: You can replace the depths array with your actual layer boundaries.
+    const maxS = Math.max(...S);
+    const threshold = 0.1 * maxS; // 10% of max sensitivity
+
+    let doiLayer = 3; // default: deepest layer not resolvable
+
+    for (let j = 0; j < S.length; j++) {
+        if (S[j] < threshold) {
+            doiLayer = j;
+            break;
+        }
+    }
+
+    const depths = [0, 5, 15, 30]; // example layer boundaries — replace with yours
+    const doiDepth = depths[doiLayer];
+
+    document.getElementById("doiOutput").innerHTML =
+        `<b>DOI:</b> The inversion is sensitive down to approximately <b>${doiDepth} m</b>.`;
+  }
+
+  // -----------------------------
+  // RESIZE HANDLER
+  // -----------------------------
+  window.addEventListener('resize', () => {
+    Plotly.Plots.resize('attenuationPlot');
+  });
  
   </script>
   
