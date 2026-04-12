@@ -1157,20 +1157,20 @@
           
           <!-- Inversion Theory (Q&A) -->
           <button class="collapsible-btn" onclick="toggleSection('inversionTheory')">
-            <span class="icon">❓</span> Inversion Theory (Common Questions)
+            <span class="icon">❓</span> Inversion Theory (Gradient Descent)
           </button>
 
           <div id="inversionTheory" class="info-content">
             <p style="font-size:0.9em; color:#555;">
               Inversion answers the question: <em>“Which layered-earth model best explains the measured FDEM data?”</em>
-              Here we recover three conductivities (σ₁, σ₂, σ₃) from the quadrature response.
+              Here we recover three conductivities (σ₁, σ₂, σ₃) from the processed quadrature response.
             </p>
 
             <h4>Why do we need inversion?</h4>
             <p style="font-size:0.9em; color:#555;">
               The FDEM response is a non‑linear function of conductivity, frequency, and geometry.
-              We cannot simply “solve for σ” directly; instead, we search for a model whose forward
-              response matches the data.
+              We cannot directly solve for σ. Instead, we adjust the model until the forward response
+              matches the observed data.
             </p>
 
             <h4>Why use the quadrature component?</h4>
@@ -1182,29 +1182,50 @@
 
             <h4>Why a 3‑layer model?</h4>
             <p style="font-size:0.9em; color:#555;">
-              A simple 3‑layer earth (overburden, target, basement) is enough to illustrate how
-              FDEM inversion works and how depth sensitivity limits our ability to resolve deeper layers.
+              A simple 3‑layer earth (overburden, target, basement) captures the main structure of
+              many geological settings and is sufficient for a prototype inversion. It also makes
+              the inversion stable and interpretable.
             </p>
 
             <h4>What kind of inversion is used here?</h4>
             <p style="font-size:0.9em; color:#555;">
-              We use a small grid search over σ₁, σ₂, and σ₃. For each candidate model we compute
-              the quadrature response and measure the misfit to the synthetic data. The model with
-              the smallest misfit is chosen as the “best‑fit” solution.
+              This prototype uses a <strong>gradient‑descent inversion</strong> to estimate the three
+              layer conductivities (σ₁, σ₂, σ₃). The inversion minimizes the misfit between the
+              <em>processed quadrature</em> data and the forward model response.
+            </p>
+
+            <h4>Why gradient descent?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              Gradient descent is simple, stable, and easy to interpret. It provides continuous
+              conductivity estimates and is suitable for prototype development. Future versions
+              may upgrade to Gauss–Newton or Levenberg–Marquardt for faster convergence and
+              improved resolution.
+            </p>
+
+            <h4>How does it work?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              At each iteration, the algorithm computes the misfit and estimates its gradient
+              with respect to σ₁, σ₂, and σ₃. The conductivities are updated in the direction
+              that reduces the misfit. This continues until convergence or until a maximum
+              number of iterations is reached.
             </p>
           </div>
 
+
           <!-- Inversion Controls -->
           <p style="font-size:0.9em; color:#555; margin-top:15px;">
-            Click the button below to run a simple 3‑layer inversion on the synthetic quadrature data.
+            This inversion uses <strong>gradient descent</strong> to estimate σ₁, σ₂, σ₃.
+            Future upgrades may include Gauss–Newton or Levenberg–Marquardt.
           </p>
 
-          <button onclick="runInversion()" 
+          <button onclick="runInversionGD()" 
                   style="margin-top:10px; padding:8px 12px; border-radius:6px; cursor:pointer;">
-            Run Inversion (Recover σ₁, σ₂, σ₃)
+            Run Gradient‑Descent Inversion
           </button>
 
           <div id="inversionResults" style="margin-top:20px;"></div>
+          <div id="convergenceTable" style="margin-top:20px;"></div>
+
 
         </div>
 
@@ -1747,7 +1768,7 @@
     return { freqs, q_vals };
   }
 
-  function runInversion() {
+  function runInversionGD() {
 
     // 1. Read processed quadrature
     const processed = getProcessedQuadrature();
@@ -1760,44 +1781,54 @@
     const freqs = processed.freqs;
     const q_obs = processed.q_vals;
 
-    // 2. Define search ranges
-    const s1_vals = [0.005, 0.01, 0.015];
-    const s2_vals = [0.07, 0.10, 0.13];
-    const s3_vals = [0.01, 0.02, 0.03];
+    // 2. Initial guesses (continuous)
+    let sigma1 = 0.02;
+    let sigma2 = 0.05;
+    let sigma3 = 0.02;
 
-    let bestMisfit = Infinity;
-    let bestModel = { s1: null, s2: null, s3: null, q_model: [] };
+    const alpha = 0.001;   // step size
+    const delta = 0.0005;  // finite difference step
+    const iterations = 20;
 
-    // 3. Grid search
-    s1_vals.forEach(s1 => {
-      s2_vals.forEach(s2 => {
-        s3_vals.forEach(s3 => {
+    const misfitHistory = [];
 
-          const q_model = forwardQuadrature(freqs, s1, s2, s3);
+    // Helper: compute misfit
+    function computeMisfit(s1, s2, s3) {
+      const q_model = forwardQuadrature(freqs, s1, s2, s3);
+      let misfit = 0;
+      for (let i = 0; i < q_obs.length; i++) {
+        const diff = q_obs[i] - q_model[i];
+        misfit += diff * diff;
+      }
+      return misfit;
+    }
 
-          let misfit = 0;
-          for (let i = 0; i < freqs.length; i++) {
-            const diff = q_obs[i] - q_model[i];
-            misfit += diff * diff;
-          }
+    // 3. Gradient descent loop
+    for (let k = 0; k < iterations; k++) {
 
-          if (misfit < bestMisfit) {
-            bestMisfit = misfit;
-            bestModel = { s1, s2, s3, q_model };
-          }
+      const baseMisfit = computeMisfit(sigma1, sigma2, sigma3);
 
-        });
-      });
-    });
+      // Numerical gradients
+      const dPhi_dS1 = (computeMisfit(sigma1 + delta, sigma2, sigma3) -
+                        computeMisfit(sigma1 - delta, sigma2, sigma3)) / (2 * delta);
 
-    // 4. Display results
+      const dPhi_dS2 = (computeMisfit(sigma1, sigma2 + delta, sigma3) -
+                        computeMisfit(sigma1, sigma2 - delta, sigma3)) / (2 * delta);
+
+      const dPhi_dS3 = (computeMisfit(sigma1, sigma2, sigma3 + delta) -
+                        computeMisfit(sigma1, sigma2, sigma3 - delta)) / (2 * delta);
+
+      // Update conductivities
+      sigma1 -= alpha * dPhi_dS1;
+      sigma2 -= alpha * dPhi_dS2;
+      sigma3 -= alpha * dPhi_dS3;
+
+      misfitHistory.push({ iter: k + 1, misfit: baseMisfit });
+    }
+
+    // 4. Display final model
     let html = `
-      <h4>Recovered 3‑Layer Conductivity Model</h4>
-      <p style="font-size:0.9em; color:#555;">
-        Inversion now uses the <strong>processed quadrature</strong> values.
-        Processing choices (ppm, noise, smoothing, phase correction) directly affect the result.
-      </p>
-
+      <h4>Recovered 3‑Layer Conductivity Model (Gradient Descent)</h4>
       <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;">
         <thead>
           <tr style="background:#f2f2f2;">
@@ -1806,18 +1837,39 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 1</td><td style="padding:6px; border:1px solid #ccc;">${bestModel.s1.toFixed(3)}</td></tr>
-          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 2</td><td style="padding:6px; border:1px solid #ccc;">${bestModel.s2.toFixed(3)}</td></tr>
-          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 3</td><td style="padding:6px; border:1px solid #ccc;">${bestModel.s3.toFixed(3)}</td></tr>
+          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 1</td><td style="padding:6px; border:1px solid #ccc;">${sigma1.toFixed(4)}</td></tr>
+          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 2</td><td style="padding:6px; border:1px solid #ccc;">${sigma2.toFixed(4)}</td></tr>
+          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 3</td><td style="padding:6px; border:1px solid #ccc;">${sigma3.toFixed(4)}</td></tr>
         </tbody>
       </table>
-
-      <p style="font-size:0.9em; color:#555; margin-top:10px;">
-        Misfit: <strong>${bestMisfit.toExponential(3)}</strong>
-      </p>
     `;
 
     document.getElementById("inversionResults").innerHTML = html;
+
+    // 5. Convergence table
+    let conv = `
+      <h4>Misfit Convergence</h4>
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th style="padding:4px; border:1px solid #ccc;">Iteration</th>
+            <th style="padding:4px; border:1px solid #ccc;">Misfit</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    misfitHistory.forEach(row => {
+      conv += `
+        <tr>
+          <td style="padding:4px; border:1px solid #ccc;">${row.iter}</td>
+          <td style="padding:4px; border:1px solid #ccc;">${row.misfit.toExponential(3)}</td>
+        </tr>
+      `;
+    });
+
+    conv += "</tbody></table>";
+    document.getElementById("convergenceTable").innerHTML = conv;
   }
 
     // -----------------------------
