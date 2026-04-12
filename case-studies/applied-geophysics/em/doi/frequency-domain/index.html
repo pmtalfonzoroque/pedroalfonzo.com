@@ -1218,7 +1218,7 @@
             Future upgrades may include Gauss–Newton or Levenberg–Marquardt.
           </p>
 
-          <button onclick="runInversionGD()" 
+          <button onclick="runInversionGN()" 
                   style="margin-top:10px; padding:8px 12px; border-radius:6px; cursor:pointer;">
             Run Gradient‑Descent Inversion
           </button>
@@ -1838,6 +1838,13 @@
         JTr[1] += J[i][1] * r[i];
         JTr[2] += J[i][2] * r[i];
       }
+
+      // ⭐ Add small damping on the diagonal
+      const lambda = 1e-3;
+      JTJ[0][0] += lambda;
+      JTJ[1][1] += lambda;
+      JTJ[2][2] += lambda;
+
 
       // Solve (JTJ) * dm = JTr  (3x3 system)
       const dm = solve3x3(JTJ, JTr);
