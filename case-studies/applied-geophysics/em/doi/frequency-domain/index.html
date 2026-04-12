@@ -1149,6 +1149,78 @@
 
         </div>
 
+        <!-- Forward Modeling -->
+        <button class="collapsible-btn" onclick="toggleSection('forwardModelingBlock')">
+          <span class="icon">📉</span> Forward Modeling
+        </button>
+
+        <div id="forwardModelingBlock" class="info-content">
+
+          <!-- Forward Modeling Theory -->
+          <button class="collapsible-btn" onclick="toggleSection('forwardModelingTheory')">
+            <span class="icon">❓</span> Forward Modeling Theory
+          </button>
+
+          <div id="forwardModelingTheory" class="info-content">
+
+            <h4>Forward Modeling</h4>
+            <p style="font-size:0.9em; color:#555;">
+              Forward modeling answers the question: <em>“If this is the earth, what would the FDEM instrument measure?”</em>
+              It provides the physical link between the layered-earth model and the quadrature response that the inversion
+              attempts to match.
+            </p>
+
+            <p style="font-size:0.9em; color:#555;">
+              The conductivity model is written as:
+            </p>
+ 
+            \[
+            m =
+            \begin{bmatrix}
+            \sigma_1 \\[4pt]
+            \sigma_2 \\[4pt]
+            \sigma_3
+            \end{bmatrix}.
+            \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">
+              For each frequency, the forward model computes the expected quadrature response using a simplified
+              low‑induction‑number approximation. Each layer contributes an exponentially attenuated term based on its
+              skin depth \(\delta_i(f,\sigma_i)\), thickness \(w_i\), and effective depth \(z_i\):
+            </p>
+
+            \[
+            q_{\mathrm{mod}}(f) =
+            A_{\mathrm{geom}}
+            \sum_{i=1}^{3}
+            w_i \exp\!\left(-\frac{z_i}{\delta_i(f,\sigma_i)}\right).
+            \]
+
+            <p style="font-size:0.9em; color:#555;">
+              The predicted quadrature vector is:
+            </p>
+           
+            \[
+            F(m) =
+            \begin{bmatrix}
+            q_{\mathrm{mod}}(f_1; m) \\[4pt]
+            q_{\mathrm{mod}}(f_2; m) \\[4pt]
+            q_{\mathrm{mod}}(f_3; m)
+            \end{bmatrix}.
+            \]
+
+            <p style="font-size:0.9em; color:#555;">
+              To ensure consistency, the same processing steps applied to the data—geometry correction, ppm normalization,
+              and phase rotation—are also applied to the forward response. This guarantees that the inversion compares
+              quantities in the same physical units and reference frame.
+            </p>
+
+          </div>
+        </div>
+
+
         <!-- Collapsible: Inversion -->
         <button class="collapsible-btn" onclick="toggleSection('inversionBlock')">
           <span class="icon">📉</span> Inversion (Recover σ₁, σ₂, σ₃)
