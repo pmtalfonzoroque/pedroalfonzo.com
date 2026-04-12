@@ -1154,7 +1154,58 @@
           <span class="icon">📉</span> Inversion (Recover σ₁, σ₂, σ₃)
         </button>
         <div id="inversionBlock" class="info-content">
-          <!-- Inversion results + plots -->
+          
+          <!-- Inversion Theory (Q&A) -->
+          <button class="collapsible-btn" onclick="toggleSection('inversionTheory')">
+            <span class="icon">❓</span> Inversion Theory (Common Questions)
+          </button>
+
+          <div id="inversionTheory" class="info-content">
+            <p style="font-size:0.9em; color:#555;">
+              Inversion answers the question: <em>“Which layered-earth model best explains the measured FDEM data?”</em>
+              Here we recover three conductivities (σ₁, σ₂, σ₃) from the quadrature response.
+            </p>
+
+            <h4>Why do we need inversion?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              The FDEM response is a non‑linear function of conductivity, frequency, and geometry.
+              We cannot simply “solve for σ” directly; instead, we search for a model whose forward
+              response matches the data.
+            </p>
+
+            <h4>Why use the quadrature component?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              In low‑induction‑number conditions, the quadrature component is primarily sensitive
+              to conductivity, while the in‑phase component is more affected by susceptibility and
+              cultural noise. Using quadrature stabilizes the inversion.
+            </p>
+
+            <h4>Why a 3‑layer model?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              A simple 3‑layer earth (overburden, target, basement) is enough to illustrate how
+              FDEM inversion works and how depth sensitivity limits our ability to resolve deeper layers.
+            </p>
+
+            <h4>What kind of inversion is used here?</h4>
+            <p style="font-size:0.9em; color:#555;">
+              We use a small grid search over σ₁, σ₂, and σ₃. For each candidate model we compute
+              the quadrature response and measure the misfit to the synthetic data. The model with
+              the smallest misfit is chosen as the “best‑fit” solution.
+            </p>
+          </div>
+
+          <!-- Inversion Controls -->
+          <p style="font-size:0.9em; color:#555; margin-top:15px;">
+            Click the button below to run a simple 3‑layer inversion on the synthetic quadrature data.
+          </p>
+
+          <button onclick="runInversion()" 
+                  style="margin-top:10px; padding:8px 12px; border-radius:6px; cursor:pointer;">
+            Run Inversion (Recover σ₁, σ₂, σ₃)
+          </button>
+
+          <div id="inversionResults" style="margin-top:20px;"></div>
+
         </div>
 
         <!-- Collapsible: DOI -->
@@ -1631,6 +1682,154 @@
     html += "</tbody></table>";
 
     document.getElementById("processedTable").innerHTML = html;
+  }
+
+  function forwardQuadrature(freqs, sigma1, sigma2, sigma3) {
+    // True geometry (same as forward model)
+    const h1 = 30, h2 = 150;
+    const L = 10;
+    const h = 30;
+    const r = Math.sqrt(L*L + h*h);
+    const A_geom = 1 / Math.pow(r, 3);
+
+    const results = [];
+
+    freqs.forEach(f => {
+      const d1 = skinDepth(f, sigma1);
+      const d2 = skinDepth(f, sigma2);
+      const d3 = skinDepth(f, sigma3);
+
+      const z1 = h1 / 2;
+      const z2 = h1 + h2 / 2;
+      const z3 = h1 + h2 + 100;
+
+      const w1 = h1, w2 = h2, w3 = 100;
+
+      const A_sec =
+        A_geom * (
+          w1 * Math.exp(-z1 / d1) +
+          w2 * Math.exp(-z2 / d2) +
+          w3 * Math.exp(-z3 / d3)
+        );
+
+      const z_eff = (z1 + z2 + z3) / 3;
+      const phaseLag = z_eff / d2;
+
+      const H_real = A_sec * Math.cos(phaseLag);
+      const H_imag = A_sec * Math.sin(phaseLag); // quadrature
+
+      results.push(H_imag);
+    });
+
+    return results;
+  }
+
+  function runInversion() {
+    // Frequencies used in the synthetic forward model
+    const freqs = [900, 3600, 7200];
+
+    // "Observed" quadrature from the true model
+    const sigma1_true = 0.01;
+    const sigma2_true = 0.10;
+    const sigma3_true = 0.02;
+    const q_obs = forwardQuadrature(freqs, sigma1_true, sigma2_true, sigma3_true);
+
+    // Search ranges (simple, tight grid around true values)
+    const s1_vals = [0.005, 0.01, 0.015];
+    const s2_vals = [0.07, 0.10, 0.13];
+    const s3_vals = [0.01, 0.02, 0.03];
+
+    let bestMisfit = Infinity;
+    let bestModel = { s1: null, s2: null, s3: null, q_model: [] };
+
+    s1_vals.forEach(s1 => {
+      s2_vals.forEach(s2 => {
+        s3_vals.forEach(s3 => {
+
+          const q_model = forwardQuadrature(freqs, s1, s2, s3);
+
+          let misfit = 0;
+          for (let i = 0; i < freqs.length; i++) {
+            const diff = q_obs[i] - q_model[i];
+            misfit += diff * diff;
+          }
+
+          if (misfit < bestMisfit) {
+            bestMisfit = misfit;
+            bestModel = { s1, s2, s3, q_model };
+          }
+
+        });
+      });
+    });
+
+    // Build results table
+    let html = `
+      <h4>Recovered 3‑Layer Conductivity Model</h4>
+      <p style="font-size:0.9em; color:#555;">
+        The inversion searches over a small grid of σ₁, σ₂, and σ₃ values and selects the model
+        with the smallest least‑squares misfit to the quadrature response.
+      </p>
+
+      <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th style="padding:6px; border:1px solid #ccc;">Layer</th>
+            <th style="padding:6px; border:1px solid #ccc;">True σ (S/m)</th>
+            <th style="padding:6px; border:1px solid #ccc;">Recovered σ (S/m)</th>
+            <th style="padding:6px; border:1px solid #ccc;">Error (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    function row(label, s_true, s_rec) {
+      const err = 100 * (s_rec - s_true) / s_true;
+      return `
+        <tr>
+          <td style="padding:6px; border:1px solid #ccc;">${label}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${s_true.toFixed(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${s_rec.toFixed(3)}</td>
+          <td style="padding:6px; border:1px solid #ccc;">${err.toFixed(1)}</td>
+        </tr>
+      `;
+    }
+
+    html += row("Layer 1 — Overburden", sigma1_true, bestModel.s1);
+    html += row("Layer 2 — Potash / Evaporites", sigma2_true, bestModel.s2);
+    html += row("Layer 3 — Basement", sigma3_true, bestModel.s3);
+    html += "</tbody></table>";
+
+    // Optional: show misfit and model quadrature vs observed
+    html += `
+      <p style="font-size:0.9em; color:#555; margin-top:10px;">
+        Misfit (Σ (q<sub>obs</sub> − q<sub>model</sub>)²): <strong>${bestMisfit.toExponential(3)}</strong>
+      </p>
+
+      <table style="width:100%; border-collapse:collapse; font-size:13px; margin-top:5px;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th style="padding:4px; border:1px solid #ccc;">Freq (Hz)</th>
+            <th style="padding:4px; border:1px solid #ccc;">q<sub>obs</sub></th>
+            <th style="padding:4px; border:1px solid #ccc;">q<sub>model</sub></th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    for (let i = 0; i < freqs.length; i++) {
+      html += `
+        <tr>
+          <td style="padding:4px; border:1px solid #ccc;">${freqs[i]}</td>
+          <td style="padding:4px; border:1px solid #ccc;">${q_obs[i].toExponential(3)}</td>
+          <td style="padding:4px; border:1px solid #ccc;">${bestModel.q_model[i].toExponential(3)}</td>
+        </tr>
+      `;
+    }
+
+    html += "</tbody></table>";
+
+    document.getElementById("inversionResults").innerHTML = html;
   }
 
     // -----------------------------
