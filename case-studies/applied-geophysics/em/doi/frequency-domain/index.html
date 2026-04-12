@@ -1161,6 +1161,7 @@
           </button>
 
           <div id="inversionTheory" class="info-content">
+
             <p style="font-size:0.9em; color:#555;">
               Inversion answers the question: <em>“Which layered-earth model best explains the measured FDEM data?”</em>
               Here we recover three conductivities (σ₁, σ₂, σ₃) from the processed quadrature response.
@@ -1187,29 +1188,113 @@
               the inversion stable and interpretable.
             </p>
 
-            <h4>What kind of inversion is used here?</h4>
+            <h4>Core idea: Gauss–Newton with 3 parameters and 3 data</h4>
             <p style="font-size:0.9em; color:#555;">
-              This prototype uses a <strong>gradient‑descent inversion</strong> to estimate the three
-              layer conductivities (σ₁, σ₂, σ₃). The inversion minimizes the misfit between the
-              <em>processed quadrature</em> data and the forward model response.
+              The inversion solves for three conductivities (σ₁, σ₂, σ₃) using three quadrature
+              data points at different frequencies. At each iteration, the forward model computes
+              the predicted quadrature response, and the residual \( r = d - F(m) \) is formed.
+              A 3×3 Jacobian matrix \( J \) is built by finite differences, and the Gauss–Newton update
+              solves \( (J^\top J)\,\Delta m = J^\top r \) for the model increment \( \Delta m \).
+              A small damping term is added to \( J^\top J \) for numerical stability.
             </p>
 
-            <h4>Why gradient descent?</h4>
+            <h4>Mathematical formulation</h4>
+
+            <p style="font-size:0.9em; color:#555;">The conductivity model is</p>
+
+            
+
+          \[
+            m =
+            \begin{bmatrix}
+            \sigma_1 \
+
+          \[4pt]
+            \sigma_2 \
+
+          \[4pt]
+            \sigma_3
+            \end{bmatrix}.
+            \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">The observed quadrature data are</p>
+
+            
+
+          \[
+            d =
+            \begin{bmatrix}
+            q_{\mathrm{obs}}(f_1) \
+
+          \[4pt]
+            q_{\mathrm{obs}}(f_2) \
+
+          \[4pt]
+            q_{\mathrm{obs}}(f_3)
+            \end{bmatrix}.
+            \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">The forward model predicts</p>
+
+            
+
+          \[
+            F(m) =
+            \begin{bmatrix}
+            q_{\mathrm{mod}}(f_1; m) \
+
+          \[4pt]
+            q_{\mathrm{mod}}(f_2; m) \
+
+          \[4pt]
+            q_{\mathrm{mod}}(f_3; m)
+            \end{bmatrix},
+            \qquad
+            r = d - F(m).
+            \]
+
+
+
             <p style="font-size:0.9em; color:#555;">
-              Gradient descent is simple, stable, and easy to interpret. It provides continuous
-              conductivity estimates and is suitable for prototype development. Future versions
-              may upgrade to Gauss–Newton or Levenberg–Marquardt for faster convergence and
-              improved resolution.
+              The Jacobian contains the sensitivities of each datum to each conductivity:
             </p>
 
-            <h4>How does it work?</h4>
-            <p style="font-size:0.9em; color:#555;">
-              At each iteration, the algorithm computes the misfit and estimates its gradient
-              with respect to σ₁, σ₂, and σ₃. The conductivities are updated in the direction
-              that reduces the misfit. This continues until convergence or until a maximum
-              number of iterations is reached.
-            </p>
+            
+
+          \[
+            J_{ij} = \frac{\partial q_{\mathrm{mod}}(f_i)}{\partial \sigma_j}.
+            \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">The Gauss–Newton update solves</p>
+
+            
+
+          \[
+            (J^\top J)\,\Delta m = J^\top r,
+            \qquad
+            m_{\mathrm{new}} = m_{\mathrm{old}} + \Delta m.
+            \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">With damping (Levenberg–Marquardt):</p>
+
+            
+
+          \[
+            (J^\top J + \lambda I)\,\Delta m = J^\top r.
+            \]
+
+
+
           </div>
+
 
 
           <!-- Inversion Controls -->
