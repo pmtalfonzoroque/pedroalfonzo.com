@@ -1211,8 +1211,6 @@
           
         </div>
 
-
-
         <!-- Collapsible: Inversion -->
         <button class="collapsible-btn" onclick="toggleSection('inversionBlock')">
           <span class="icon">📉</span> Inversion (Recover σ₁, σ₂, σ₃)
@@ -1331,8 +1329,6 @@
 
           </div>
 
-
-
           <!-- Inversion Controls -->
           <p style="font-size:0.9em; color:#555; margin-top:15px;">
             This inversion uses <strong>gradient descent</strong> to estimate σ₁, σ₂, σ₃.
@@ -1355,7 +1351,73 @@
           <span class="icon">📘</span> DOI from Sensitivity
         </button>
         <div id="doiBlock" class="info-content">
-          <!-- DOI explanation + shaded plot -->
+          <!-- DOI From Sensitivity -->
+          <button class="collapsible-btn" onclick="toggleSection('doiTheory')">
+            <span class="icon">📡</span> DOI Theory (Depth of Investigation)
+          </button>
+
+          <div id="doiTheory" class="info-content">
+
+            <h4>Depth of Investigation (DOI)</h4>
+
+            <p style="font-size:0.9em; color:#555;">
+              The Depth of Investigation (DOI) describes how deep the FDEM system is actually sensitive to changes in
+              conductivity. Even if the inversion produces a multi-layer model, only the layers within the DOI contain
+              meaningful information. Below the DOI, the recovered conductivities are dominated by regularization,
+              starting-model bias, or noise.
+            </p>
+
+            <p style="font-size:0.9em; color:#555;">
+              DOI is computed from the <em>sensitivity</em> of the forward model. For each layer, we evaluate how much the
+              predicted quadrature response changes when the conductivity of that layer is perturbed:
+            </p>
+
+
+
+          \[
+          S_i(f) = \frac{\partial q_{\mathrm{mod}}(f)}{\partial \sigma_i}.
+          \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">
+              The total sensitivity of layer \(i\) across all frequencies is:
+            </p>
+
+
+
+          \[
+          S_i = \sum_f \left| S_i(f) \right|.
+          \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">
+              The DOI depth is defined as the depth where the cumulative sensitivity drops below a chosen threshold
+              (typically 5–10% of the maximum sensitivity):
+            </p>
+
+
+
+          \[
+          \text{DOI depth} = z \;\; \text{such that} \;\;
+          \frac{S(z)}{S_{\max}} < \tau.
+          \]
+
+
+
+            <p style="font-size:0.9em; color:#555;">
+              In practice, this means that layers deeper than the DOI cannot be reliably recovered by the inversion.
+              Their conductivity values are controlled more by the starting model and regularization than by the data.
+            </p>
+
+            <p style="font-size:0.9em; color:#555;">
+              DOI is essential for interpretation: it tells us which parts of the recovered model are trustworthy and
+              which parts are not constrained by the measurements.
+            </p>
+
+          </div>
+
         </div>
 
         <!-- Collapsible: True Earth Model -->
