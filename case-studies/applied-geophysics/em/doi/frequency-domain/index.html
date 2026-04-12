@@ -1222,9 +1222,7 @@
 
             
 
-          \[
-            F(m) =
-            \begin{bmatrix}
+          \[F(m) =\begin{bmatrix}
             q_{\mathrm{mod}}(f_1; m) \\[4pt]
             q_{\mathrm{mod}}(f_2; m) \\[4pt]
             q_{\mathrm{mod}}(f_3; m)
@@ -1615,6 +1613,7 @@
   }
 
   // PROCESSING STEPS (GLOBAL)
+  // applyProcessing() modifies the synthetic data
   function applyProcessing() {
 
     // True model
@@ -1748,6 +1747,7 @@
     document.getElementById("processedTable").innerHTML = html;
   }
 
+  //forwardQuadrature() applies the same processing logic to the model response
   function forwardQuadrature(freqs, sigma1, sigma2, sigma3) {
     // True geometry (same as forward model)
     const h1 = 30, h2 = 150;
@@ -1759,6 +1759,7 @@
     const results = [];
 
     freqs.forEach(f => {
+      // --- base layered forward model (same physics as synthetic/processing) ---
       const d1 = skinDepth(f, sigma1);
       const d2 = skinDepth(f, sigma2);
       const d3 = skinDepth(f, sigma3);
@@ -1779,15 +1780,44 @@
       const z_eff = (z1 + z2 + z3) / 3;
       const phaseLag = z_eff / d2;
 
-      const H_real = A_sec * Math.cos(phaseLag);
-      const H_imag = A_sec * Math.sin(phaseLag); // quadrature
+      let H_real = A_sec * Math.cos(phaseLag);
+      let H_imag = A_sec * Math.sin(phaseLag); // quadrature (base)
 
+      // --- APPLY SAME PROCESSING STEPS AS DATA (EXCEPT NOISE) ---
+
+      // 1. Geometry correction
+      if (document.getElementById("proc_geom").checked) {
+        H_real /= A_geom;
+        H_imag /= A_geom;
+      }
+
+      // 2. Normalize to ppm
+      if (document.getElementById("proc_ppm").checked) {
+        H_real *= 1e6;
+        H_imag *= 1e6;
+      }
+
+      // 3. NO noise here (noise only on data)
+
+      // 4. Phase correction (simple rotation)
+      if (document.getElementById("proc_phase").checked) {
+        const phi = -5 * Math.PI / 180; // same as in applyProcessing
+        const Hr = H_real * Math.cos(phi) - H_imag * Math.sin(phi);
+        const Hi = H_real * Math.sin(phi) + H_imag * Math.cos(phi);
+        H_real = Hr;
+        H_imag = Hi;
+      }
+
+      // 5. Smoothing: skip here (you have only one station)
+
+      // Return processed quadrature, consistent with processedTable column 3
       results.push(H_imag);
     });
 
     return results;
   }
 
+  //getProcessedQuadrature() reads the processed quadrature from the table
   function getProcessedQuadrature() {
     const table = document.getElementById("processedTable");
     if (!table) return null;
@@ -1811,6 +1841,7 @@
     return { freqs, q_vals };
   }
 
+  //Gauss–Newton compares processed data vs processed forward model
   function runInversionGN() {
 
     // 1. Read processed quadrature
