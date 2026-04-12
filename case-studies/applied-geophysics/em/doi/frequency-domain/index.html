@@ -1311,15 +1311,6 @@
    window.onload = function () {
 
       // -----------------------------
-      // SKIN DEPTH
-      // -----------------------------
-      function skinDepth(freq, cond) {
-        const mu0 = 4 * Math.PI * 1e-7;
-        const omega = 2 * Math.PI * freq;
-        return Math.sqrt(2 / (omega * mu0 * cond));
-      }
-
-      // -----------------------------
       // UNIFIED MODEL (Geometry + Skin Depth)
       // -----------------------------
       function computeAttenuation(freq, cond, height, spacing, mode) {
@@ -1436,14 +1427,7 @@
               margin: { t: 40 }
           });
       }
-
-      function skinDepth(f, sigma) {
-        const mu0 = 4 * Math.PI * 1e-7;
-        const omega = 2 * Math.PI * f;
-        return Math.sqrt(2 / (omega * mu0 * sigma));
-      }
-
-      
+     
       // -----------------------------
       // EVENT LISTENERS
       // -----------------------------
@@ -1460,11 +1444,11 @@
       updatePlot();
     };
 
-   function skinDepth(f, sigma) {
-  const mu0 = 4 * Math.PI * 1e-7;
-  const omega = 2 * Math.PI * f;
-  return Math.sqrt(2 / (omega * mu0 * sigma));
-}
+  function skinDepth(f, sigma) {
+    const mu0 = 4 * Math.PI * 1e-7;
+    const omega = 2 * Math.PI * f;
+    return Math.sqrt(2 / (omega * mu0 * sigma));
+  }
 
   // FORWARD MODEL (GLOBAL)
   function generateSyntheticData() {
@@ -1786,8 +1770,8 @@
     let sigma2 = 0.05;
     let sigma3 = 0.02;
 
-    const alpha = 0.001;   // step size
-    const delta = 0.0005;  // finite difference step
+    const alpha = 0.00005;   // smaller step size
+    const delta = 0.0001;    // smaller finite difference step
     const iterations = 20;
 
     const misfitHistory = [];
@@ -1822,6 +1806,11 @@
       sigma1 -= alpha * dPhi_dS1;
       sigma2 -= alpha * dPhi_dS2;
       sigma3 -= alpha * dPhi_dS3;
+
+      // ⭐ CRITICAL: Clamp to physical range to avoid NaN
+      sigma1 = Math.max(0.0001, Math.min(1.0, sigma1));
+      sigma2 = Math.max(0.0001, Math.min(1.0, sigma2));
+      sigma3 = Math.max(0.0001, Math.min(1.0, sigma3));
 
       misfitHistory.push({ iter: k + 1, misfit: baseMisfit });
     }
