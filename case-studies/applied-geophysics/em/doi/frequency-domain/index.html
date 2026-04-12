@@ -1724,17 +1724,43 @@
     return results;
   }
 
+  function getProcessedQuadrature() {
+    const table = document.getElementById("processedTable");
+    if (!table) return null;
+
+    const rows = table.getElementsByTagName("tr");
+    const q_vals = [];
+    const freqs = [];
+
+    // Skip header row → start at i = 1
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      if (cells.length < 3) continue;
+
+      const f = parseFloat(cells[0].innerText);
+      const q = parseFloat(cells[2].innerText); // Quadrature column
+
+      freqs.push(f);
+      q_vals.push(q);
+    }
+
+    return { freqs, q_vals };
+  }
+
   function runInversion() {
-    // Frequencies used in the synthetic forward model
-    const freqs = [900, 3600, 7200];
 
-    // "Observed" quadrature from the true model
-    const sigma1_true = 0.01;
-    const sigma2_true = 0.10;
-    const sigma3_true = 0.02;
-    const q_obs = forwardQuadrature(freqs, sigma1_true, sigma2_true, sigma3_true);
+    // 1. Read processed quadrature
+    const processed = getProcessedQuadrature();
+    if (!processed) {
+      document.getElementById("inversionResults").innerHTML =
+        "<p style='color:red;'>Please run processing first.</p>";
+      return;
+    }
 
-    // Search ranges (simple, tight grid around true values)
+    const freqs = processed.freqs;
+    const q_obs = processed.q_vals;
+
+    // 2. Define search ranges
     const s1_vals = [0.005, 0.01, 0.015];
     const s2_vals = [0.07, 0.10, 0.13];
     const s3_vals = [0.01, 0.02, 0.03];
@@ -1742,6 +1768,7 @@
     let bestMisfit = Infinity;
     let bestModel = { s1: null, s2: null, s3: null, q_model: [] };
 
+    // 3. Grid search
     s1_vals.forEach(s1 => {
       s2_vals.forEach(s2 => {
         s3_vals.forEach(s3 => {
@@ -1763,71 +1790,32 @@
       });
     });
 
-    // Build results table
+    // 4. Display results
     let html = `
       <h4>Recovered 3‑Layer Conductivity Model</h4>
       <p style="font-size:0.9em; color:#555;">
-        The inversion searches over a small grid of σ₁, σ₂, and σ₃ values and selects the model
-        with the smallest least‑squares misfit to the quadrature response.
+        Inversion now uses the <strong>processed quadrature</strong> values.
+        Processing choices (ppm, noise, smoothing, phase correction) directly affect the result.
       </p>
 
       <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;">
         <thead>
           <tr style="background:#f2f2f2;">
             <th style="padding:6px; border:1px solid #ccc;">Layer</th>
-            <th style="padding:6px; border:1px solid #ccc;">True σ (S/m)</th>
             <th style="padding:6px; border:1px solid #ccc;">Recovered σ (S/m)</th>
-            <th style="padding:6px; border:1px solid #ccc;">Error (%)</th>
           </tr>
         </thead>
         <tbody>
-    `;
+          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 1</td><td style="padding:6px; border:1px solid #ccc;">${bestModel.s1.toFixed(3)}</td></tr>
+          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 2</td><td style="padding:6px; border:1px solid #ccc;">${bestModel.s2.toFixed(3)}</td></tr>
+          <tr><td style="padding:6px; border:1px solid #ccc;">Layer 3</td><td style="padding:6px; border:1px solid #ccc;">${bestModel.s3.toFixed(3)}</td></tr>
+        </tbody>
+      </table>
 
-    function row(label, s_true, s_rec) {
-      const err = 100 * (s_rec - s_true) / s_true;
-      return `
-        <tr>
-          <td style="padding:6px; border:1px solid #ccc;">${label}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${s_true.toFixed(3)}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${s_rec.toFixed(3)}</td>
-          <td style="padding:6px; border:1px solid #ccc;">${err.toFixed(1)}</td>
-        </tr>
-      `;
-    }
-
-    html += row("Layer 1 — Overburden", sigma1_true, bestModel.s1);
-    html += row("Layer 2 — Potash / Evaporites", sigma2_true, bestModel.s2);
-    html += row("Layer 3 — Basement", sigma3_true, bestModel.s3);
-    html += "</tbody></table>";
-
-    // Optional: show misfit and model quadrature vs observed
-    html += `
       <p style="font-size:0.9em; color:#555; margin-top:10px;">
-        Misfit (Σ (q<sub>obs</sub> − q<sub>model</sub>)²): <strong>${bestMisfit.toExponential(3)}</strong>
+        Misfit: <strong>${bestMisfit.toExponential(3)}</strong>
       </p>
-
-      <table style="width:100%; border-collapse:collapse; font-size:13px; margin-top:5px;">
-        <thead>
-          <tr style="background:#f2f2f2;">
-            <th style="padding:4px; border:1px solid #ccc;">Freq (Hz)</th>
-            <th style="padding:4px; border:1px solid #ccc;">q<sub>obs</sub></th>
-            <th style="padding:4px; border:1px solid #ccc;">q<sub>model</sub></th>
-          </tr>
-        </thead>
-        <tbody>
     `;
-
-    for (let i = 0; i < freqs.length; i++) {
-      html += `
-        <tr>
-          <td style="padding:4px; border:1px solid #ccc;">${freqs[i]}</td>
-          <td style="padding:4px; border:1px solid #ccc;">${q_obs[i].toExponential(3)}</td>
-          <td style="padding:4px; border:1px solid #ccc;">${bestModel.q_model[i].toExponential(3)}</td>
-        </tr>
-      `;
-    }
-
-    html += "</tbody></table>";
 
     document.getElementById("inversionResults").innerHTML = html;
   }
