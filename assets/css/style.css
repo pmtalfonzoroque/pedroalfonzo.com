@@ -325,12 +325,18 @@ body.home header {
 .hero-subtitle {
   font-size: 1.15rem;    /* slightly larger */
   color: #2d3748;        /* better contrast */
-  margin-bottom: 12px;   /* tighter spacing */
+  margin-bottom: 14px;   /* tighter spacing */
 }
 .hero-note {
   font-size: 0.95rem;
   color: #4a5568;        /* slightly darker */
   margin-bottom: 20px;
+  display: block;        /* forces full-width paragraph behavior */
+  width: 100%;           /* ensures they span the text container */
+  line-height: 1.45;     /* gives breathing room like Word */
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  opacity: 0.85;
 }
 
 
