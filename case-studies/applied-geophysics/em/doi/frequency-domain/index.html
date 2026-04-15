@@ -2223,27 +2223,33 @@
     computeDOI(sensitivities);
   }
 
-  function plotSensitivity(S) { // This gives you a clean bar chart.
+  function plotSensitivity(S) {// This gives you a clean bar chart.
     const ctx = document.getElementById("sensitivityPlot").getContext("2d");
 
-    new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: ["σ₁ (shallow)", "σ₂ (middle)", "σ₃ (deep)"],
-            datasets: [{
-                label: "Inversion Sensitivity",
-                data: S,
-                backgroundColor: ["#4e79a7", "#f28e2b", "#e15759"]
-            }]
-        },
-        options: {
-            responsive: false,
-            scales: {
-                y: { beginAtZero: true }
-            }
+    // Destroy previous chart if it exists
+    if (window.sensitivityChart) {
+      window.sensitivityChart.destroy();
+    }
+
+    // Create new chart and store it globally
+    window.sensitivityChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["σ₁ (shallow)", "σ₂ (middle)", "σ₃ (deep)"],
+        datasets: [{
+          label: "Inversion Sensitivity",
+          data: S,
+          backgroundColor: ["#4e79a7", "#f28e2b", "#e15759"]
+        }]
+      },
+      options: {
+        responsive: false,
+        scales: {
+          y: { beginAtZero: true }
         }
+      }
     });
-  } 
+  }
 
   function computeDOI(S) { // This is the simplest, industry‑standard DOI definition: You can replace the depths array with your actual layer boundaries.
     const maxS = Math.max(...S);
