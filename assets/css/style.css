@@ -296,7 +296,8 @@ body.home header {
 }
 
 .hero-card {
-  background: var(--bg-alt);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(3px);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 28px 24px 32px;
