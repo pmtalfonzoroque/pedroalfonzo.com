@@ -304,7 +304,9 @@ body.home header {
   margin-bottom: 24px;
 } 
 .hero-content {
-  text-align: center; /* NEW: fixes alignment */
+  max-width: 800px;      /* keeps text readable */
+  margin: 0 auto;        /* centers the block */
+  text-align: center;    /* keeps your current style */
 }
 
 /* old version of hero
@@ -321,9 +323,14 @@ body.home header {
 }
 
 .hero-subtitle {
-  margin: 0 0 16px;
-  color: var(--muted);
-  font-size: 0.98rem;
+  font-size: 1.15rem;    /* slightly larger */
+  color: #2d3748;        /* better contrast */
+  margin-bottom: 12px;   /* tighter spacing */
+}
+.hero-note {
+  font-size: 0.95rem;
+  color: #4a5568;        /* slightly darker */
+  margin-bottom: 20px;
 }
 
 
