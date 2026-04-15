@@ -1432,6 +1432,10 @@
             </p>
 
             <canvas id="sensitivityPlot" width="400" height="250"></canvas>
+            <p style="font-size:0.85em; color:#555; margin-top:6px;">
+              Sensitivity measures how strongly the quadrature response (in ppm) changes when each layer's conductivity (S/m) is perturbed. 
+              Larger values mean the inversion is more sensitive to that layer.
+            </p>
 
             <p id="doiOutput" style="font-size:0.9em; color:#333; margin-top:10px;"></p>
 
@@ -2245,7 +2249,12 @@
       options: {
         responsive: false,
         scales: {
-          y: { beginAtZero: true }
+          y: { 
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Sensitivity (ppm per S/m)" }
+          }
         }
       }
     });
