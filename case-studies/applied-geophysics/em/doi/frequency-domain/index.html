@@ -1973,6 +1973,8 @@
     const table = document.getElementById("processedTable");
     if (!table) return null;
 
+    window.frequencies = freqs;
+
     const rows = table.getElementsByTagName("tr");
     const q_vals = [];
     const freqs = [];
@@ -2176,27 +2178,34 @@
 
     return x;
   }
-
+  
   function computeInversionSensitivity() { // This computes the inversion sensitivity using finite differences:
-    // Use the current model from your inversion: your existing forwardModelProcessed(),your existing frequencies, finite differences to compute ∂q/∂σ
+
+    // Read current inversion model values
     const sigma = [
-        parseFloat(document.getElementById("sigma1").value),
-        parseFloat(document.getElementById("sigma2").value),
-        parseFloat(document.getElementById("sigma3").value)
+        parseFloat(document.getElementById("sigma1Input").value),
+        parseFloat(document.getElementById("sigma2Input").value),
+        parseFloat(document.getElementById("sigma3Input").value)
     ];
 
-    const freqs = [f1, f2, f3]; // use your actual frequency variables
-    const delta = 0.001; // small perturbation
+    // Use your real frequency array
+    const freqs = frequencies;
 
+    const delta = 0.001;
     let sensitivities = [0, 0, 0];
 
     for (let j = 0; j < 3; j++) {
+
         let sigmaPerturbed = [...sigma];
         sigmaPerturbed[j] += delta;
 
-        let qBase = forwardModelProcessed(sigma, freqs);
-        let qPert = forwardModelProcessed(sigmaPerturbed, freqs);
+        // BASE forward response
+        let qBase = forwardQuadrature(freqs, sigma[0], sigma[1], sigma[2]);
 
+        // PERTURBED forward response
+        let qPert = forwardQuadrature(freqs, sigmaPerturbed[0], sigmaPerturbed[1], sigmaPerturbed[2]);
+
+        // Sensitivity for layer j
         let layerSensitivity = 0;
         for (let i = 0; i < freqs.length; i++) {
             layerSensitivity += Math.abs(qPert[i] - qBase[i]) / delta;
