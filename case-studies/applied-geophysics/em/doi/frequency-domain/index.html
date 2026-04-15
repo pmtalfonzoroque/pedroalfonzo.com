@@ -1331,8 +1331,7 @@
 
           <!-- Inversion Controls -->
           <p style="font-size:0.9em; color:#555; margin-top:15px;">
-            This inversion uses <strong>gradient descent</strong> to estimate σ₁, σ₂, σ₃.
-            Future upgrades may include Gauss–Newton or Levenberg–Marquardt.
+            This inversion uses <strong>Gauss–Newton</strong> to estimate σ₁, σ₂, σ₃.
           </p>
 
           <button onclick="runInversionGN()" 
@@ -2186,18 +2185,13 @@
 
     // Use the recovered inversion model (sigma1, sigma2, sigma3)
     if (window.sigma1 === undefined || !window.frequencies) {
-    alert("Please run processing and Gauss–Newton inversion first.");
-    return;
-  }
+      alert("Please run processing and Gauss–Newton inversion first.");
+      return;
+    }
 
     const sigma = [window.sigma1, window.sigma2, window.sigma3];
     const freqs = window.frequencies;
     
-    if (!freqs) {
-        alert("Please run processing and inversion first.");
-        return;
-    }
-
     const delta = 0.001;
     let sensitivities = [0, 0, 0];
 
