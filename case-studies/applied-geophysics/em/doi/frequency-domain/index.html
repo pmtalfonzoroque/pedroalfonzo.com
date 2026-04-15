@@ -1426,18 +1426,60 @@
 
             <p style="font-size:0.9em; color:#555;">
               This section computes the inversion sensitivity for each conductivity parameter
-              \( \sigma_1, \sigma_2, \sigma_3 \). Sensitivity indicates how strongly the data
-              responds to changes in each layer, and therefore which layers the inversion can
-              reliably recover.
+              \( \sigma_1, \sigma_2, \sigma_3 \). Sensitivity describes how strongly the
+              quadrature response (in ppm) changes when the conductivity of each layer (S/m)
+              is perturbed. Layers with higher sensitivity are those the inversion can
+              reliably resolve.
             </p>
 
             <canvas id="sensitivityPlot" width="400" height="250"></canvas>
+
             <p style="font-size:0.85em; color:#555; margin-top:6px;">
-              Sensitivity measures how strongly the quadrature response (in ppm) changes when each layer's conductivity (S/m) is perturbed. 
-              Larger values mean the inversion is more sensitive to that layer.
+              <b>Units:</b> Sensitivity is expressed in <b>ppm per (S/m)</b>, because it is the
+              derivative \( \partial q / \partial \sigma \). Larger values indicate that the
+              data are more responsive to changes in that layer’s conductivity.
+            </p>
+
+            <p style="font-size:0.85em; color:#555; margin-top:6px;">
+              <b>Depth of Investigation (DOI):</b> The DOI answers a single question:
+              <i>Down to what depth is the inversion constrained by the data?</i>
+              Below the DOI, the recovered conductivities are dominated by the starting model
+              and regularization rather than by the measurements.
             </p>
 
             <p id="doiOutput" style="font-size:0.9em; color:#333; margin-top:10px;"></p>
+
+            <p style="font-size:0.85em; color:#555; margin-top:6px;">
+              <b>Interpreting DOI values:</b>
+            </p>
+
+            <ul style="font-size:0.85em; color:#555; line-height:1.55; margin-left: 20px;">
+              <li><b>DOI = 0 m:</b> The system cannot reliably resolve any layer.  
+                The data are not sensitive enough to distinguish conductivity variations,
+                even in the shallowest layer. The inversion is effectively “blind,” and the
+                recovered model is controlled by the starting model.</li>
+
+              <li><b>DOI = 15 m (or any positive depth):</b> The inversion is sensitive to
+                layers above this depth. Conductivity values shallower than the DOI are
+                constrained by the data. Deeper layers are not reliably resolved.</li>
+            </ul>
+
+            <p style="font-size:0.85em; color:#555; margin-top:6px;">
+              <b>Factors that reduce DOI:</b>
+            </p>
+
+            <ul style="font-size:0.85em; color:#555; line-height:1.55; margin-left: 20px;">
+              <li>Processing options that amplify noise</li>
+              <li>Geometry that reduces shallow sensitivity</li>
+              <li>Extreme conductivity contrasts in the synthetic model</li>
+              <li>Low frequencies (reduced near-surface resolution)</li>
+              <li>Very thin or very resistive shallow layers</li>
+            </ul>
+
+            <p style="font-size:0.75em; color:#777; margin-top:10px;">
+              <i>DOI concept based on standard EM inversion practice (e.g., Constable et al., 1987;  
+              Oldenburg & Li, 1999; FDEM sensitivity-based DOI methods used in EM1D/Aarhus Workbench).</i>
+            </p>
 
             <button onclick="computeInversionSensitivity()" class="run-btn">
               Compute Inversion Sensitivity & DOI
