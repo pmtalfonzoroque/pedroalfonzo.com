@@ -304,7 +304,7 @@ body.home header {
   margin-bottom: 24px;
 } 
 .hero-content {
-  max-width: 800px;      /* keeps text readable */
+  max-width: 720px;      /* keeps text readable */
   margin: 0 auto;        /* centers the block */
   text-align: center;    /* keeps your current style */
 }
@@ -316,24 +316,33 @@ body.home header {
 } */
 
 .hero-title { /*new version: Your name becomes the first thing people see — strong, confident, professional.*/
-  font-size: 3rem;
+  font-size: 2.4rem;          /* still strong, but not shouting */
   font-weight: 700;
-  letter-spacing: -1px;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  letter-spacing: -0.5px;     /* softer */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.25); /* less blur */
+  margin-bottom: 16px;        /* gives breathing room */
+}
+
+.hero-subtitle,
+.hero-note {
+  display: block; /* forces full-width paragraph behavior */
+  width: 100%;    /* ensures they span the text container */
+  text-align: center;
+  line-height: 1.45; /* gives breathing room like Word */
 }
 
 .hero-subtitle {
   font-size: 1.15rem;    /* slightly larger */
   color: #2d3748;        /* better contrast */
-  margin-bottom: 14px;   /* tighter spacing */
+  margin-top: 12px;
+  margin-bottom: 12px;   /* tighter spacing */
 }
+
 .hero-note {
   font-size: 0.95rem;
   color: #4a5568;        /* slightly darker */
-  margin-bottom: 20px;
-  display: block;        /* forces full-width paragraph behavior */
-  width: 100%;           /* ensures they span the text container */
-  line-height: 1.45;     /* gives breathing room like Word */
+  margin-top: 4px;
+  margin-bottom: 20px;  
   font-weight: 400;
   letter-spacing: 0.2px;
   opacity: 0.85;
