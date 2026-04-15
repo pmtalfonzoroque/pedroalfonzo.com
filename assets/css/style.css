@@ -302,6 +302,7 @@ body.home header {
   padding: 28px 24px 32px;
   border: 1px solid var(--border);
   margin-bottom: 24px;
+  text-align: center
 } 
 .hero-content {
   max-width: 720px;      /* keeps text readable */
