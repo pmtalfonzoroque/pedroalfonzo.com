@@ -1512,6 +1512,9 @@
     }
   </script>
 
+  <!-- chart for inversion sensitivity-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+
   <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.27.0/plotly.min.js"></script>
 
   <script>
@@ -1987,7 +1990,7 @@
       freqs.push(f);
       q_vals.push(q);
     }
-    
+
     window.frequencies = freqs;  // ✅ now freqs exists
     return { freqs, q_vals };
   }
