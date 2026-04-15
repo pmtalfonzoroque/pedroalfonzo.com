@@ -331,6 +331,7 @@ body.home header {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
+  margin-bottom: 32px;
 }
 
 .skills-content {
@@ -338,6 +339,9 @@ body.home header {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+}
+.skills-card .tag {
+  background: #eef2ff;
 }
 
 
