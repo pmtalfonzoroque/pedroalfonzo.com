@@ -301,7 +301,11 @@ body.home header {
   box-shadow: var(--shadow);
   padding: 28px 24px 32px;
   border: 1px solid var(--border);
+  margin-bottom: 24px;
 } 
+.hero-content {
+  text-align: center; /* NEW: fixes alignment */
+}
 
 /* old version of hero
 .hero-title {
@@ -322,28 +326,6 @@ body.home header {
   font-size: 0.98rem;
 }
 
-/* ===== Skills Card (new) ===== */
-.skills-card {
-  max-width: var(--max-width);
-  margin: 24px auto 0;
-  padding: 20px 24px;
-  background: var(--bg-alt);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  margin-bottom: 32px;
-}
-
-.skills-content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-.skills-card .tag {
-  background: #eef2ff;
-}
-
 
 /* #endregion Hero section  */
 
@@ -353,6 +335,7 @@ body.home header {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: center;
   margin-bottom: 18px;
 }
 
@@ -996,9 +979,6 @@ section {
     font-size: 1.8rem;
   }
 
-  .skills-card {
-    padding: 16px 18px;
-  }
 
   nav a {
     margin-left: 10px;
