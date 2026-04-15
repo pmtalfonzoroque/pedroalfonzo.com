@@ -1219,7 +1219,7 @@
           
           <!-- Inversion Theory (Q&A) -->
           <button class="collapsible-btn" onclick="toggleSection('inversionTheory')">
-            <span class="icon">❓</span> Inversion Theory (Gradient Descent)
+            <span class="icon">❓</span> Inversion Theory (Gauss–Newton)
           </button>
 
           <div id="inversionTheory" class="info-content">
@@ -1337,7 +1337,7 @@
 
           <button onclick="runInversionGN()" 
                   style="margin-top:10px; padding:8px 12px; border-radius:6px; cursor:pointer;">
-            Run Gradient‑Descent Inversion
+            Run Gauss–Newton Inversion
           </button>
 
           <div id="inversionResults" style="margin-top:20px;"></div>
@@ -1973,8 +1973,6 @@
     const table = document.getElementById("processedTable");
     if (!table) return null;
 
-    window.frequencies = freqs;
-
     const rows = table.getElementsByTagName("tr");
     const q_vals = [];
     const freqs = [];
@@ -1990,7 +1988,7 @@
       freqs.push(f);
       q_vals.push(q);
     }
-
+    window.frequencies = freqs;  // ✅ now freqs exists
     return { freqs, q_vals };
   }
 
@@ -2107,6 +2105,11 @@
       sigma3 = Math.max(0.0001, Math.min(1.0, sigma3));
     }
 
+    // after the inversion loop, before building HTML
+    window.sigma1 = sigma1;
+    window.sigma2 = sigma2;
+    window.sigma3 = sigma3;
+
     // 3. Display final model
     let html = `
       <h4>Recovered 3‑Layer Conductivity Model (Gauss–Newton)</h4>
@@ -2182,10 +2185,14 @@
   function computeInversionSensitivity() {// This computes the inversion sensitivity using finite differences
 
     // Use the recovered inversion model (sigma1, sigma2, sigma3)
-    const sigma = [sigma1, sigma2, sigma3];
+    if (window.sigma1 === undefined || !window.frequencies) {
+    alert("Please run processing and Gauss–Newton inversion first.");
+    return;
+  }
 
-    // Use global frequencies from processing
+    const sigma = [window.sigma1, window.sigma2, window.sigma3];
     const freqs = window.frequencies;
+    
     if (!freqs) {
         alert("Please run processing and inversion first.");
         return;
