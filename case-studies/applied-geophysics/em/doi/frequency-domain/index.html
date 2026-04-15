@@ -2179,17 +2179,17 @@
     return x;
   }
   
-  function computeInversionSensitivity() { // This computes the inversion sensitivity using finite differences:
+  function computeInversionSensitivity() {// This computes the inversion sensitivity using finite differences
 
-    // Read current inversion model values
-    const sigma = [
-        parseFloat(document.getElementById("sigma1Input").value),
-        parseFloat(document.getElementById("sigma2Input").value),
-        parseFloat(document.getElementById("sigma3Input").value)
-    ];
+    // Use the recovered inversion model (sigma1, sigma2, sigma3)
+    const sigma = [sigma1, sigma2, sigma3];
 
-    // Use your real frequency array
-    const freqs = frequencies;
+    // Use global frequencies from processing
+    const freqs = window.frequencies;
+    if (!freqs) {
+        alert("Please run processing and inversion first.");
+        return;
+    }
 
     const delta = 0.001;
     let sensitivities = [0, 0, 0];
